@@ -12,7 +12,7 @@ import type { FrameRenderer } from '../FrameRenderer.nitro'
  * @see {@linkcode NativeFrameRendererView}
  */
 @Apple({ language: 'swift', implementation: { className: 'HybridFrameRendererView' } })
-@Android({ language: 'kotlin', implementation: { className: 'HybridFrameRendererView' } })
+@Android({ language: 'kotlin', implementation: { className: 'HybridFrameRendererView', package: ['views'] } })
 export declare class FrameRendererView extends HybridView {
   renderer?: FrameRenderer
 }

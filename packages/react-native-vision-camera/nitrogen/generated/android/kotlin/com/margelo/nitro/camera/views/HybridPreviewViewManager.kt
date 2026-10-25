@@ -15,7 +15,7 @@ import com.facebook.react.uimanager.ThemedReactContext
 import com.margelo.nitro.R.id.associated_hybrid_view_tag
 import com.margelo.nitro.views.RecyclableView
 import com.margelo.nitro.camera.*
-import com.margelo.nitro.camera.HybridPreviewView
+import com.margelo.nitro.camera.views.HybridPreviewView
 
 /**
  * Represents the React Native `ViewManager` for the "PreviewView" Nitro HybridView.

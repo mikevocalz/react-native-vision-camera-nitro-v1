@@ -43,7 +43,7 @@ export type PreviewResizeMode = 'cover' | 'contain'
  * @see {@linkcode NativePreviewView}
  */
 @Apple({ language: 'swift', implementation: { className: 'HybridPreviewView' } })
-@Android({ language: 'kotlin', implementation: { className: 'HybridPreviewView' } })
+@Android({ language: 'kotlin', implementation: { className: 'HybridPreviewView', package: ['views'] } })
 export declare class PreviewView extends HybridView {
   /**
    * Sets the {@linkcode CameraPreviewOutput} for the {@linkcode PreviewView}.

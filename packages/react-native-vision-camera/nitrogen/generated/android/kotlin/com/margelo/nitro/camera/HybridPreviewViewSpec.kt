@@ -14,7 +14,7 @@ import dalvik.annotation.optimization.FastNative
 import com.margelo.nitro.core.Callback
 import com.margelo.nitro.image.HybridImageSpec
 import com.margelo.nitro.core.Promise
-import com.margelo.nitro.camera.HybridPreviewView
+import com.margelo.nitro.camera.views.HybridPreviewView
 import com.margelo.nitro.core.HybridObject
 import com.margelo.nitro.views.HybridView
 

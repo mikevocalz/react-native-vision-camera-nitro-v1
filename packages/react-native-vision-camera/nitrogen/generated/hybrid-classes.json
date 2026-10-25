@@ -224,7 +224,10 @@
     "FrameRendererView": {
       "android": {
         "implementation": {
-          "className": "HybridFrameRendererView"
+          "className": "HybridFrameRendererView",
+          "package": [
+            "views"
+          ]
         },
         "language": "kotlin"
       },
@@ -314,7 +317,10 @@
     "PreviewView": {
       "android": {
         "implementation": {
-          "className": "HybridPreviewView"
+          "className": "HybridPreviewView",
+          "package": [
+            "views"
+          ]
         },
         "language": "kotlin"
       },
