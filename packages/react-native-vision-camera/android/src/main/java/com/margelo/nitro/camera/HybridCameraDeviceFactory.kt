@@ -1,5 +1,8 @@
 package com.margelo.nitro.camera
 
+import com.margelo.nitro.core.Callback
+import com.margelo.nitro.core.invoke
+
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
@@ -65,7 +68,7 @@ class HybridCameraDeviceFactory(
       }
     }
 
-  override fun addOnCameraDevicesChangedListener(listener: (Array<HybridCameraDeviceSpec>) -> Unit): ListenerSubscription {
+  override fun addOnCameraDevicesChangedListener(listener: Callback<(newDevices: Array<HybridCameraDeviceSpec>) -> Unit>): ListenerSubscription {
     val presenceListener =
       object : CameraPresenceListener {
         override fun onCamerasAdded(cameraIdentifiers: Set<CameraIdentifier?>) {
@@ -79,9 +82,11 @@ class HybridCameraDeviceFactory(
         }
       }
     cameraProvider.addCameraPresenceListener(executor, presenceListener)
-    return ListenerSubscription({
-      cameraProvider.removeCameraPresenceListener(presenceListener)
-    })
+    return ListenerSubscription(
+      Callback.Arity0<Unit> {
+        cameraProvider.removeCameraPresenceListener(presenceListener)
+      },
+    )
   }
 
   override fun getCameraForId(id: String): HybridCameraDeviceSpec? {

@@ -11,6 +11,10 @@ import com.margelo.nitro.image.HybridImageSpec
 @Keep
 @DoNotStrip
 class HybridFrameConverter : HybridFrameConverterSpec() {
+  companion object : HybridFrameConverterSpec.Companion {
+    override fun constructor(): HybridFrameConverter = HybridFrameConverter()
+  }
+
   override fun convertFrameToImage(frame: HybridFrameSpec): HybridImageSpec {
     val nativeFrame =
       frame as? NativeFrame

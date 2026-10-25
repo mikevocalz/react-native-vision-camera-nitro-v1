@@ -1,5 +1,8 @@
 package com.margelo.nitro.camera.hybrids.outputs
 
+import com.margelo.nitro.core.Callback
+import com.margelo.nitro.core.callSync
+
 import android.annotation.SuppressLint
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.resolutionselector.ResolutionSelector
@@ -46,7 +49,7 @@ class HybridDepthFrameOutput(
       field = value
       updateAnalyzer()
     }
-  private var onDepthFrame: ((HybridDepthSpec) -> Boolean)? = null
+  private var onDepthFrame: Callback<(depth: HybridDepthSpec) -> Boolean>? = null
     set(value) {
       field = value
       updateAnalyzer()
@@ -101,19 +104,19 @@ class HybridDepthFrameOutput(
         val orientation = image.orientation
         val isMirrored = mirrorMode == MirrorMode.ON
         val frame = HybridDepthFrame(image, orientation, isMirrored)
-        onDepthFrame(frame)
+        onDepthFrame.callSync(frame)
       }
     } else {
       imageAnalysis.clearAnalyzer()
     }
   }
 
-  override fun setOnDepthFrameCallback(onDepthFrame: ((HybridDepthSpec) -> Boolean)?) {
+  override fun setOnDepthFrameCallback(onDepthFrame: Callback<(depth: HybridDepthSpec) -> Boolean>?) {
     require(executor.isRunningOnExecutor) { "setOnDepthFrameCallback(...) must be called on the DepthFrameOutput's `thread`!" }
     this.onDepthFrame = onDepthFrame
   }
 
-  override fun setOnDepthFrameDroppedCallback(onDepthFrameDropped: ((FrameDroppedReason) -> Unit)?) {
+  override fun setOnDepthFrameDroppedCallback(onDepthFrameDropped: Callback<(reason: FrameDroppedReason) -> Unit>?) {
     // TODO: CameraX does not have a way to figure out if a Frame has been dropped or not.
   }
 

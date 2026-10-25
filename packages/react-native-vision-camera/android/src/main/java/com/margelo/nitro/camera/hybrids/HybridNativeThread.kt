@@ -1,5 +1,8 @@
 package com.margelo.nitro.camera.hybrids
 
+import com.margelo.nitro.core.Callback
+import com.margelo.nitro.core.invoke
+
 import com.margelo.nitro.camera.HybridNativeThreadSpec
 import java.util.concurrent.Executor
 
@@ -9,8 +12,8 @@ class HybridNativeThread(
   override val id: String
     get() = executor.toString()
 
-  override fun runOnThread(task: () -> Unit) {
-    executor.execute(task)
+  override fun runOnThread(task: Callback<() -> Unit>) {
+    executor.execute { task() }
   }
 
   override fun dispose() {

@@ -1,5 +1,7 @@
 package com.margelo.nitro.camera.extensions
 
+import com.margelo.nitro.core.Callback
+
 import android.os.Build
 import androidx.camera.core.ImageProxy
 import com.margelo.nitro.camera.NativeBuffer
@@ -26,7 +28,7 @@ fun ImageProxy.getNativeBuffer(): NativeBuffer {
   return hardwareBuffer.use { hardwareBuffer ->
     val pointer = NativeBufferHelper.getHardwareBufferPointer(hardwareBuffer)
     var wasReleased = false
-    val release = {
+    val release = Callback.Arity0<Unit> {
       if (wasReleased) {
         throw Error("Tried to release NativeBuffer twice!")
       }

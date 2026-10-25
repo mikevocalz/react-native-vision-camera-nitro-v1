@@ -1,5 +1,7 @@
 package com.margelo.nitro.camera.hybrids
 
+import com.margelo.nitro.core.Callback
+
 import android.animation.Animator
 import android.animation.ValueAnimator
 import androidx.camera.core.Camera
@@ -190,12 +192,14 @@ class HybridCameraController(
     }
   }
 
-  override fun addSubjectAreaChangedListener(onSubjectAreaChanged: (() -> Unit)): ListenerSubscription {
+  override fun addSubjectAreaChangedListener(onSubjectAreaChanged: Callback<() -> Unit>): ListenerSubscription {
     // TODO: CameraX does not yet support subject area changed listeners.
     //       Feature Request: https://issuetracker.google.com/issues/505643406
-    return ListenerSubscription {
-      // noop
-    }
+    return ListenerSubscription(
+      Callback.Arity0<Unit> {
+        // noop
+      },
+    )
   }
 
   override fun setExposureBias(exposure: Double): Promise<Unit> {

@@ -1,5 +1,8 @@
 package com.margelo.nitro.camera.hybrids.recording
 
+import com.margelo.nitro.core.Callback
+import com.margelo.nitro.core.invoke
+
 import androidx.camera.video.PendingRecording
 import androidx.camera.video.Recording
 import androidx.camera.video.VideoRecordEvent
@@ -30,10 +33,10 @@ class HybridVideoRecorder(
     get() = file.absolutePath
 
   override fun startRecording(
-    onRecordingFinished: (String, RecordingFinishedReason) -> Unit,
-    onRecordingError: (Throwable) -> Unit,
-    onRecordingPaused: (() -> Unit)?,
-    onRecordingResumed: (() -> Unit)?,
+    onRecordingFinished: Callback<(filePath: String, reason: RecordingFinishedReason) -> Unit>,
+    onRecordingError: Callback<(error: Throwable) -> Unit>,
+    onRecordingPaused: Callback<() -> Unit>?,
+    onRecordingResumed: Callback<() -> Unit>?,
   ): Promise<Unit> {
     var didResolve = false
     val promise = Promise<Unit>()
@@ -59,8 +62,8 @@ class HybridVideoRecorder(
               promise.resolve()
               didResolve = true
             }
-            is VideoRecordEvent.Pause -> onRecordingPaused?.invoke()
-            is VideoRecordEvent.Resume -> onRecordingResumed?.invoke()
+            is VideoRecordEvent.Pause -> onRecordingPaused?.let { it() }
+            is VideoRecordEvent.Resume -> onRecordingResumed?.let { it() }
             is VideoRecordEvent.Finalize -> {
               // Recording is over - drop the Recording reference so `isRecording`
               // flips to false even when the finalize was auto-triggered (e.g. by

@@ -33,6 +33,10 @@ import com.margelo.nitro.core.Promise
 @Keep
 @DoNotStrip
 class VisionCamera : HybridCameraFactorySpec() {
+  companion object : HybridCameraFactorySpec.Companion {
+    override fun constructor(): VisionCamera = VisionCamera()
+  }
+
   val context: ReactApplicationContext
     get() = NitroModules.applicationContext ?: throw Error("No ApplicationContext set!")
   val cameraProviderFuture = ProcessCameraProvider.getInstance(context)

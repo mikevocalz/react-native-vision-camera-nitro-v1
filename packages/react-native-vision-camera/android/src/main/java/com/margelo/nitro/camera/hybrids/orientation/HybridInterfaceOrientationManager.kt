@@ -1,5 +1,8 @@
 package com.margelo.nitro.camera.hybrids.orientation
 
+import com.margelo.nitro.core.Callback
+import com.margelo.nitro.core.invoke
+
 import android.content.Context
 import android.hardware.display.DisplayManager
 import android.util.Log
@@ -28,7 +31,7 @@ class HybridInterfaceOrientationManager : HybridOrientationManagerSpec() {
     }
   }
 
-  override fun startOrientationUpdates(onChanged: (orientation: CameraOrientation) -> Unit) {
+  override fun startOrientationUpdates(onChanged: Callback<(orientation: CameraOrientation) -> Unit>) {
     listener?.let { listener ->
       displayManager.unregisterDisplayListener(listener)
     }
@@ -36,7 +39,7 @@ class HybridInterfaceOrientationManager : HybridOrientationManagerSpec() {
     if (defaultDisplay != null) {
       currentOrientation = CameraOrientation.fromSurfaceRotation(defaultDisplay.rotation)
     }
-    currentOrientation?.let(onChanged)
+    currentOrientation?.let { onChanged(it) }
     val listener =
       object : DisplayManager.DisplayListener {
         override fun onDisplayAdded(displayId: Int) = Unit

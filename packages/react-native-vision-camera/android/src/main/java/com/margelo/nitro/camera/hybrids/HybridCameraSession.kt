@@ -1,5 +1,8 @@
 package com.margelo.nitro.camera.hybrids
 
+import com.margelo.nitro.core.Callback
+import com.margelo.nitro.core.invoke
+
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.annotation.UiThread
@@ -44,11 +47,11 @@ class HybridCameraSession(
     get() = activeSession?.isRunning ?: false
 
   private var activeSession: ActiveCameraSession? = null
-  private var onStartedListeners = arrayListOf<() -> Unit>()
-  private var onStoppedListeners = arrayListOf<() -> Unit>()
-  private var onErrorListeners = arrayListOf<(Throwable) -> Unit>()
-  private var onInterruptionStartedListeners = arrayListOf<(InterruptionReason) -> Unit>()
-  private var onInterruptionEndedListeners = arrayListOf<() -> Unit>()
+  private var onStartedListeners = arrayListOf<Callback<() -> Unit>>()
+  private var onStoppedListeners = arrayListOf<Callback<() -> Unit>>()
+  private var onErrorListeners = arrayListOf<Callback<(error: Throwable) -> Unit>>()
+  private var onInterruptionStartedListeners = arrayListOf<Callback<(reason: InterruptionReason) -> Unit>>()
+  private var onInterruptionEndedListeners = arrayListOf<Callback<() -> Unit>>()
 
   @SuppressLint("RestrictedApi")
   override fun configure(
@@ -84,7 +87,7 @@ class HybridCameraSession(
           if (connection.onSessionConfigSelected != null) {
             // Notify JS callback that we resolved the constraints to a specific `config`
             val hybridConfig = HybridCameraSessionConfig(config.sessionConfig, config.resolvedConfig)
-            connection.onSessionConfigSelected(hybridConfig)
+            connection.onSessionConfigSelected.invoke(hybridConfig)
           }
 
           val camera = cameraProvider.bindToLifecycle(lifecycleOwner, cameraInfo.cameraSelector, config.sessionConfig)
@@ -196,38 +199,38 @@ class HybridCameraSession(
 
   // pragma MARK: Adding Listeners
 
-  override fun addOnStartedListener(onStarted: () -> Unit): ListenerSubscription {
+  override fun addOnStartedListener(onStarted: Callback<() -> Unit>): ListenerSubscription {
     onStartedListeners.add(onStarted)
-    return ListenerSubscription {
-      onStartedListeners.remove(onStarted)
-    }
+    return ListenerSubscription(
+      Callback.Arity0<Unit> { onStartedListeners.remove(onStarted) },
+    )
   }
 
-  override fun addOnStoppedListener(onStopped: () -> Unit): ListenerSubscription {
+  override fun addOnStoppedListener(onStopped: Callback<() -> Unit>): ListenerSubscription {
     onStoppedListeners.add(onStopped)
-    return ListenerSubscription {
-      onStoppedListeners.remove(onStopped)
-    }
+    return ListenerSubscription(
+      Callback.Arity0<Unit> { onStoppedListeners.remove(onStopped) },
+    )
   }
 
-  override fun addOnErrorListener(onError: (Throwable) -> Unit): ListenerSubscription {
+  override fun addOnErrorListener(onError: Callback<(error: Throwable) -> Unit>): ListenerSubscription {
     onErrorListeners.add(onError)
-    return ListenerSubscription {
-      onErrorListeners.remove(onError)
-    }
+    return ListenerSubscription(
+      Callback.Arity0<Unit> { onErrorListeners.remove(onError) },
+    )
   }
 
-  override fun addOnInterruptionStartedListener(onInterruptionStarted: (InterruptionReason) -> Unit): ListenerSubscription {
+  override fun addOnInterruptionStartedListener(onInterruptionStarted: Callback<(reason: InterruptionReason) -> Unit>): ListenerSubscription {
     onInterruptionStartedListeners.add(onInterruptionStarted)
-    return ListenerSubscription {
-      onInterruptionStartedListeners.remove(onInterruptionStarted)
-    }
+    return ListenerSubscription(
+      Callback.Arity0<Unit> { onInterruptionStartedListeners.remove(onInterruptionStarted) },
+    )
   }
 
-  override fun addOnInterruptionEndedListener(onInterruptionEnded: () -> Unit): ListenerSubscription {
+  override fun addOnInterruptionEndedListener(onInterruptionEnded: Callback<() -> Unit>): ListenerSubscription {
     onInterruptionEndedListeners.add(onInterruptionEnded)
-    return ListenerSubscription {
-      onInterruptionEndedListeners.remove(onInterruptionEnded)
-    }
+    return ListenerSubscription(
+      Callback.Arity0<Unit> { onInterruptionEndedListeners.remove(onInterruptionEnded) },
+    )
   }
 }

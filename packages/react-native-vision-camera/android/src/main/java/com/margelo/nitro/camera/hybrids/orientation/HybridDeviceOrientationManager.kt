@@ -1,5 +1,8 @@
 package com.margelo.nitro.camera.hybrids.orientation
 
+import com.margelo.nitro.core.Callback
+import com.margelo.nitro.core.invoke
+
 import android.os.Build
 import android.util.Log
 import android.view.OrientationEventListener
@@ -30,9 +33,9 @@ class HybridDeviceOrientationManager : HybridOrientationManagerSpec() {
     }
   }
 
-  override fun startOrientationUpdates(onChanged: (orientation: CameraOrientation) -> Unit) {
+  override fun startOrientationUpdates(onChanged: Callback<(orientation: CameraOrientation) -> Unit>) {
     orientationListener?.disable()
-    currentOrientation?.let(onChanged)
+    currentOrientation?.let { onChanged(it) }
     orientationListener =
       object : OrientationEventListener(context) {
         override fun onOrientationChanged(rotationDegrees: Int) {

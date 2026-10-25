@@ -1,5 +1,8 @@
 package com.margelo.nitro.camera.views
 
+import com.margelo.nitro.core.Callback
+import com.margelo.nitro.core.invoke
+
 import android.graphics.Matrix
 import android.util.Log
 import android.view.MotionEvent
@@ -37,6 +40,8 @@ class HybridPreviewView(
 ) : HybridPreviewViewSpec(),
   View.OnTouchListener,
   Observer<PreviewView.StreamState> {
+  companion object : HybridPreviewViewSpec.Companion
+
   private val previewView = PreviewView(context)
   private val uiScope = CoroutineScope(Dispatchers.Main.immediate)
   override val view: View
@@ -58,8 +63,8 @@ class HybridPreviewView(
         }
       }
     }
-  override var onPreviewStarted: (() -> Unit)? = null
-  override var onPreviewStopped: (() -> Unit)? = null
+  override var onPreviewStarted: Callback<() -> Unit>? = null
+  override var onPreviewStopped: Callback<() -> Unit>? = null
   override var implementationMode: PreviewImplementationMode? = PreviewImplementationMode.PERFORMANCE
     set(newValue) {
       val newImplementationMode = newValue ?: PreviewImplementationMode.PERFORMANCE
@@ -186,10 +191,10 @@ class HybridPreviewView(
     if (this.isPreviewing != isPreviewing) {
       if (isPreviewing) {
         Log.i(TAG, "PreviewView started!")
-        onPreviewStarted?.invoke()
+        onPreviewStarted?.let { it() }
       } else {
         Log.i(TAG, "PreviewView stopped!")
-        onPreviewStopped?.invoke()
+        onPreviewStopped?.let { it() }
       }
     }
     this.isPreviewing = isPreviewing

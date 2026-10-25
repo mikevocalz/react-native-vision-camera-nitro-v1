@@ -12,6 +12,8 @@ class HybridFrameRendererView(
   val context: ThemedReactContext,
 ) : HybridFrameRendererViewSpec(),
   SurfaceHolder.Callback {
+  companion object : HybridFrameRendererViewSpec.Companion
+
   private val surfaceView = SurfaceView(context)
   override val view: View
     get() = surfaceView

@@ -1,5 +1,8 @@
 package com.margelo.nitro.camera.hybrids.outputs
 
+import com.margelo.nitro.core.Callback
+import com.margelo.nitro.core.invoke
+
 import android.media.MediaActionSound
 import android.util.Log
 import androidx.camera.core.CameraInfo
@@ -176,25 +179,25 @@ class HybridPhotoOutput(
       val image =
         imageCapture.takePicture(
           {
-            callbacks.onWillBeginCapture?.invoke()
+            callbacks.onWillBeginCapture?.let { it() }
             if (enableShutterSound) {
               shutterSound.play(MediaActionSound.SHUTTER_CLICK)
             }
             // CameraX exposes a single pre-capture hook, so we fire both the
             // "will begin" and "will capture" callbacks here. On iOS these
             // are distinct moments (AVCapturePhotoCaptureDelegate).
-            callbacks.onWillCapturePhoto?.invoke()
+            callbacks.onWillCapturePhoto?.let { it() }
           },
           { progress ->
             if (progress == 100) {
               // Capture is complete! Now we're encoding...
-              callbacks.onDidCapturePhoto?.invoke()
+              callbacks.onDidCapturePhoto?.let { it() }
               didFireOnDidCapturePhoto = true
             }
           },
           { bitmap ->
             // Preview Image delivered!
-            callbacks.onPreviewImageAvailable?.let { onPreviewImageAvailable ->
+            callbacks.onPreviewImageAvailable?.let { onPreviewImageAvailable: Callback<(previewImage: com.margelo.nitro.image.HybridImageSpec) -> Unit> ->
               val image = HybridImage(bitmap)
               onPreviewImageAvailable(image)
             }
@@ -203,7 +206,7 @@ class HybridPhotoOutput(
 
       if (!didFireOnDidCapturePhoto) {
         // Not every device supports progress callbacks, so we just fire it later here
-        callbacks.onDidCapturePhoto?.invoke()
+        callbacks.onDidCapturePhoto?.let { it() }
       }
 
       // 3. Return
@@ -259,22 +262,22 @@ class HybridPhotoOutput(
       imageCapture.takePicture(
         outputFileOptions,
         {
-          callbacks.onWillBeginCapture?.invoke()
+          callbacks.onWillBeginCapture?.let { it() }
           if (enableShutterSound) {
             shutterSound.play(MediaActionSound.SHUTTER_CLICK)
           }
-          callbacks.onWillCapturePhoto?.invoke()
+          callbacks.onWillCapturePhoto?.let { it() }
         },
         { progress ->
           if (progress == 100) {
             // Capture is complete! Saving...
-            callbacks.onDidCapturePhoto?.invoke()
+            callbacks.onDidCapturePhoto?.let { it() }
             didFireOnDidCapturePhoto = true
           }
         },
         { bitmap ->
           // Preview Image delivered!
-          callbacks.onPreviewImageAvailable?.let { onPreviewImageAvailable ->
+          callbacks.onPreviewImageAvailable?.let { onPreviewImageAvailable: Callback<(previewImage: com.margelo.nitro.image.HybridImageSpec) -> Unit> ->
             val image = HybridImage(bitmap)
             onPreviewImageAvailable(image)
           }
@@ -283,7 +286,7 @@ class HybridPhotoOutput(
 
       if (!didFireOnDidCapturePhoto) {
         // Not every device supports progress callbacks, so we just fire it later here
-        callbacks.onDidCapturePhoto?.invoke()
+        callbacks.onDidCapturePhoto?.let { it() }
       }
 
       // 3. Return

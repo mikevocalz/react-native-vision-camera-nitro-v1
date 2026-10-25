@@ -1,5 +1,5 @@
 #include "NativeBufferHelper.hpp"
-#include "VisionCameraOnLoad.hpp"
+#include <VisionCamera/private/VisionCameraOnLoad.hpp>
 #include <fbjni/fbjni.h>
 #include <jni.h>
 
