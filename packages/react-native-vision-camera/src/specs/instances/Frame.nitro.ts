@@ -1,4 +1,4 @@
-import type { HybridObject } from 'react-native-nitro-modules'
+import { Android, Apple, type HybridObject } from 'react-native-nitro-modules'
 import type { CameraOrientation } from '../common-types/CameraOrientation'
 import type { NativeBuffer } from '../common-types/NativeBuffer'
 import type { PixelFormat } from '../common-types/PixelFormat'
@@ -7,7 +7,7 @@ import type {
   CameraFrameOutput,
   FrameOutputOptions,
 } from '../outputs/CameraFrameOutput.nitro'
-import type { CameraOutput } from '../outputs/CameraOutput.nitro'
+import { CameraOutput } from '../outputs/CameraOutput.nitro'
 import type { CameraOutputConfiguration } from '../session/CameraOutputConfiguration'
 
 // Note to self: don't use external types (such as Nitro `Image`) in `Frame` directly,
@@ -19,8 +19,9 @@ import type { CameraOutputConfiguration } from '../session/CameraOutputConfigura
  *
  * @see {@linkcode Frame.getPlanes | Frame.getPlanes()}
  */
-export interface FramePlane
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true })
+export declare class FramePlane extends HybridObject {
   /**
    * Returns the width of this Plane.
    *
@@ -98,8 +99,9 @@ export interface FramePlane
  * to free up the memory, otherwise the producing pipeline
  * might stall.
  */
-export interface Frame
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true })
+export declare class Frame extends HybridObject {
   /**
    * Gets the presentation timestamp this Frame was timed at.
    *
@@ -433,3 +435,6 @@ export interface Frame
    */
   convertFramePointToCameraPoint(framePoint: Point): Point
 }
+
+export * from '#nitro/FramePlane'
+export * from '#nitro/Frame'

@@ -1,5 +1,6 @@
+import { Android, Apple } from 'react-native-nitro-modules'
 import type { CameraController } from '../CameraController.nitro'
-import type { GestureController } from './GestureController.nitro'
+import { GestureController } from './GestureController.nitro'
 
 /**
  * A {@linkcode ZoomGestureController} is a {@linkcode GestureController}
@@ -7,4 +8,8 @@ import type { GestureController } from './GestureController.nitro'
  * {@linkcode CameraController.zoom | zoom} via a
  * native pinch-to-zoom gesture.
  */
-export interface ZoomGestureController extends GestureController {}
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true })
+export declare class ZoomGestureController extends GestureController {}
+
+export * from '#nitro/ZoomGestureController'

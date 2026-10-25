@@ -1,10 +1,10 @@
-import { getHostComponent } from 'react-native-nitro-modules'
 import type { CameraPreviewOutput } from '../specs/outputs/CameraPreviewOutput.nitro'
 import type { CameraSession } from '../specs/session/CameraSession.nitro'
-import type {
-  PreviewView,
-  PreviewViewMethods,
-  PreviewViewProps,
+import {
+  type PreviewView,
+  type PreviewViewMethods,
+  type PreviewViewProps,
+  PreviewViewComponent,
 } from '../specs/views/PreviewView.nitro'
 import type { Camera } from './Camera'
 
@@ -31,17 +31,12 @@ import type { Camera } from './Camera'
  *     <NativePreviewView
  *       style={StyleSheet.absoluteFill}
  *       previewOutput={previewOutput}
- *       hybridRef={callback((r) => {
+ *       hybridRef={(r) => {
  *         previewView.current = r
- *       })}
+ *       }}
  *     />
  *   )
  * }
  * ```
  */
-export const NativePreviewView = getHostComponent<
-  PreviewViewProps,
-  PreviewViewMethods
->('PreviewView', () =>
-  require('../../nitrogen/generated/shared/json/PreviewViewConfig.json'),
-)
+export const NativePreviewView = PreviewViewComponent

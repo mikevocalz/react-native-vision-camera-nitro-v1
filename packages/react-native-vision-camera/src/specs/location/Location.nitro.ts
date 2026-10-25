@@ -1,4 +1,4 @@
-import type { HybridObject } from 'react-native-nitro-modules'
+import { Android, Apple, type HybridObject } from 'react-native-nitro-modules'
 import type { Photo } from '../instances/Photo.nitro'
 import type { CameraPhotoOutput } from '../outputs/CameraPhotoOutput.nitro'
 import type { CameraVideoOutput } from '../outputs/CameraVideoOutput.nitro'
@@ -27,8 +27,9 @@ import type { CameraVideoOutput } from '../outputs/CameraVideoOutput.nitro'
  * }, {})
  * ```
  */
-export interface Location
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true })
+export declare class Location extends HybridObject {
   /**
    * Represents the horizontal latitude.
    */
@@ -66,3 +67,5 @@ export interface Location
    */
   readonly isMock: boolean
 }
+
+export * from '#nitro/Location'

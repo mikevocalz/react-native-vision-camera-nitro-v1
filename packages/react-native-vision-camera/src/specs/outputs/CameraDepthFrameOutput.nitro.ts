@@ -1,10 +1,10 @@
-import type { Sync } from 'react-native-nitro-modules'
+import { Android, Apple } from 'react-native-nitro-modules'
 import type { useDepthOutput } from '../../hooks/useDepthOutput'
 import type { FrameDroppedReason } from '../common-types/FrameDroppedReason'
 import type { NativeThread } from '../frame-processors/NativeThread.nitro'
 import type { Depth } from '../instances/Depth.nitro'
 import type { FrameOutputOptions } from './CameraFrameOutput.nitro'
-import type { CameraOutput } from './CameraOutput.nitro'
+import { CameraOutput } from './CameraOutput.nitro'
 
 /**
  * Configuration options for a {@linkcode CameraDepthFrameOutput}.
@@ -56,7 +56,9 @@ export interface DepthFrameOutputOptions
  * })
  * ```
  */
-export interface CameraDepthFrameOutput extends CameraOutput {
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true })
+export declare class CameraDepthFrameOutput extends CameraOutput {
   /**
    * Get the {@linkcode NativeThread} that this
    * {@linkcode CameraDepthFrameOutput} is running on.
@@ -72,7 +74,7 @@ export interface CameraDepthFrameOutput extends CameraOutput {
    * @throws If not called on a Worklet/Runtime running on this {@linkcode thread}.
    */
   setOnDepthFrameCallback(
-    onDepthFrame: Sync<(depth: Depth) => boolean> | undefined,
+    onDepthFrame: ((depth: Depth) => boolean) | undefined,
   ): void
   /**
    * Adds a callback that gets called when a {@linkcode Depth} has
@@ -84,3 +86,5 @@ export interface CameraDepthFrameOutput extends CameraOutput {
     onDepthFrameDropped: ((reason: FrameDroppedReason) => void) | undefined,
   ): void
 }
+
+export * from '#nitro/CameraDepthFrameOutput'

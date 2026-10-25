@@ -1,3 +1,4 @@
+import { Android, Apple } from 'react-native-nitro-modules'
 import type { Image } from 'react-native-nitro-image'
 import type { usePhotoOutput } from '../../hooks/usePhotoOutput'
 import type { TargetPhotoContainerFormat } from '../common-types/PhotoContainerFormat'
@@ -8,7 +9,7 @@ import type { Photo } from '../instances/Photo.nitro'
 import type { Location } from '../location/Location.nitro'
 import type { CameraSession } from '../session/CameraSession.nitro'
 import type { CameraSessionConfig } from '../session/CameraSessionConfig.nitro'
-import type { CameraOutput } from './CameraOutput.nitro'
+import { CameraOutput } from './CameraOutput.nitro'
 
 // TODO: Move depth data into configuration upfront, I think we need to prepare the Photo Output for that natively.
 // TODO: I think there is no way to get `containerFormat` upfront - we dont know what formats are supported! We need to expose that probably via `CameraDevice.supportedPhotoContainerFormats`
@@ -262,7 +263,9 @@ export interface PhotoFile {
  * })
  * ```
  */
-export interface CameraPhotoOutput extends CameraOutput {
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true })
+export declare class CameraPhotoOutput extends CameraOutput {
   /**
    * Get whether this {@linkcode CameraPhotoOutput} supports
    * capturing depth data alongside with a normal {@linkcode Photo},
@@ -360,3 +363,5 @@ export interface CameraPhotoOutput extends CameraOutput {
    */
   prepareSettings(settings: CapturePhotoSettings[]): Promise<void>
 }
+
+export * from '#nitro/CameraPhotoOutput'

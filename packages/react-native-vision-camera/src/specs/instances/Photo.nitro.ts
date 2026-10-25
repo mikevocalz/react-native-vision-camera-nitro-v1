@@ -1,5 +1,5 @@
 import type { Image } from 'react-native-nitro-image'
-import type { HybridObject } from 'react-native-nitro-modules'
+import { Android, Apple, type HybridObject } from 'react-native-nitro-modules'
 import type { CameraOrientation } from '../common-types/CameraOrientation'
 import type { PhotoContainerFormat } from '../common-types/PhotoContainerFormat'
 import type {
@@ -66,8 +66,9 @@ import type { Depth } from './Depth.nitro'
  * photo.dispose()
  * ```
  */
-export interface Photo
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true })
+export declare class Photo extends HybridObject {
   /**
    * Gets whether this {@linkcode Photo} is mirrored alongside the
    * vertical axis.
@@ -194,3 +195,5 @@ export interface Photo
    */
   toImageAsync(): Promise<Image>
 }
+
+export * from '#nitro/Photo'

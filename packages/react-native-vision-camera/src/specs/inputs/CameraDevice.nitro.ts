@@ -1,5 +1,5 @@
 import type { Image } from 'react-native-nitro-image'
-import type { HybridObject } from 'react-native-nitro-modules'
+import { Android, Apple, type HybridObject } from 'react-native-nitro-modules'
 import type {
   CameraController,
   CameraControllerConfiguration,
@@ -34,7 +34,7 @@ import type {
   DepthFrameOutputOptions,
 } from '../outputs/CameraDepthFrameOutput.nitro'
 import type { FrameOutputOptions } from '../outputs/CameraFrameOutput.nitro'
-import type { CameraOutput } from '../outputs/CameraOutput.nitro'
+import { CameraOutput } from '../outputs/CameraOutput.nitro'
 import type {
   CameraPhotoOutput,
   CapturePhotoCallbacks,
@@ -58,8 +58,9 @@ import type { CameraSessionConfig } from '../session/CameraSessionConfig.nitro'
  * - Virtual: The Triple-Camera consisting of the 0.5x, the 1x, and the 3x Camera
  * - TrueDepth Face ID: A virtual Camera consisting of a color, and a depth Camera
  */
-export interface CameraDevice
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true })
+export declare class CameraDevice extends HybridObject {
   // pragma MARK: Device Metadata
   /**
    * A unique identifier for this camera device.
@@ -610,3 +611,5 @@ export interface CameraDevice
    */
   isSessionConfigSupported(config: CameraSessionConfig): boolean
 }
+
+export * from '#nitro/CameraDevice'

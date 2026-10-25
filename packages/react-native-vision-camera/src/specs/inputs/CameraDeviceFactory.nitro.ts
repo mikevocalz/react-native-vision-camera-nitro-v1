@@ -1,4 +1,4 @@
-import type { HybridObject } from 'react-native-nitro-modules'
+import { Android, Apple, type HybridObject } from 'react-native-nitro-modules'
 import type { CameraFactory } from '../CameraFactory.nitro'
 import type {
   CameraPosition,
@@ -13,8 +13,9 @@ import type { CameraExtension } from './CameraExtension.nitro'
  * The {@linkcode CameraDeviceFactory} allows getting {@linkcode CameraDevice}s,
  * listening to device changes, and querying extensions or preferred Cameras.
  */
-export interface CameraDeviceFactory
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true })
+export declare class CameraDeviceFactory extends HybridObject {
   /**
    * Get a list of all {@linkcode CameraDevice}s on this platform.
    *
@@ -133,3 +134,5 @@ export interface CameraDeviceFactory
    */
   getDefaultCamera(position: TargetCameraPosition): CameraDevice | undefined
 }
+
+export * from '#nitro/CameraDeviceFactory'

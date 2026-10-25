@@ -1,4 +1,4 @@
-import type { HybridObject } from 'react-native-nitro-modules'
+import { Android, Apple, type HybridObject } from 'react-native-nitro-modules'
 import type { NativeThread } from './NativeThread.nitro'
 
 /**
@@ -13,8 +13,10 @@ import type { NativeThread } from './NativeThread.nitro'
  * such as installing a Dispatcher to your Worklet
  * Runtime.
  */
-export interface NativeThreadFactory
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+@Apple({ language: 'swift', implementation: { className: 'HybridNativeThreadFactory' } })
+@Android({ language: 'kotlin', implementation: { className: 'HybridNativeThreadFactory' } })
+export declare class NativeThreadFactory extends HybridObject {
+  constructor()
   /**
    * Create a new {@linkcode NativeThread}.
    *
@@ -36,3 +38,5 @@ export interface NativeThreadFactory
    */
   createNativeThread(name: string): NativeThread
 }
+
+export * from '#nitro/NativeThreadFactory'

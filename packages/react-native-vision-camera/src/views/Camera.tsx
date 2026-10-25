@@ -1,6 +1,5 @@
 import React, { type Ref, useImperativeHandle, useMemo, useRef } from 'react'
 import type { ViewProps } from 'react-native'
-import { callback } from 'react-native-nitro-modules'
 import type { SharedValue } from 'react-native-reanimated'
 import { useGestureControllers } from '../hooks/internal/useGestureControllers'
 import { type CameraProps, useCamera } from '../hooks/useCamera'
@@ -132,10 +131,9 @@ function CameraImpl({
   // 4. Create `ref` for `PreviewView`
   const previewViewRef = useRef<PreviewView>(null)
   const setHybridRef = useMemo(
-    () =>
-      callback((r: PreviewView) => {
-        previewViewRef.current = r
-      }),
+    () => (r: PreviewView) => {
+      previewViewRef.current = r
+    },
     [],
   )
 
@@ -222,8 +220,8 @@ function CameraImpl({
       resizeMode={resizeMode}
       gestureControllers={gestureControllers}
       // TODO: Memoize?
-      onPreviewStarted={callback(onPreviewStarted)}
-      onPreviewStopped={callback(onPreviewStopped)}
+      onPreviewStarted={onPreviewStarted}
+      onPreviewStopped={onPreviewStopped}
       hybridRef={setHybridRef}
       previewOutput={previewOutput}
     />

@@ -1,4 +1,4 @@
-import type { Sync } from 'react-native-nitro-modules'
+import { Android, Apple } from 'react-native-nitro-modules'
 import type { useFrameOutput } from '../../hooks/useFrameOutput'
 import type { FrameDroppedReason } from '../common-types/FrameDroppedReason'
 import type { NativeBuffer } from '../common-types/NativeBuffer'
@@ -8,7 +8,7 @@ import type { NativeThread } from '../frame-processors/NativeThread.nitro'
 import type { Frame } from '../instances/Frame.nitro'
 import type { CameraSession } from '../session/CameraSession.nitro'
 import type { CameraSessionConfig } from '../session/CameraSessionConfig.nitro'
-import type { CameraOutput } from './CameraOutput.nitro'
+import { CameraOutput } from './CameraOutput.nitro'
 
 // TODO: Should we remove `enablePreviewSizedOutputBuffers` and infer it from `targetResolution`?
 
@@ -194,7 +194,9 @@ export interface FrameOutputOptions {
  * })
  * ```
  */
-export interface CameraFrameOutput extends CameraOutput {
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true })
+export declare class CameraFrameOutput extends CameraOutput {
   /**
    * Get the {@linkcode NativeThread} that this {@linkcode CameraFrameOutput}
    * is running on.
@@ -208,7 +210,7 @@ export interface CameraFrameOutput extends CameraOutput {
    *
    * @throws If not called on a Worklet/Runtime running on this {@linkcode thread}.
    */
-  setOnFrameCallback(onFrame: Sync<(frame: Frame) => boolean> | undefined): void
+  setOnFrameCallback(onFrame: ((frame: Frame) => boolean) | undefined): void
   /**
    * Adds a callback that gets called when a {@linkcode Frame} has been dropped.
    * This often happens if your Frame Callback is taking longer than a frame interval.
@@ -217,3 +219,5 @@ export interface CameraFrameOutput extends CameraOutput {
     onFrameDropped: ((reason: FrameDroppedReason) => void) | undefined,
   ): void
 }
+
+export * from '#nitro/CameraFrameOutput'

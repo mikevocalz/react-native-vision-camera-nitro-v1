@@ -1,16 +1,5 @@
-import type {
-  HybridView,
-  HybridViewMethods,
-  HybridViewProps,
-} from 'react-native-nitro-modules'
-import type { NativeFrameRendererView } from '../../views/NativeFrameRendererView'
+import { Android, Apple, type HybridView } from 'react-native-nitro-modules'
 import type { FrameRenderer } from '../FrameRenderer.nitro'
-
-export interface FrameRendererViewProps extends HybridViewProps {
-  renderer?: FrameRenderer
-}
-
-export interface FrameRendererViewMethods extends HybridViewMethods {}
 
 /**
  * The {@linkcode FrameRendererView} Hybrid View.
@@ -22,7 +11,13 @@ export interface FrameRendererViewMethods extends HybridViewMethods {}
  * @see {@linkcode FrameRendererViewMethods}
  * @see {@linkcode NativeFrameRendererView}
  */
-export type FrameRendererView = HybridView<
-  FrameRendererViewProps,
-  FrameRendererViewMethods
->
+@Apple({ language: 'swift', implementation: { className: 'HybridFrameRendererView' } })
+@Android({ language: 'kotlin', implementation: { className: 'HybridFrameRendererView' } })
+export declare class FrameRendererView extends HybridView {
+  renderer?: FrameRenderer
+}
+
+export * from '#nitro/FrameRendererView'
+
+/** The {@linkcode FrameRendererView} has no methods besides the HybridObject base. */
+export type FrameRendererViewMethods = Record<string, never>

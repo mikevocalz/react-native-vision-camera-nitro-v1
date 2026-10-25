@@ -1,3 +1,4 @@
+import { Android, Apple } from 'react-native-nitro-modules'
 import type { useObjectOutput } from '../../hooks/useObjectOutput'
 import type {
   ScannedCode,
@@ -5,7 +6,7 @@ import type {
   ScannedObject,
   ScannedObjectType,
 } from '../instances/ScannedObject.nitro'
-import type { CameraOutput } from './CameraOutput.nitro'
+import { CameraOutput } from './CameraOutput.nitro'
 
 /**
  * Options for the {@linkcode CameraObjectOutput}.
@@ -49,7 +50,9 @@ export interface ObjectOutputOptions {
  * })
  * ```
  */
-export interface CameraObjectOutput extends CameraOutput {
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true })
+export declare class CameraObjectOutput extends CameraOutput {
   /**
    * Sets the {@linkcode onObjectsScanned} callback.
    */
@@ -57,3 +60,5 @@ export interface CameraObjectOutput extends CameraOutput {
     onObjectsScanned: ((objects: ScannedObject[]) => void) | undefined,
   ): void
 }
+
+export * from '#nitro/CameraObjectOutput'

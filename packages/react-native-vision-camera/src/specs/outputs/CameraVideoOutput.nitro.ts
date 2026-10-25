@@ -1,10 +1,11 @@
+import { Android, Apple } from 'react-native-nitro-modules'
 import type { useVideoOutput } from '../../hooks/useVideoOutput'
 import type { Size } from '../common-types/Size'
 import type { VideoCodec } from '../common-types/VideoCodec'
 import type { Location } from '../location/Location.nitro'
 import type { CameraSession } from '../session/CameraSession.nitro'
 import type { CameraSessionConfig } from '../session/CameraSessionConfig.nitro'
-import type { CameraOutput } from './CameraOutput.nitro'
+import { CameraOutput } from './CameraOutput.nitro'
 import type { Recorder } from './Recorder.nitro'
 
 // TODO: Make the props in options non-nullable for better performance and just pass false as defaults
@@ -204,7 +205,9 @@ export interface RecorderSettings {
  * })
  * ```
  */
-export interface CameraVideoOutput extends CameraOutput {
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true })
+export declare class CameraVideoOutput extends CameraOutput {
   /**
    * Get all supported {@linkcode VideoCodec | VideoCodecs} this
    * {@linkcode CameraVideoOutput} currently can record in.
@@ -242,3 +245,5 @@ export interface CameraVideoOutput extends CameraOutput {
    */
   createRecorder(settings: RecorderSettings): Promise<Recorder>
 }
+
+export * from '#nitro/CameraVideoOutput'

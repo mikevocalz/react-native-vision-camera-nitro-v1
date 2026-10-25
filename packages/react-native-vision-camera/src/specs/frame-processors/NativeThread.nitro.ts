@@ -1,7 +1,7 @@
-import type { HybridObject } from 'react-native-nitro-modules'
+import { Android, Apple, type HybridObject } from 'react-native-nitro-modules'
 import type { useFrameOutput } from '../../hooks/useFrameOutput'
 import type { CameraFrameOutput } from '../outputs/CameraFrameOutput.nitro'
-import type { CameraOutput } from '../outputs/CameraOutput.nitro'
+import { CameraOutput } from '../outputs/CameraOutput.nitro'
 
 /**
  * Represents a native "Thread".
@@ -45,8 +45,9 @@ import type { CameraOutput } from '../outputs/CameraOutput.nitro'
  * it never runs code in parallel - execution is guaranteed
  * to be serial.
  */
-export interface NativeThread
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true })
+export declare class NativeThread extends HybridObject {
   /**
    * Get this Thread's ID.
    */
@@ -57,3 +58,5 @@ export interface NativeThread
    */
   runOnThread(task: () => void): void
 }
+
+export * from '#nitro/NativeThread'

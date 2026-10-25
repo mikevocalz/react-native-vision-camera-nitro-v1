@@ -1,64 +1,13 @@
 {
   "$schema": "https://nitro.margelo.com/nitro.schema.json",
+  "environment": "react-native",
   "cxxNamespace": ["camera"],
-  "ios": {
-    "iosModuleName": "VisionCamera"
+  "apple": {
+    "moduleName": "VisionCamera"
   },
   "android": {
-    "androidNamespace": ["camera"],
-    "androidCxxLibName": "VisionCamera"
-  },
-  "autolinking": {
-    "CameraFactory": {
-      "ios": {
-        "language": "swift",
-        "implementationClassName": "VisionCamera"
-      },
-      "android": {
-        "language": "kotlin",
-        "implementationClassName": "VisionCamera"
-      }
-    },
-    "PreviewView": {
-      "ios": {
-        "language": "swift",
-        "implementationClassName": "HybridPreviewView"
-      },
-      "android": {
-        "language": "kotlin",
-        "implementationClassName": "HybridPreviewView"
-      }
-    },
-    "FrameRendererView": {
-      "ios": {
-        "language": "swift",
-        "implementationClassName": "HybridFrameRendererView"
-      },
-      "android": {
-        "language": "kotlin",
-        "implementationClassName": "HybridFrameRendererView"
-      }
-    },
-    "NativeThreadFactory": {
-      "ios": {
-        "language": "swift",
-        "implementationClassName": "HybridNativeThreadFactory"
-      },
-      "android": {
-        "language": "kotlin",
-        "implementationClassName": "HybridNativeThreadFactory"
-      }
-    },
-    "FrameConverter": {
-      "ios": {
-        "language": "swift",
-        "implementationClassName": "HybridFrameConverter"
-      },
-      "android": {
-        "language": "kotlin",
-        "implementationClassName": "HybridFrameConverter"
-      }
-    }
+    "namespace": ["camera"],
+    "cxxLibName": "VisionCamera"
   },
   "ignorePaths": ["**/node_modules"]
 }

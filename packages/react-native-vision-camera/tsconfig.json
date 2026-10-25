@@ -1,12 +1,28 @@
 {
-  "extends": [
-    "@tsconfig/react-native/tsconfig.json",
-    "../../config/tsconfig.json"
-  ],
   "include": ["src"],
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "lib",
-    "jsx": "react"
+    "jsx": "react",
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["esnext"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolvePackageJsonImports": true,
+    "noEmit": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "esnext",
+    "verbatimModuleSyntax": true,
+    "experimentalDecorators": false
   }
 }

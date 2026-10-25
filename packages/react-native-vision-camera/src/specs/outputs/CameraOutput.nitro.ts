@@ -1,4 +1,4 @@
-import type { HybridObject } from 'react-native-nitro-modules'
+import { Android, Apple, type HybridObject } from 'react-native-nitro-modules'
 import type { CameraOrientation } from '../common-types/CameraOrientation'
 import type { Constraint } from '../common-types/Constraint'
 import type { MediaType } from '../common-types/MediaType'
@@ -19,8 +19,9 @@ import type { PhotoOutputOptions } from './CameraPhotoOutput.nitro'
  * such as private HDR implementations, or fully custom
  * video pipelines (e.g. for batching/segmenting video).
  */
-export interface CameraOutput
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+@Apple({ language: 'swift', allowMultipleImplementations: true, allowInheritance: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true, allowInheritance: true })
+export declare class CameraOutput extends HybridObject {
   /**
    * The media type of the content being streamed
    * by this {@linkcode CameraOutput}.
@@ -60,3 +61,5 @@ export interface CameraOutput
    */
   readonly currentResolution?: Size
 }
+
+export * from '#nitro/CameraOutput'

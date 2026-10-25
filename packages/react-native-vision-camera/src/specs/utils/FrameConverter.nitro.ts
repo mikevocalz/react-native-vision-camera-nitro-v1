@@ -1,5 +1,5 @@
 import type { Image } from 'react-native-nitro-image'
-import type { HybridObject } from 'react-native-nitro-modules'
+import { Android, Apple, type HybridObject } from 'react-native-nitro-modules'
 import type { Depth } from '../instances/Depth.nitro'
 import type { Frame } from '../instances/Frame.nitro'
 
@@ -7,8 +7,10 @@ import type { Frame } from '../instances/Frame.nitro'
  * The {@linkcode FrameConverter} can convert {@linkcode Frame}s
  * and {@linkcode Depth} to {@linkcode Image}s.
  */
-export interface FrameConverter
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+@Apple({ language: 'swift', implementation: { className: 'HybridFrameConverter' } })
+@Android({ language: 'kotlin', implementation: { className: 'HybridFrameConverter' } })
+export declare class FrameConverter extends HybridObject {
+  constructor()
   // Frame -> Image converter
   /**
    * Converts the given {@linkcode Frame} to an {@linkcode Image}.
@@ -35,3 +37,5 @@ export interface FrameConverter
   convertDepthToImage(depth: Depth): Image
   convertDepthToImageAsync(depth: Depth): Promise<Image>
 }
+
+export * from '#nitro/FrameConverter'

@@ -1,4 +1,4 @@
-import type { HybridObject } from 'react-native-nitro-modules'
+import { Android, Apple, type HybridObject } from 'react-native-nitro-modules'
 import type { CameraController } from '../CameraController.nitro'
 import type { PreviewView } from '../views/PreviewView.nitro'
 import type { ZoomGestureController } from './ZoomGestureController.nitro'
@@ -16,8 +16,9 @@ import type { ZoomGestureController } from './ZoomGestureController.nitro'
  * to a View (like a {@linkcode PreviewView}) to enable
  * the gesture.
  */
-export interface GestureController
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+@Apple({ language: 'swift', allowMultipleImplementations: true, allowInheritance: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true, allowInheritance: true })
+export declare class GestureController extends HybridObject {
   /**
    * Gets or sets the {@linkcode CameraController}
    * this {@linkcode GestureController} should
@@ -25,3 +26,5 @@ export interface GestureController
    */
   controller: CameraController | undefined
 }
+
+export * from '#nitro/GestureController'

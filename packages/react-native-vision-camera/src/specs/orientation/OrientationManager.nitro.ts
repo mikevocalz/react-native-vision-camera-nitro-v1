@@ -1,4 +1,4 @@
-import type { HybridObject } from 'react-native-nitro-modules'
+import { Android, Apple, type HybridObject } from 'react-native-nitro-modules'
 import type { CameraOrientation } from '../common-types/CameraOrientation'
 import type { OrientationSource } from '../common-types/OrientationSource'
 
@@ -7,8 +7,9 @@ import type { OrientationSource } from '../common-types/OrientationSource'
  * {@linkcode CameraOrientation} changes, like device- or interface-
  * orientation.
  */
-export interface OrientationManager
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true })
+export declare class OrientationManager extends HybridObject {
   /**
    * Represents the {@linkcode OrientationSource} this {@linkcode OrientationManager}
    * is tracking.
@@ -30,3 +31,5 @@ export interface OrientationManager
    */
   stopOrientationUpdates(): void
 }
+
+export * from '#nitro/OrientationManager'

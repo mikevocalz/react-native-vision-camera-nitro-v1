@@ -1,6 +1,7 @@
+import { Android, Apple } from 'react-native-nitro-modules'
 import type { CameraSession } from '../session/CameraSession.nitro'
 import type { PreviewView } from '../views/PreviewView.nitro'
-import type { CameraOutput } from './CameraOutput.nitro'
+import { CameraOutput } from './CameraOutput.nitro'
 
 /**
  * Represents the {@linkcode CameraOutput} for preview.
@@ -21,4 +22,8 @@ import type { CameraOutput } from './CameraOutput.nitro'
  * const previewOutput = VisionCamera.createPreviewOutput()
  * ```
  */
-export interface CameraPreviewOutput extends CameraOutput {}
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true })
+export declare class CameraPreviewOutput extends CameraOutput {}
+
+export * from '#nitro/CameraPreviewOutput'

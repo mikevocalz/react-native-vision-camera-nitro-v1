@@ -1,4 +1,4 @@
-import type { HybridObject } from 'react-native-nitro-modules'
+import { Android, Apple, type HybridObject } from 'react-native-nitro-modules'
 import type { AutoFocusSystem } from '../common-types/AutoFocusSystem'
 import type {
   DynamicRange,
@@ -22,8 +22,9 @@ import type { CameraSession } from './CameraSession.nitro'
  * You can check if a specific {@linkcode CameraSessionConfig} is
  * supported via {@linkcode CameraDevice.isSessionConfigSupported | CameraDevice.isSessionConfigSupported(...)}.
  */
-export interface CameraSessionConfig
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true })
+export declare class CameraSessionConfig extends HybridObject {
   /**
    * Gets the currently selected FPS, or `undefined` if no specific
    * FPS value has been selected.
@@ -90,3 +91,5 @@ export interface CameraSessionConfig
    */
   readonly isBinned: boolean
 }
+
+export * from '#nitro/CameraSessionConfig'

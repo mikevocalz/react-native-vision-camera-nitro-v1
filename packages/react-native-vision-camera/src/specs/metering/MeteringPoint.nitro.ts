@@ -1,4 +1,4 @@
-import type { HybridObject } from 'react-native-nitro-modules'
+import { Android, Apple, type HybridObject } from 'react-native-nitro-modules'
 
 import type { CameraController } from '../CameraController.nitro'
 import type { CameraFactory } from '../CameraFactory.nitro'
@@ -43,8 +43,9 @@ import type {
  * }
  * ```
  */
-export interface MeteringPoint
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true })
+export declare class MeteringPoint extends HybridObject {
   /**
    * Represents the X coordinate of this {@linkcode MeteringPoint},
    * relative to whatever source was used to create this point.
@@ -91,3 +92,5 @@ export interface MeteringPoint
    */
   readonly normalizedSize: number
 }
+
+export * from '#nitro/MeteringPoint'

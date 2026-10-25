@@ -1,8 +1,8 @@
-import { getHostComponent } from 'react-native-nitro-modules'
-import type {
-  FrameRendererView,
-  FrameRendererViewMethods,
-  FrameRendererViewProps,
+import {
+  type FrameRendererView,
+  type FrameRendererViewMethods,
+  type FrameRendererViewProps,
+  FrameRendererViewComponent,
 } from '../specs/views/FrameRendererView.nitro'
 
 /**
@@ -12,9 +12,4 @@ import type {
  * @see {@linkcode FrameRendererViewProps}
  * @see {@linkcode FrameRendererViewMethods}
  */
-export const NativeFrameRendererView = getHostComponent<
-  FrameRendererViewProps,
-  FrameRendererViewMethods
->('FrameRendererView', () =>
-  require('../../nitrogen/generated/shared/json/FrameRendererViewConfig.json'),
-)
+export const NativeFrameRendererView = FrameRendererViewComponent

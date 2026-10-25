@@ -1,4 +1,4 @@
-import type { HybridObject, Sync } from 'react-native-nitro-modules'
+import { Android, Apple, type HybridObject } from 'react-native-nitro-modules'
 import type { FrameDroppedReason } from '../common-types/FrameDroppedReason'
 import type { MediaType } from '../common-types/MediaType'
 import type { NativeThread } from '../frame-processors/NativeThread.nitro'
@@ -6,7 +6,7 @@ import type { Depth } from '../instances/Depth.nitro'
 import type { Frame } from '../instances/Frame.nitro'
 import type { CameraDepthFrameOutput } from './CameraDepthFrameOutput.nitro'
 import type { CameraFrameOutput } from './CameraFrameOutput.nitro'
-import type { CameraOutput } from './CameraOutput.nitro'
+import { CameraOutput } from './CameraOutput.nitro'
 
 /**
  * A {@linkcode CameraOutputSynchronizer} synchronizes 2 or more
@@ -23,8 +23,9 @@ import type { CameraOutput } from './CameraOutput.nitro'
  *
  * @platform iOS
  */
-export interface CameraOutputSynchronizer
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true })
+export declare class CameraOutputSynchronizer extends HybridObject {
   /**
    * The {@linkcode NativeThread} this
    * {@linkcode CameraOutputSynchronizer} is running on.
@@ -41,7 +42,7 @@ export interface CameraOutputSynchronizer
    * @note This method has to be called on a Worklet running on this {@linkcode thread}.
    */
   setOnFramesCallback(
-    onFrames: Sync<(frames: (Frame | Depth)[]) => boolean> | undefined,
+    onFrames: ((frames: (Frame | Depth)[]) => boolean) | undefined,
   ): void
   /**
    * Sets the callback that gets called when a {@linkcode Frame} or
@@ -54,3 +55,5 @@ export interface CameraOutputSynchronizer
       | undefined,
   ): void
 }
+
+export * from '#nitro/CameraOutputSynchronizer'

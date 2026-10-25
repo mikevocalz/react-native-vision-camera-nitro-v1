@@ -1,9 +1,9 @@
-import type { HybridObject } from 'react-native-nitro-modules'
+import { Android, Apple, type HybridObject } from 'react-native-nitro-modules'
 import type { Constraint } from '../common-types/Constraint'
 import type { TargetDynamicRange } from '../common-types/DynamicRange'
 import type { PhotoContainerFormat } from '../common-types/PhotoContainerFormat'
 import type { CameraFrameOutput } from '../outputs/CameraFrameOutput.nitro'
-import type { CameraOutput } from '../outputs/CameraOutput.nitro'
+import { CameraOutput } from '../outputs/CameraOutput.nitro'
 import type { CameraPhotoOutput } from '../outputs/CameraPhotoOutput.nitro'
 
 // TODO: Camera Extensions currently cannot be used in VisionCamera since I refactored to the Constraints API.
@@ -44,8 +44,9 @@ export type CameraExtensionType =
  * @note If {@linkcode CameraExtension.supportsFrameStreaming} is `false`, you cannot use a {@linkcode CameraOutput} that streams frames.
  * @platform Android
  */
-export interface CameraExtension
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true })
+export declare class CameraExtension extends HybridObject {
   /**
    * Represents the type of this {@linkcode CameraExtension}.
    * @see {@linkcode CameraExtensionType}
@@ -63,3 +64,5 @@ export interface CameraExtension
    */
   readonly supportsFrameStreaming: boolean
 }
+
+export * from '#nitro/CameraExtension'

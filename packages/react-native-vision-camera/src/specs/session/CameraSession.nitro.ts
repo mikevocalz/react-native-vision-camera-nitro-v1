@@ -1,10 +1,10 @@
-import type { HybridObject } from 'react-native-nitro-modules'
+import { Android, Apple, type HybridObject } from 'react-native-nitro-modules'
 import type { useCamera } from '../../hooks/useCamera'
 import type { CameraController } from '../CameraController.nitro'
 import type { CameraFactory } from '../CameraFactory.nitro'
 import type { ListenerSubscription } from '../common-types/ListenerSubscription'
 import type { CameraDevice } from '../inputs/CameraDevice.nitro'
-import type { CameraOutput } from '../outputs/CameraOutput.nitro'
+import { CameraOutput } from '../outputs/CameraOutput.nitro'
 import type { CameraOutputConfiguration } from './CameraOutputConfiguration'
 import type { CameraSessionConfiguration } from './CameraSessionConfiguration'
 import type { CameraSessionConnection } from './CameraSessionConnection'
@@ -107,8 +107,9 @@ export type InterruptionReason =
  * }
  * ```
  */
-export interface CameraSession
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true })
+export declare class CameraSession extends HybridObject {
   /**
    * Gets whether this {@linkcode CameraSession} is currently
    * running, or not.
@@ -286,3 +287,5 @@ export interface CameraSession
     onInterruptionEnded: () => void,
   ): ListenerSubscription
 }
+
+export * from '#nitro/CameraSession'

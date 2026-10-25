@@ -1,4 +1,4 @@
-import type { HybridObject } from 'react-native-nitro-modules'
+import { Android, Apple, type HybridObject } from 'react-native-nitro-modules'
 import type { Frame } from './instances/Frame.nitro'
 import type { FrameRendererView } from './views/FrameRendererView.nitro'
 
@@ -13,10 +13,13 @@ import type { FrameRendererView } from './views/FrameRendererView.nitro'
  * You could also build a custom video recorder that
  * accepts {@linkcode Frame}s via a {@linkcode FrameRenderer}.
  */
-export interface FrameRenderer
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true })
+export declare class FrameRenderer extends HybridObject {
   /**
    * Synchronously renders the given {@linkcode Frame}.
    */
   renderFrame(frame: Frame): void
 }
+
+export * from '#nitro/FrameRenderer'

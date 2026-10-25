@@ -1,11 +1,5 @@
 import type { Image } from 'react-native-nitro-image'
-import type {
-  HybridView,
-  HybridViewMethods,
-  HybridViewProps,
-} from 'react-native-nitro-modules'
-import type { Camera } from '../../views/Camera'
-import type { NativePreviewView } from '../../views/NativePreviewView'
+import { Android, Apple, type HybridView } from 'react-native-nitro-modules'
 import type { CameraController } from '../CameraController.nitro'
 import type { Point } from '../common-types/Point'
 import type { GestureController } from '../gestures/GestureController.nitro'
@@ -36,7 +30,21 @@ export type PreviewImplementationMode = 'performance' | 'compatible'
  */
 export type PreviewResizeMode = 'cover' | 'contain'
 
-export interface PreviewViewProps extends HybridViewProps {
+
+/**
+ * The {@linkcode PreviewView} Hybrid View.
+ *
+ * A {@linkcode PreviewView} can be rendered via the
+ * {@linkcode NativePreviewView} component, or by
+ * using the higher-level {@linkcode Camera} component.
+ *
+ * @see {@linkcode PreviewViewProps}
+ * @see {@linkcode PreviewViewMethods}
+ * @see {@linkcode NativePreviewView}
+ */
+@Apple({ language: 'swift', implementation: { className: 'HybridPreviewView' } })
+@Android({ language: 'kotlin', implementation: { className: 'HybridPreviewView' } })
+export declare class PreviewView extends HybridView {
   /**
    * Sets the {@linkcode CameraPreviewOutput} for the {@linkcode PreviewView}.
    *
@@ -77,9 +85,9 @@ export interface PreviewViewProps extends HybridViewProps {
    * Fires when the {@linkcode PreviewView} stopped.
    */
   onPreviewStopped?: () => void
-}
 
-export interface PreviewViewMethods extends HybridViewMethods {
+  // Methods (call them through `hybridRef`)
+
   /**
    * Creates a {@linkcode MeteringPoint} that can be used for
    * focusing AE/AF/AWB on the Camera via {@linkcode CameraController.focusTo | focusTo(...)}.
@@ -155,15 +163,16 @@ export interface PreviewViewMethods extends HybridViewMethods {
   ): ScannedObject
 }
 
+export * from '#nitro/PreviewView'
+
 /**
- * The {@linkcode PreviewView} Hybrid View.
- *
- * A {@linkcode PreviewView} can be rendered via the
- * {@linkcode NativePreviewView} component, or by
- * using the higher-level {@linkcode Camera} component.
- *
- * @see {@linkcode PreviewViewProps}
- * @see {@linkcode PreviewViewMethods}
- * @see {@linkcode NativePreviewView}
+ * The methods of the {@linkcode PreviewView}, available through `hybridRef`.
  */
-export type PreviewView = HybridView<PreviewViewProps, PreviewViewMethods>
+export type PreviewViewMethods = Pick<
+  PreviewView,
+  | 'createMeteringPoint'
+  | 'takeSnapshot'
+  | 'convertCameraPointToViewPoint'
+  | 'convertViewPointToCameraPoint'
+  | 'convertScannedObjectCoordinatesToViewCoordinates'
+>

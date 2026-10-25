@@ -1,4 +1,4 @@
-import type { HybridObject } from 'react-native-nitro-modules'
+import { Android, Apple, type HybridObject } from 'react-native-nitro-modules'
 import type { Point } from '../common-types/Point'
 
 import type { PreviewView } from '../views/PreviewView.nitro'
@@ -68,8 +68,9 @@ export type ScannedObjectType =
  * @see {@linkcode ScannedFace}
  * @platform iOS
  */
-export interface ScannedObject
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+@Apple({ language: 'swift', allowMultipleImplementations: true, allowInheritance: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true, allowInheritance: true })
+export declare class ScannedObject extends HybridObject {
   /**
    * The {@linkcode ScannedObjectType} of this {@linkcode ScannedObject}.
    */
@@ -87,7 +88,9 @@ export interface ScannedObject
  * Represents a machine-readable code, such as a QR code.
  * @platform iOS
  */
-export interface ScannedCode extends ScannedObject {
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true })
+export declare class ScannedCode extends ScannedObject {
   /**
    * The decoded string value of this {@linkcode ScannedCode}, or `undefined`
    * if the value cannot be decoded.
@@ -107,7 +110,9 @@ export interface ScannedCode extends ScannedObject {
  * Represents a Face.
  * @platform iOS
  */
-export interface ScannedFace extends ScannedObject {
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true })
+export declare class ScannedFace extends ScannedObject {
   /**
    * The ID of this {@linkcode ScannedFace} used to
    * identify multiple faces in the same scene.
@@ -130,3 +135,7 @@ export interface ScannedFace extends ScannedObject {
    */
   readonly yawAngle: number
 }
+
+export * from '#nitro/ScannedObject'
+export * from '#nitro/ScannedCode'
+export * from '#nitro/ScannedFace'

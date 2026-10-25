@@ -1,4 +1,4 @@
-import type { HybridObject } from 'react-native-nitro-modules'
+import { Android, Apple, type HybridObject } from 'react-native-nitro-modules'
 import type { useCamera } from '../hooks/useCamera'
 import type { ExposureMode } from './common-types/ExposureMode'
 import type { FocusMode } from './common-types/FocusMode'
@@ -115,8 +115,9 @@ export interface CameraControllerConfiguration {
  * controller.setZoom(device.maxZoom)
  * ```
  */
-export interface CameraController
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true })
+export declare class CameraController extends HybridObject {
   // pragma MARK: Device
   /**
    * Gets the {@linkcode CameraDevice} this {@linkcode CameraController}
@@ -691,3 +692,5 @@ export interface CameraController
   lockCurrentWhiteBalance(): Promise<void>
   // TODO: resetWhiteBalance
 }
+
+export * from '#nitro/CameraController'

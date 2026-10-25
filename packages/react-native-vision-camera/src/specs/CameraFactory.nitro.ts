@@ -1,4 +1,4 @@
-import type { HybridObject } from 'react-native-nitro-modules'
+import { Android, Apple, type HybridObject } from 'react-native-nitro-modules'
 import type { Constraint } from './common-types/Constraint'
 import type { OrientationSource } from './common-types/OrientationSource'
 import type { PermissionStatus } from './common-types/PermissionStatus'
@@ -21,7 +21,7 @@ import type {
   CameraObjectOutput,
   ObjectOutputOptions,
 } from './outputs/CameraObjectOutput.nitro'
-import type { CameraOutput } from './outputs/CameraOutput.nitro'
+import { CameraOutput } from './outputs/CameraOutput.nitro'
 import type { CameraOutputSynchronizer } from './outputs/CameraOutputSynchronizer.nitro'
 import type {
   CameraPhotoOutput,
@@ -40,8 +40,10 @@ import type { CameraSessionConfig } from './session/CameraSessionConfig.nitro'
  * The {@linkcode CameraFactory} allows creating various other
  * Camera related objects with arguments.
  */
-export interface CameraFactory
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+@Apple({ language: 'swift', implementation: { className: 'VisionCamera' } })
+@Android({ language: 'kotlin', implementation: { className: 'VisionCamera' } })
+export declare class CameraFactory extends HybridObject {
+  constructor()
   /**
    * Get the current Camera {@linkcode PermissionStatus}.
    */
@@ -231,3 +233,5 @@ export interface CameraFactory
     size?: number,
   ): MeteringPoint
 }
+
+export * from '#nitro/CameraFactory'

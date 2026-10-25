@@ -1,4 +1,4 @@
-import type { HybridObject } from 'react-native-nitro-modules'
+import { Android, Apple, type HybridObject } from 'react-native-nitro-modules'
 import type { CameraOrientation } from '../common-types/CameraOrientation'
 import type { DepthPixelFormat } from '../common-types/DepthPixelFormat'
 import type { NativeBuffer } from '../common-types/NativeBuffer'
@@ -26,8 +26,9 @@ export type DepthDataQuality = 'low' | 'high' | 'unknown'
  * to free up the memory, otherwise the producing pipeline
  * might stall.
  */
-export interface Depth
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true })
+export declare class Depth extends HybridObject {
   /**
    * The rotation of this {@linkcode Depth} relative to the
    * associated {@linkcode CameraDepthFrameOutput}'s target output orientation.
@@ -250,3 +251,5 @@ export interface Depth
    */
   toFrameAsync(): Promise<Frame>
 }
+
+export * from '#nitro/Depth'

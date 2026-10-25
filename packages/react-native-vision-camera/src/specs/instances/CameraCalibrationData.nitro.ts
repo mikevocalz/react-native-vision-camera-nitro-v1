@@ -1,4 +1,4 @@
-import type { HybridObject } from 'react-native-nitro-modules'
+import { Android, Apple, type HybridObject } from 'react-native-nitro-modules'
 import type { Point } from '../common-types/Point'
 import type { Size } from '../common-types/Size'
 import type { Depth } from './Depth.nitro'
@@ -16,8 +16,9 @@ import type { Photo } from './Photo.nitro'
  * @see {@linkcode Photo.calibrationData}
  * @platform iOS
  */
-export interface CameraCalibrationData
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true })
+export declare class CameraCalibrationData extends HybridObject {
   /**
    * The size of one pixel at {@linkcode intrinsicMatrixReferenceDimensions} in millimeters.
    */
@@ -71,3 +72,5 @@ export interface CameraCalibrationData
    */
   readonly cameraExtrinsicsMatrix: number[]
 }
+
+export * from '#nitro/CameraCalibrationData'

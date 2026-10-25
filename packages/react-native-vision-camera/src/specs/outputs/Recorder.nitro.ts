@@ -1,4 +1,4 @@
-import type { HybridObject } from 'react-native-nitro-modules'
+import { Android, Apple, type HybridObject } from 'react-native-nitro-modules'
 import type { RecorderSettings } from './CameraVideoOutput.nitro'
 
 /**
@@ -32,8 +32,9 @@ export type RecordingFinishedReason =
  * To record multiple videos, you will need to create
  * multiple {@linkcode Recorder} instances.
  */
-export interface Recorder
-  extends HybridObject<{ ios: 'swift'; android: 'kotlin' }> {
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'kotlin', allowMultipleImplementations: true })
+export declare class Recorder extends HybridObject {
   /**
    * Returns whether the output is currently recording.
    */
@@ -118,3 +119,5 @@ export interface Recorder
    */
   cancelRecording(): Promise<void>
 }
+
+export * from '#nitro/Recorder'
