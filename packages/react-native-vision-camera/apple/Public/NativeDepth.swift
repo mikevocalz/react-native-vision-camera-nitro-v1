@@ -6,7 +6,7 @@
 //
 
 public import AVFoundation
-public import Foundation
+import Foundation
 
 public protocol NativeDepth: AnyObject {
   var depthData: AVDepthData? { get }

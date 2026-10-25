@@ -6,7 +6,7 @@
 //
 
 public import CoreLocation
-public import Foundation
+import Foundation
 
 public protocol NativeLocation: AnyObject {
   var location: CLLocation { get }

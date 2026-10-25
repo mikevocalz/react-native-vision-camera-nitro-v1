@@ -23,7 +23,8 @@ final class HybridZoomGestureController: HybridZoomGestureControllerSpec, Native
     gestureRecognizer.addTarget(self, action: #selector(onPinch(_:)))
   }
 
-  @objc private func onPinch(_ gestureRecognizer: UIPinchGestureRecognizer) {
+  // UIKit delivers gesture actions on the main thread.
+  @MainActor @objc private func onPinch(_ gestureRecognizer: UIPinchGestureRecognizer) {
     guard let controller = controller as? any NativeCameraController else {
       return
     }

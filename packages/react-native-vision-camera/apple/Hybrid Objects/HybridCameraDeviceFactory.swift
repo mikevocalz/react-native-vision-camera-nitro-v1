@@ -19,12 +19,13 @@ final class HybridCameraDeviceFactory: HybridCameraDeviceFactorySpec {
 
   let discoverySession: AVCaptureDevice.DiscoverySession
   var cameraDevices: [any HybridCameraDeviceSpec] {
-    return discoverySession.devices.map { try HybridCameraDevice(device: $0) }
+    // The Hybrid init only throws from `HybridObject` base setup, which cannot fail, and a getter cannot throw.
+    return discoverySession.devices.map { try! HybridCameraDevice(device: $0) }
   }
 
   var supportedMultiCamDeviceCombinations: [[any HybridCameraDeviceSpec]] {
     return discoverySession.supportedMultiCamDeviceSets.map { devices in
-      return devices.map { try HybridCameraDevice(device: $0) }
+      return devices.map { try! HybridCameraDevice(device: $0) }
     }
   }
 
@@ -36,7 +37,7 @@ final class HybridCameraDeviceFactory: HybridCameraDeviceFactorySpec {
       guard let device = AVCaptureDevice.userPreferredCamera else {
         return nil
       }
-      return try HybridCameraDevice(device: device)
+      return try! HybridCameraDevice(device: device)
     }
     set {
       guard #available(iOS 17.0, *) else {
@@ -71,7 +72,7 @@ final class HybridCameraDeviceFactory: HybridCameraDeviceFactorySpec {
     })
   }
 
-  func getCameraForId(id: String) -> (any HybridCameraDeviceSpec)? {
+  func getCameraForId(id: String) throws -> (any HybridCameraDeviceSpec)? {
     guard let device = AVCaptureDevice(uniqueID: id) else {
       return nil
     }

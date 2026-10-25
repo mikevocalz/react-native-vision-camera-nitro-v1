@@ -5,7 +5,7 @@
 ///
 
 public import AVFoundation
-public import Foundation
+import Foundation
 
 public protocol NativeFrameRenderer: AnyObject {
   associatedtype Layer: CALayer

@@ -95,7 +95,7 @@ final class HybridPreviewView: HybridPreviewViewSpec {
     guard let transformedObject = previewLayer.transformedMetadataObject(for: object.object) else {
       throw RuntimeError("Failed to transform the Scanned Object's coordinates into view coordinates!")
     }
-    return HybridCameraObjectOutput.createHybridScannedObject(from: transformedObject)
+    return try HybridCameraObjectOutput.createHybridScannedObject(from: transformedObject)
   }
 
   func createMeteringPoint(viewX: Double, viewY: Double, size: Double?) throws

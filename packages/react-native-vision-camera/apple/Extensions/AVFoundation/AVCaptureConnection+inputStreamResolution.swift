@@ -6,8 +6,8 @@
 //
 
 public import AVFoundation
-public import CoreMedia
-public import NitroModules
+import CoreMedia
+import NitroModules
 
 extension AVCaptureConnection {
   /**

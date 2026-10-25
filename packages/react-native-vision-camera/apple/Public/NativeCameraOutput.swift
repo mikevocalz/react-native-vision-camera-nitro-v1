@@ -5,7 +5,7 @@
 ///
 
 public import AVFoundation
-public import Foundation
+import Foundation
 
 // TODO: Try to figure out if we can get the Preview Output conform to the `NativeCameraOutput` protocol too somehow.
 //       We have a lot of conditional code that checks `NativeCameraOutput` first, `NativePreviewViewOutput` second.

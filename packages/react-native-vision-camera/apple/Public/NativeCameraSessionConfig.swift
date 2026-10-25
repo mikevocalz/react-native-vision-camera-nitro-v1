@@ -4,8 +4,8 @@
 /// Copyright © 2025 Marc Rousavy @ Margelo
 ///
 
-public import AVFoundation
-public import Foundation
+import AVFoundation
+import Foundation
 
 public protocol NativeCameraSessionConfig {
   var negotiatedFormat: NegotiatedFormat { get }

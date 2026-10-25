@@ -6,7 +6,7 @@
 //
 
 public import AVFoundation
-public import Foundation
+import Foundation
 
 public protocol NativePhoto: AnyObject {
   var photo: AVCapturePhoto { get }

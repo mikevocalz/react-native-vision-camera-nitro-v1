@@ -107,8 +107,8 @@ final class HybridDepth: HybridDepthSpec, NativeDepth, LazyLockableBuffer {
     else {
       return nil
     }
-    // Hybrid inits only throw from `HybridObject` base setup, which cannot fail, and a getter cannot throw.
-    return try? HybridCameraCalibrationData(calibrationData: calibrationData)
+    // The Hybrid init only throws from `HybridObject` base setup, which cannot fail, and a getter cannot throw.
+    return try! HybridCameraCalibrationData(calibrationData: calibrationData)
   }
 
   func rotate(orientation: CameraOrientation, isMirrored: Bool) throws -> any HybridDepthSpec {

@@ -59,8 +59,12 @@ final class HybridCameraObjectOutput: HybridCameraObjectOutputSpec, NativeCamera
   {
     if let onObjectsScanned {
       delegate.onMetadataObjects = { objects in
-        let metadatas = objects.map { Self.createHybridScannedObject(from: $0) }
-        onObjectsScanned(metadatas)
+        do {
+          let metadatas = try objects.map { try Self.createHybridScannedObject(from: $0) }
+          onObjectsScanned(metadatas)
+        } catch {
+          logger.error("Failed to wrap scanned objects: \(error)")
+        }
       }
     } else {
       delegate.onMetadataObjects = nil
@@ -68,7 +72,7 @@ final class HybridCameraObjectOutput: HybridCameraObjectOutputSpec, NativeCamera
   }
 
   static func createHybridScannedObject(from object: AVMetadataObject)
-    -> any HybridScannedObjectSpec
+    throws -> any HybridScannedObjectSpec
   {
     switch object {
     case let code as AVMetadataMachineReadableCodeObject:

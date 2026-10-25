@@ -135,8 +135,9 @@ final class HybridCameraDevice: HybridCameraDeviceSpec, NativeCameraDevice {
     return CameraPosition(position: device.position)
   }
 
+  // The Hybrid init only throws from `HybridObject` base setup, which cannot fail, and a getter cannot throw.
   lazy var physicalDevices: [any HybridCameraDeviceSpec] =
-    device.constituentDevices.map { try HybridCameraDevice(device: $0) }
+    device.constituentDevices.map { try! HybridCameraDevice(device: $0) }
 
   var isVirtualDevice: Bool {
     return device.isVirtualDevice
@@ -167,7 +168,7 @@ final class HybridCameraDevice: HybridCameraDeviceSpec, NativeCameraDevice {
     guard let companion = device.companionDeskViewCamera else {
       return nil
     }
-    return try HybridCameraDevice(device: companion)
+    return try! HybridCameraDevice(device: companion)
   }
 
   var supportsSmoothAutoFocus: Bool {

@@ -88,7 +88,7 @@ final class VisionCamera: HybridCameraFactorySpec, @unchecked Sendable {
     return try HybridCameraDepthFrameOutput(options: options)
   }
 
-  func createObjectOutput(options: ObjectOutputOptions) -> any HybridCameraObjectOutputSpec {
+  func createObjectOutput(options: ObjectOutputOptions) throws -> any HybridCameraObjectOutputSpec {
     return try HybridCameraObjectOutput(options: options)
   }
 
@@ -126,7 +126,7 @@ final class VisionCamera: HybridCameraFactorySpec, @unchecked Sendable {
   }
 
   func createNormalizedMeteringPoint(x: Double, y: Double, size: Double?)
-    -> any HybridMeteringPointSpec
+    throws -> any HybridMeteringPointSpec
   {
     return try HybridMeteringPoint(normalizedX: x, normalizedY: y, normalizedSize: size ?? 0.1)
   }

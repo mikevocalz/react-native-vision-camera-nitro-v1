@@ -24,7 +24,8 @@ final class HybridTapToFocusGestureController: HybridTapToFocusGestureController
     gestureRecognizer.addTarget(self, action: #selector(onTap(_:)))
   }
 
-  @objc private func onTap(_ gestureRecognizer: UITapGestureRecognizer) {
+  // UIKit delivers gesture actions on the main thread.
+  @MainActor @objc private func onTap(_ gestureRecognizer: UITapGestureRecognizer) {
     guard let controller, let previewView else {
       return
     }

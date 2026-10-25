@@ -143,8 +143,12 @@ final class HybridCameraPhotoOutput: HybridCameraPhotoOutputSpec, NativeCameraOu
             // Wrap the `CGImage` in a `HybridUIImage` and notify the callback
             let uiImage = UIImage(
               cgImage: cgPreviewImage, scale: 1.0, orientation: metadata.uiImageOrientation)
-            let image = try HybridUIImage(uiImage: uiImage)
-            onPreviewImageAvailable(image)
+            do {
+              let image = try HybridUIImage(uiImage: uiImage)
+              onPreviewImageAvailable(image)
+            } catch {
+              logger.error("Failed to wrap the preview image: \(error)")
+            }
           }
         }
         // 2. Wrap the `AVCapturePhoto` in a `HybridPhoto` and resolve the Promise

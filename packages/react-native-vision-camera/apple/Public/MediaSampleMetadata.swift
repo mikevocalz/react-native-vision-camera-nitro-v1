@@ -6,9 +6,9 @@
 //
 
 public import AVFoundation
-public import Foundation
-public import NitroModules
-public import UIKit
+import Foundation
+import NitroModules
+import UIKit
 
 public struct MediaSampleMetadata {
   let timestamp: CMTime

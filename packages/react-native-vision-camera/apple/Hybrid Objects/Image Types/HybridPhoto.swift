@@ -51,8 +51,8 @@ final class HybridPhoto: HybridPhotoSpec, NativePhoto {
     guard let depthData = photo.depthData else {
       return nil
     }
-    // Hybrid inits only throw from `HybridObject` base setup, which cannot fail, and a getter cannot throw.
-    return try? HybridDepth(
+    // The Hybrid init only throws from `HybridObject` base setup, which cannot fail, and a getter cannot throw.
+    return try! HybridDepth(
       depthData: depthData,
       metadata: metadata)
   }
@@ -75,8 +75,8 @@ final class HybridPhoto: HybridPhotoSpec, NativePhoto {
     guard let calibrationData = photo.cameraCalibrationData else {
       return nil
     }
-    // Hybrid inits only throw from `HybridObject` base setup, which cannot fail, and a getter cannot throw.
-    return try? HybridCameraCalibrationData(calibrationData: calibrationData)
+    // The Hybrid init only throws from `HybridObject` base setup, which cannot fail, and a getter cannot throw.
+    return try! HybridCameraCalibrationData(calibrationData: calibrationData)
   }
 
   // pragma MARK: Pixel Buffer access

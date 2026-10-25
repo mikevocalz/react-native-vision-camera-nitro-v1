@@ -5,7 +5,7 @@
 //  Created by Marc Rousavy on 04.02.26.
 //
 
-public import Foundation
+import Foundation
 public import UIKit
 
 public protocol NativeGestureController: AnyObject {
