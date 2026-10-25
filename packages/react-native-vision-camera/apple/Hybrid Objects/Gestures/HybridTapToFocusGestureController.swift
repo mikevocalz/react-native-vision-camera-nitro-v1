@@ -35,7 +35,7 @@ final class HybridTapToFocusGestureController: HybridTapToFocusGestureController
         viewX: viewPoint.x,
         viewY: viewPoint.y,
         size: nil)
-      _ = try controller.focusTo(point: meteringPoint, options: FocusOptions())
+      _ = try controller.focusTo(point: meteringPoint, options: FocusOptions(responsiveness: nil, adaptiveness: nil, modes: nil, autoResetAfter: nil))
     } catch {
       logger.error("Failed to focus! \(error)")
     }

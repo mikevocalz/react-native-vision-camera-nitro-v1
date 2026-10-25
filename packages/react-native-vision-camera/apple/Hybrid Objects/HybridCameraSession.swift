@@ -8,7 +8,8 @@ import AVFoundation
 import Foundation
 import NitroModules
 
-final class HybridCameraSession: HybridCameraSessionSpec {
+// `@unchecked Sendable`: V1 Promise closures are `@Sendable`; AVCaptureSession state is only mutated on the static session `queue`.
+final class HybridCameraSession: HybridCameraSessionSpec, @unchecked Sendable {
   let session: AVCaptureSession
   private static let queue: DispatchQueue = DispatchQueue(
     label: "com.margelo.camera.session",
@@ -37,6 +38,8 @@ final class HybridCameraSession: HybridCameraSessionSpec {
   func configure(connections: [CameraSessionConnection], config: CameraSessionConfiguration?)
     -> any Promise<[any HybridCameraControllerSpec]>
   {
+    // JS handed `connections` over; only the session `queue` reads it from here on.
+    nonisolated(unsafe) let connections = connections
     return .parallel(Self.queue) {
       guard AVCaptureDevice.authorizationStatus(for: .video) == .authorized else {
         throw RuntimeError("Camera Permission not yet granted!")
@@ -125,7 +128,7 @@ final class HybridCameraSession: HybridCameraSessionSpec {
 
     if let onSessionConfigSelected = connection.onSessionConfigSelected {
       // Notify JS callback that we resolved the constraints to a specific `config`
-      let config = HybridCameraSessionConfig(
+      let config = try HybridCameraSessionConfig(
         negotiatedFormat: resolved.negotiatedFormat,
         enabledConstraints: resolved.enabledConstraints)
       onSessionConfigSelected(config)

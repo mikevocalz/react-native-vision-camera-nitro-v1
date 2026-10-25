@@ -19,7 +19,7 @@ final class HybridFrameConverter: HybridFrameConverterSpec {
     }
     let uiOrientation = frame.metadata.uiImageOrientation
     let uiImage = try sampleBuffer.toUIImage(orientation: uiOrientation)
-    return HybridUIImage(uiImage: uiImage)
+    return try HybridUIImage(uiImage: uiImage)
   }
 
   func convertFrameToImageAsync(frame: any HybridFrameSpec) throws -> any Promise<any HybridImageSpec> {
@@ -37,7 +37,7 @@ final class HybridFrameConverter: HybridFrameConverterSpec {
     }
     let uiOrientation = depth.metadata.uiImageOrientation
     let uiImage = try depthData.toUIImage(orientation: uiOrientation)
-    return HybridUIImage(uiImage: uiImage)
+    return try HybridUIImage(uiImage: uiImage)
   }
 
   func convertDepthToImageAsync(depth: any HybridDepthSpec) throws -> any Promise<any HybridImageSpec> {

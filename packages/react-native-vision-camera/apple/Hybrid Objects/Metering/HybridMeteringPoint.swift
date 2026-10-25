@@ -18,18 +18,19 @@ final class HybridMeteringPoint: HybridMeteringPointSpec {
   var normalizedY: Double
   var normalizedSize: Double
 
-  init(normalizedX: Double, normalizedY: Double, normalizedSize: Double) {
+  init(normalizedX: Double, normalizedY: Double, normalizedSize: Double) throws {
     self.relativeX = normalizedX
     self.relativeY = normalizedY
     self.relativeSize = normalizedSize
     self.normalizedX = normalizedX
     self.normalizedY = normalizedY
     self.normalizedSize = normalizedSize
+    try super.init()
   }
   init(
     relativeX: Double, relativeY: Double, relativeSize: Double?, normalizedX: Double,
     normalizedY: Double
-  ) {
+  ) throws {
     self.relativeX = relativeX
     self.relativeY = relativeY
     self.relativeSize = relativeSize
@@ -42,6 +43,7 @@ final class HybridMeteringPoint: HybridMeteringPointSpec {
     } else {
       self.normalizedSize = 0.1
     }
+    try super.init()
   }
 
   func toNormalizedPoint() -> CGPoint {

@@ -12,12 +12,11 @@ extension AVCaptureSession {
   func addListener(for name: NSNotification.Name, listener: @escaping @Sendable (Notification) -> Void)
     -> ListenerSubscription
   {
-    let observer = NotificationCenter.default.addObserver(
+    nonisolated(unsafe) let observer = NotificationCenter.default.addObserver(
       forName: name,
       object: self,
       queue: .main,
       using: listener)
-    nonisolated(unsafe) let observer = observer
     return ListenerSubscription(remove: .native {
       NotificationCenter.default.removeObserver(observer)
     })

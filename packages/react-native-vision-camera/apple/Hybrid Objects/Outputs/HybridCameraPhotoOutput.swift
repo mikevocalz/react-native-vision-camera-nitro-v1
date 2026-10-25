@@ -143,16 +143,20 @@ final class HybridCameraPhotoOutput: HybridCameraPhotoOutputSpec, NativeCameraOu
             // Wrap the `CGImage` in a `HybridUIImage` and notify the callback
             let uiImage = UIImage(
               cgImage: cgPreviewImage, scale: 1.0, orientation: metadata.uiImageOrientation)
-            let image = HybridUIImage(uiImage: uiImage)
+            let image = try HybridUIImage(uiImage: uiImage)
             onPreviewImageAvailable(image)
           }
         }
         // 2. Wrap the `AVCapturePhoto` in a `HybridPhoto` and resolve the Promise
-        let image = HybridPhoto(
-          photo: photo,
-          metadata: metadata,
-          containerFormat: resultingFormat)
-        promise.resolve(result: image)
+        do {
+          let image = try HybridPhoto(
+            photo: photo,
+            metadata: metadata,
+            containerFormat: resultingFormat)
+          promise.resolve(result: image)
+        } catch {
+          promise.reject(error: error)
+        }
       },
       onError: { error in
         promise.reject(error: error)
@@ -175,13 +179,26 @@ final class HybridCameraPhotoOutput: HybridCameraPhotoOutputSpec, NativeCameraOu
   func capturePhotoToFile(settings: CapturePhotoSettings, callbacks: CapturePhotoCallbacks) throws
     -> any Promise<PhotoFile>
   {
-    return .async {
-      let photo = try await self.capturePhoto(settings: settings, callbacks: callbacks)
-        .await()
-      let filePath = try await photo.saveToTemporaryFileAsync()
-        .await()
-      return PhotoFile(filePath: filePath)
+    // `HybridPhotoSpec` is not `Sendable`, so chain the two Promises with listeners instead of `await()`.
+    let promise = Promise___VisionCamera__PhotoFile.pending()
+    let photoPromise = try self.capturePhoto(settings: settings, callbacks: callbacks)
+    photoPromise.addOnResolvedListener { photo in
+      do {
+        let filePromise = try photo.saveToTemporaryFileAsync()
+        filePromise.addOnResolvedListener { filePath in
+          promise.resolve(result: PhotoFile(filePath: filePath))
+        }
+        filePromise.addOnRejectedListener { error in
+          promise.reject(error: error)
+        }
+      } catch {
+        promise.reject(error: error)
+      }
     }
+    photoPromise.addOnRejectedListener { error in
+      promise.reject(error: error)
+    }
+    return promise
   }
 
   func prepareSettings(settings: [CapturePhotoSettings]) throws -> any Promise<Void> {

@@ -107,7 +107,8 @@ final class HybridDepth: HybridDepthSpec, NativeDepth, LazyLockableBuffer {
     else {
       return nil
     }
-    return HybridCameraCalibrationData(calibrationData: calibrationData)
+    // Hybrid inits only throw from `HybridObject` base setup, which cannot fail, and a getter cannot throw.
+    return try? HybridCameraCalibrationData(calibrationData: calibrationData)
   }
 
   func rotate(orientation: CameraOrientation, isMirrored: Bool) throws -> any HybridDepthSpec {
@@ -116,7 +117,7 @@ final class HybridDepth: HybridDepthSpec, NativeDepth, LazyLockableBuffer {
     }
     let cgOrientation = orientation.toCGOrientation(isMirrored: isMirrored)
     let rotated = depthData.applyingExifOrientation(cgOrientation)
-    return HybridDepth(
+    return try HybridDepth(
       depthData: rotated,
       metadata: metadata)
   }
@@ -135,7 +136,7 @@ final class HybridDepth: HybridDepthSpec, NativeDepth, LazyLockableBuffer {
     }
     let osFormat = try pixelFormat.toCVPixelFormatType()
     let converted = depthData.converting(toDepthDataType: osFormat)
-    return HybridDepth(
+    return try HybridDepth(
       depthData: converted,
       metadata: metadata)
   }
@@ -196,7 +197,7 @@ final class HybridDepth: HybridDepthSpec, NativeDepth, LazyLockableBuffer {
       imageBuffer: depthData.depthDataMap,
       formatDescription: format,
       sampleTiming: timing)
-    return HybridFrame(
+    return try HybridFrame(
       buffer: sampleBuffer,
       metadata: metadata)
   }

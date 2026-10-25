@@ -11,8 +11,9 @@ import NitroModules
 final class HybridCameraDevice: HybridCameraDeviceSpec, NativeCameraDevice {
   let device: AVCaptureDevice
 
-  init(device: AVCaptureDevice) {
+  init(device: AVCaptureDevice) throws {
     self.device = device
+    try super.init()
   }
 
   lazy var supportedPixelFormats: [PixelFormat] = {
@@ -135,7 +136,7 @@ final class HybridCameraDevice: HybridCameraDeviceSpec, NativeCameraDevice {
   }
 
   lazy var physicalDevices: [any HybridCameraDeviceSpec] =
-    device.constituentDevices.map { HybridCameraDevice(device: $0) }
+    device.constituentDevices.map { try HybridCameraDevice(device: $0) }
 
   var isVirtualDevice: Bool {
     return device.isVirtualDevice
@@ -166,7 +167,7 @@ final class HybridCameraDevice: HybridCameraDeviceSpec, NativeCameraDevice {
     guard let companion = device.companionDeskViewCamera else {
       return nil
     }
-    return HybridCameraDevice(device: companion)
+    return try HybridCameraDevice(device: companion)
   }
 
   var supportsSmoothAutoFocus: Bool {

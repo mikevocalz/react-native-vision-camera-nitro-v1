@@ -116,7 +116,7 @@ struct ResolvedCameraSessionConnection {
       guard let device = AVCaptureDevice.default(for: targetCameraPosition) else {
         throw RuntimeError("No CameraDevice exists at position \"\(targetCameraPosition)\"!")
       }
-      return HybridCameraDevice(device: device)
+      return try HybridCameraDevice(device: device)
     }
   }
   private static func resolveOutput(_ outputConfiguration: CameraOutputConfiguration) throws -> OutputConfiguration {

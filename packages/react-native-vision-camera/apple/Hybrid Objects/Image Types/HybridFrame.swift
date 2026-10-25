@@ -120,8 +120,8 @@ final class HybridFrame: HybridFrameSpec, NativeFrame, LazyLockableBuffer {
     }
     try ensureBufferLocked()
     let planeCount = CVPixelBufferGetPlaneCount(pixelBuffer)
-    let planes = (0..<planeCount).map { index in
-      HybridFramePlane(buffer: pixelBuffer, planeIndex: index)
+    let planes = try (0..<planeCount).map { index in
+      try HybridFramePlane(buffer: pixelBuffer, planeIndex: index)
     }
     self.planesCached = planes
     return planes

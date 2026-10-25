@@ -8,7 +8,8 @@ import AVFoundation
 import Foundation
 import NitroModules
 
-final class HybridVideoRecorder: HybridRecorderSpec {
+// `@unchecked Sendable`: V1 Promise closures are `@Sendable`; recorder state is only mutated on its serial `queue`.
+final class HybridVideoRecorder: HybridRecorderSpec, @unchecked Sendable {
   private let videoOutput: AVCaptureMovieFileOutput
   private let queue: DispatchQueue
   private let fileURL: URL
@@ -63,7 +64,8 @@ final class HybridVideoRecorder: HybridRecorderSpec {
     onRecordingResumed: (any Callback<(), Void>)?
   ) throws -> any Promise<Void> {
     let promise = Promise_void.pending()
-    var isResolved = false
+    // Only touched from the AVCaptureFileOutput delegate callbacks, which AVFoundation serializes.
+    nonisolated(unsafe) var isResolved = false
 
     queue.async {
       // On our serial queue, make sure we are connected to the Camera

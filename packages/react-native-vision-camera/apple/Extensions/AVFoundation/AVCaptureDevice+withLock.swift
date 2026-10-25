@@ -25,14 +25,17 @@ extension AVCaptureDevice {
       ) throws -> Void
   ) -> any Promise<Void> {
     let promise = Promise_void.pending()
+    // The device and closure are only used on `queue`, which owns the device configuration.
+    nonisolated(unsafe) let device = self
+    nonisolated(unsafe) let closure = closure
 
     queue.async {
       do {
         // 1. Lock the device
-        try self.lockForConfiguration()
+        try device.lockForConfiguration()
         defer {
           // 3. Once the closure suspended, we can unlock the device again
-          self.unlockForConfiguration()
+          device.unlockForConfiguration()
         }
         // 2. Call the closure and pass a `completion` callback
         try closure(promise.resolve, promise.reject)
@@ -64,9 +67,12 @@ extension AVCaptureDevice {
    * Once the `closure` returns, the `any Promise<T>` will be resolved.
    */
   func withLock(_ queue: DispatchQueue, _ closure: @escaping () throws -> Void) -> any Promise<Void> {
+    // The device and closure are only used on `queue`, which owns the device configuration.
+    nonisolated(unsafe) let device = self
+    nonisolated(unsafe) let closure = closure
     return .parallel(queue) {
-      try self.lockForConfiguration()
-      defer { self.unlockForConfiguration() }
+      try device.lockForConfiguration()
+      defer { device.unlockForConfiguration() }
       try closure()
     }
   }

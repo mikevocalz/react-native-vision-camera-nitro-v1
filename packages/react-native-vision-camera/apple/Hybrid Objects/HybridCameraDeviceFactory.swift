@@ -19,12 +19,12 @@ final class HybridCameraDeviceFactory: HybridCameraDeviceFactorySpec {
 
   let discoverySession: AVCaptureDevice.DiscoverySession
   var cameraDevices: [any HybridCameraDeviceSpec] {
-    return discoverySession.devices.map { HybridCameraDevice(device: $0) }
+    return discoverySession.devices.map { try HybridCameraDevice(device: $0) }
   }
 
   var supportedMultiCamDeviceCombinations: [[any HybridCameraDeviceSpec]] {
     return discoverySession.supportedMultiCamDeviceSets.map { devices in
-      return devices.map { HybridCameraDevice(device: $0) }
+      return devices.map { try HybridCameraDevice(device: $0) }
     }
   }
 
@@ -36,7 +36,7 @@ final class HybridCameraDeviceFactory: HybridCameraDeviceFactorySpec {
       guard let device = AVCaptureDevice.userPreferredCamera else {
         return nil
       }
-      return HybridCameraDevice(device: device)
+      return try HybridCameraDevice(device: device)
     }
     set {
       guard #available(iOS 17.0, *) else {
@@ -53,16 +53,19 @@ final class HybridCameraDeviceFactory: HybridCameraDeviceFactorySpec {
     -> ListenerSubscription
   {
     // 1. Attach a listener using KVO
-    let observation = discoverySession.observe(\.devices) { _, change in
+    nonisolated(unsafe) let observation = discoverySession.observe(\.devices) { _, change in
       guard let newDevices = change.newValue else { return }
       logger.info("Devices changed! \(change.oldValue?.count ?? 0) -> \(newDevices.count)")
-      let devices = newDevices.map { HybridCameraDevice(device: $0) }
-      listener(devices)
+      do {
+        let devices = try newDevices.map { try HybridCameraDevice(device: $0) }
+        listener(devices)
+      } catch {
+        logger.error("Failed to wrap changed devices: \(error)")
+      }
     }
 
     // 2. Return a remove function that removes the listener via KVO
     // NSKeyValueObservation.invalidate() is thread-safe.
-    nonisolated(unsafe) let observation = observation
     return ListenerSubscription(remove: .native {
       observation.invalidate()
     })
@@ -72,14 +75,14 @@ final class HybridCameraDeviceFactory: HybridCameraDeviceFactorySpec {
     guard let device = AVCaptureDevice(uniqueID: id) else {
       return nil
     }
-    return HybridCameraDevice(device: device)
+    return try HybridCameraDevice(device: device)
   }
 
   func getDefaultCamera(position: TargetCameraPosition) throws -> (any HybridCameraDeviceSpec)? {
     guard let device = AVCaptureDevice.default(for: position) else {
       return nil
     }
-    return HybridCameraDevice(device: device)
+    return try HybridCameraDevice(device: device)
   }
 
   func getSupportedExtensions(camera: any HybridCameraDeviceSpec) throws -> any Promise<

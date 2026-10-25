@@ -12,9 +12,10 @@ final class HybridCameraSessionConfig: HybridCameraSessionConfigSpec, NativeCame
   let negotiatedFormat: NegotiatedFormat
   let enabledConstraints: EnabledConstraints
 
-  init(negotiatedFormat: NegotiatedFormat, enabledConstraints: EnabledConstraints) {
+  init(negotiatedFormat: NegotiatedFormat, enabledConstraints: EnabledConstraints) throws {
     self.negotiatedFormat = negotiatedFormat
     self.enabledConstraints = enabledConstraints
+    try super.init()
   }
 
   var selectedFPS: Double? {

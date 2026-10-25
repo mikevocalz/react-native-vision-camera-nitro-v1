@@ -8,7 +8,8 @@ import AVFoundation
 import Foundation
 import NitroModules
 
-final class HybridCameraVideoFrameOutput: HybridCameraVideoOutputSpec, NativeCameraOutput, RecorderDelegate {
+// `@unchecked Sendable`: V1 Promise closures are `@Sendable`; mutable recording state is only touched on its serial `queue`.
+final class HybridCameraVideoFrameOutput: HybridCameraVideoOutputSpec, NativeCameraOutput, RecorderDelegate, @unchecked Sendable {
   private let delegate: FrameDelegate
   private let options: VideoOutputOptions
   private let queue: DispatchQueue
@@ -118,6 +119,8 @@ final class HybridCameraVideoFrameOutput: HybridCameraVideoOutputSpec, NativeCam
   }
 
   func createRecorder(settings: RecorderSettings) -> any Promise<any HybridRecorderSpec> {
+    // JS handed `settings` over; only the recorder `queue` reads it from here on.
+    nonisolated(unsafe) let settings = settings
     return .parallel(queue) {
       // 1. Create AVAssetWriter Recorder
       let clock = try self.getMasterClock()

@@ -9,7 +9,8 @@ import UIKit
 import Foundation
 import NitroModules
 
-final class HybridCameraPreviewOutput: HybridCameraPreviewOutputSpec, NativePreviewViewOutput {
+// `@unchecked Sendable`: V1 native callbacks are `@Sendable`; the preview layer connection is only touched from the orientation callback (main thread) and session configuration.
+final class HybridCameraPreviewOutput: HybridCameraPreviewOutputSpec, NativePreviewViewOutput, @unchecked Sendable {
   let mediaType: MediaType = .video
   let previewLayer: AVCaptureVideoPreviewLayer
   private let orientationManager: HybridInterfaceOrientationManager

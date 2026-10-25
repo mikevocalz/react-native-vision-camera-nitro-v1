@@ -31,10 +31,11 @@ final class HybridCameraObjectOutput: HybridCameraObjectOutputSpec, NativeCamera
   var streamType: StreamType = .video
   var targetResolution: ResolutionRule = .any
 
-  init(options: ObjectOutputOptions) {
+  init(options: ObjectOutputOptions) throws {
     self.options = options
     self.output = AVCaptureMetadataOutput()
     self.delegate = MetadataDelegate()
+    try super.init()
 
     output.setMetadataObjectsDelegate(delegate, queue: queue)
   }
@@ -72,13 +73,13 @@ final class HybridCameraObjectOutput: HybridCameraObjectOutputSpec, NativeCamera
     switch object {
     case let code as AVMetadataMachineReadableCodeObject:
       // Code
-      return HybridScannedCode(object: code)
+      return try HybridScannedCode(object: code)
     case let face as AVMetadataFaceObject:
       // Face
-      return HybridScannedFace(object: face)
+      return try HybridScannedFace(object: face)
     default:
       // Any other AVMetadataObject
-      return HybridScannedObject(object: object)
+      return try HybridScannedObject(object: object)
     }
   }
 }

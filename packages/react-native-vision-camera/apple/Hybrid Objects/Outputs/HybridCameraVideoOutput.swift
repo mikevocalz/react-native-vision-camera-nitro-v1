@@ -8,7 +8,8 @@ import AVFoundation
 import Foundation
 import NitroModules
 
-final class HybridCameraVideoOutput: HybridCameraVideoOutputSpec, NativeCameraOutput {
+// `@unchecked Sendable`: V1 Promise closures are `@Sendable`; output settings are only applied on its serial `queue`.
+final class HybridCameraVideoOutput: HybridCameraVideoOutputSpec, NativeCameraOutput, @unchecked Sendable {
   private let queue = DispatchQueue(label: "com.margelo.camera.video")
   private let options: VideoOutputOptions
   private let fileType: RecorderFileType
@@ -113,6 +114,8 @@ final class HybridCameraVideoOutput: HybridCameraVideoOutputSpec, NativeCameraOu
   }
 
   func createRecorder(settings: RecorderSettings) -> any Promise<any HybridRecorderSpec> {
+    // JS handed `settings` over; only the output `queue` reads it from here on.
+    nonisolated(unsafe) let settings = settings
     return .parallel(queue) {
       if let hybridLocation = settings.location {
         guard let location = hybridLocation as? any NativeLocation else {

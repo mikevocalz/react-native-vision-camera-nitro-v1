@@ -8,7 +8,8 @@ import AVFoundation
 import Foundation
 import NitroModules
 
-final class VisionCamera: HybridCameraFactorySpec {
+// `@unchecked Sendable`: V1 Promise closures are `@Sendable`; it has no stored state.
+final class VisionCamera: HybridCameraFactorySpec, @unchecked Sendable {
   var cameraPermissionStatus: PermissionStatus {
     let status = AVCaptureDevice.authorizationStatus(for: .video)
     return PermissionStatus(avStatus: status)
@@ -51,13 +52,13 @@ final class VisionCamera: HybridCameraFactorySpec {
           )
         }
       }
-      return HybridCameraSession(enableMultiCam: enableMultiCam)
+      return try HybridCameraSession(enableMultiCam: enableMultiCam)
     }
   }
 
   func createDeviceFactory() -> any Promise<any HybridCameraDeviceFactorySpec> {
     return .async {
-      return HybridCameraDeviceFactory()
+      return try HybridCameraDeviceFactory()
     }
   }
 
@@ -65,34 +66,34 @@ final class VisionCamera: HybridCameraFactorySpec {
     return try HybridCameraPhotoOutput(options: options)
   }
 
-  func createVideoOutput(options: VideoOutputOptions) -> any HybridCameraVideoOutputSpec {
+  func createVideoOutput(options: VideoOutputOptions) throws -> any HybridCameraVideoOutputSpec {
     if options.enablePersistentRecorder == true {
       // On iOS, the `AVCaptureMovieFileOutput` does not allow flipping the Camera while
       // recording, which is a feature we call "enablePersistentRecorder".
       // So if the user plans on using persistent recordings, we need to create a custom
       // video output that uses `AVCaptureVideoDataOutput` + `AVAssetWriter` instead.
-      return HybridCameraVideoFrameOutput(options: options)
+      return try HybridCameraVideoFrameOutput(options: options)
     } else {
-      return HybridCameraVideoOutput(options: options)
+      return try HybridCameraVideoOutput(options: options)
     }
   }
 
-  func createFrameOutput(options: FrameOutputOptions) -> any HybridCameraFrameOutputSpec {
-    return HybridCameraFrameOutput(options: options)
+  func createFrameOutput(options: FrameOutputOptions) throws -> any HybridCameraFrameOutputSpec {
+    return try HybridCameraFrameOutput(options: options)
   }
 
   func createDepthFrameOutput(options: DepthFrameOutputOptions)
-    -> any HybridCameraDepthFrameOutputSpec
+    throws -> any HybridCameraDepthFrameOutputSpec
   {
-    return HybridCameraDepthFrameOutput(options: options)
+    return try HybridCameraDepthFrameOutput(options: options)
   }
 
   func createObjectOutput(options: ObjectOutputOptions) -> any HybridCameraObjectOutputSpec {
-    return HybridCameraObjectOutput(options: options)
+    return try HybridCameraObjectOutput(options: options)
   }
 
-  func createPreviewOutput() -> any HybridCameraPreviewOutputSpec {
-    return HybridCameraPreviewOutput()
+  func createPreviewOutput() throws -> any HybridCameraPreviewOutputSpec {
+    return try HybridCameraPreviewOutput()
   }
 
   func createOutputSynchronizer(outputs: [any HybridCameraOutputSpec]) throws
@@ -101,33 +102,33 @@ final class VisionCamera: HybridCameraFactorySpec {
     return try HybridCameraOutputSynchronizer(outputs: outputs)
   }
 
-  func createZoomGestureController() -> any HybridZoomGestureControllerSpec {
-    return HybridZoomGestureController()
+  func createZoomGestureController() throws -> any HybridZoomGestureControllerSpec {
+    return try HybridZoomGestureController()
   }
 
-  func createTapToFocusGestureController() -> any HybridTapToFocusGestureControllerSpec {
-    return HybridTapToFocusGestureController()
+  func createTapToFocusGestureController() throws -> any HybridTapToFocusGestureControllerSpec {
+    return try HybridTapToFocusGestureController()
   }
 
   func createOrientationManager(orientationSource: OrientationSource)
-    -> any HybridOrientationManagerSpec
+    throws -> any HybridOrientationManagerSpec
   {
     switch orientationSource {
     case .interface:
-      return HybridInterfaceOrientationManager()
+      return try HybridInterfaceOrientationManager()
     case .device:
-      return HybridDeviceOrientationManager()
+      return try HybridDeviceOrientationManager()
     }
   }
 
-  func createFrameRenderer() -> any HybridFrameRendererSpec {
-    return HybridFrameRenderer()
+  func createFrameRenderer() throws -> any HybridFrameRendererSpec {
+    return try HybridFrameRenderer()
   }
 
   func createNormalizedMeteringPoint(x: Double, y: Double, size: Double?)
     -> any HybridMeteringPointSpec
   {
-    return HybridMeteringPoint(normalizedX: x, normalizedY: y, normalizedSize: size ?? 0.1)
+    return try HybridMeteringPoint(normalizedX: x, normalizedY: y, normalizedSize: size ?? 0.1)
   }
 
   func resolveConstraints(
@@ -136,6 +137,10 @@ final class VisionCamera: HybridCameraFactorySpec {
     constraints: [Constraint],
     requiresMultiCam: Bool?
   ) -> any Promise<any HybridCameraSessionConfigSpec> {
+    // JS handed these over; only the background closure reads them from here on.
+    nonisolated(unsafe) let device = device
+    nonisolated(unsafe) let outputConfigurations = outputConfigurations
+    nonisolated(unsafe) let constraints = constraints
     return .parallel {
       let outputs = outputConfigurations.map { $0.output }
       let resolvedConstraints = try ConstraintResolver.resolveConstraints(
@@ -143,7 +148,7 @@ final class VisionCamera: HybridCameraFactorySpec {
         constraints: constraints,
         outputs: outputs,
         isMultiCam: requiresMultiCam == true)
-      return HybridCameraSessionConfig(
+      return try HybridCameraSessionConfig(
         negotiatedFormat: resolvedConstraints.negotiatedFormat,
         enabledConstraints: resolvedConstraints.enabledConstraints)
     }

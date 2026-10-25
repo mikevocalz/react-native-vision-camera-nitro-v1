@@ -51,7 +51,8 @@ final class HybridPhoto: HybridPhotoSpec, NativePhoto {
     guard let depthData = photo.depthData else {
       return nil
     }
-    return HybridDepth(
+    // Hybrid inits only throw from `HybridObject` base setup, which cannot fail, and a getter cannot throw.
+    return try? HybridDepth(
       depthData: depthData,
       metadata: metadata)
   }
@@ -74,7 +75,8 @@ final class HybridPhoto: HybridPhotoSpec, NativePhoto {
     guard let calibrationData = photo.cameraCalibrationData else {
       return nil
     }
-    return HybridCameraCalibrationData(calibrationData: calibrationData)
+    // Hybrid inits only throw from `HybridObject` base setup, which cannot fail, and a getter cannot throw.
+    return try? HybridCameraCalibrationData(calibrationData: calibrationData)
   }
 
   // pragma MARK: Pixel Buffer access
@@ -144,7 +146,7 @@ final class HybridPhoto: HybridPhotoSpec, NativePhoto {
     }
     let uiOrientation = orientation.toUIImageOrientation(isMirrored: isMirrored)
     let uiImage = UIImage(cgImage: cgImage, scale: 1, orientation: uiOrientation)
-    return HybridUIImage(uiImage: uiImage)
+    return try HybridUIImage(uiImage: uiImage)
   }
 
   func toImageAsync() throws -> any Promise<any HybridImageSpec> {

@@ -106,7 +106,7 @@ final class HybridPreviewView: HybridPreviewViewSpec {
     }
     let relativePoint = CGPoint(x: viewX, y: viewY)
     let normalizedPoint = previewLayer.captureDevicePointConverted(fromLayerPoint: relativePoint)
-    return HybridMeteringPoint(
+    return try HybridMeteringPoint(
       relativeX: relativePoint.x,
       relativeY: relativePoint.y,
       relativeSize: size,

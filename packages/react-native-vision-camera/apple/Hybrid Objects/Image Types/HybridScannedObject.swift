@@ -12,8 +12,9 @@ import NitroModules
 
 final class HybridScannedObject: HybridScannedObjectSpec, NativeScannedObject {
   let object: AVMetadataObject
-  init(object: AVMetadataObject) {
+  init(object: AVMetadataObject) throws {
     self.object = object
+    try super.init()
   }
   var type: ScannedObjectType {
     return ScannedObjectType(type: object.type)
@@ -25,8 +26,9 @@ final class HybridScannedObject: HybridScannedObjectSpec, NativeScannedObject {
 
 final class HybridScannedCode: HybridScannedCodeSpec, NativeScannedObject {
   let object: AVMetadataMachineReadableCodeObject
-  init(object: AVMetadataMachineReadableCodeObject) {
+  init(object: AVMetadataMachineReadableCodeObject) throws {
     self.object = object
+    try super.init()
   }
   var type: ScannedObjectType {
     return ScannedObjectType(type: object.type)
@@ -44,8 +46,9 @@ final class HybridScannedCode: HybridScannedCodeSpec, NativeScannedObject {
 
 final class HybridScannedFace: HybridScannedFaceSpec, NativeScannedObject {
   let object: AVMetadataFaceObject
-  init(object: AVMetadataFaceObject) {
+  init(object: AVMetadataFaceObject) throws {
     self.object = object
+    try super.init()
   }
   var type: ScannedObjectType {
     return ScannedObjectType(type: object.type)

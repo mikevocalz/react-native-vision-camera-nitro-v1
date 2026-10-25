@@ -9,7 +9,8 @@ import AVFoundation
 import Foundation
 import NitroModules
 
-final class HybridFrameRecorder: HybridRecorderSpec {
+// `@unchecked Sendable`: V1 Promise closures are `@Sendable`; recorder state is only mutated on its serial `queue`.
+final class HybridFrameRecorder: HybridRecorderSpec, @unchecked Sendable {
   private let orientation: CameraOrientation
   private let masterClock: CMClock
   private let fileURL: URL
