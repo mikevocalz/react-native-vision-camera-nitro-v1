@@ -5,7 +5,7 @@
 //  Created by Marc Rousavy on 11.02.26.
 //
 
-import AVFoundation
+public import AVFoundation
 
 public protocol NativeScannedObject: AnyObject {
   associatedtype ObjectType: AVMetadataObject

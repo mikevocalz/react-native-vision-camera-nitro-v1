@@ -20,10 +20,10 @@ final class HybridDepth: HybridDepthSpec, NativeDepth, LazyLockableBuffer {
   init(
     depthData: AVDepthData,
     metadata: MediaSampleMetadata
-  ) {
+  ) throws {
     self.depthData = depthData
     self.metadata = metadata
-    super.init()
+    try super.init()
   }
 
   func dispose() {
@@ -112,7 +112,7 @@ final class HybridDepth: HybridDepthSpec, NativeDepth, LazyLockableBuffer {
 
   func rotate(orientation: CameraOrientation, isMirrored: Bool) throws -> any HybridDepthSpec {
     guard let depthData else {
-      throw RuntimeError.error(withMessage: "Tried to rotate an already disposed Depth!")
+      throw RuntimeError("Tried to rotate an already disposed Depth!")
     }
     let cgOrientation = orientation.toCGOrientation(isMirrored: isMirrored)
     let rotated = depthData.applyingExifOrientation(cgOrientation)
@@ -121,17 +121,17 @@ final class HybridDepth: HybridDepthSpec, NativeDepth, LazyLockableBuffer {
       metadata: metadata)
   }
 
-  func rotateAsync(orientation: CameraOrientation, isMirrored: Bool) throws -> Promise<
+  func rotateAsync(orientation: CameraOrientation, isMirrored: Bool) throws -> any Promise<
     any HybridDepthSpec
   > {
-    return Promise.async {
+    return .async {
       return try self.rotate(orientation: orientation, isMirrored: isMirrored)
     }
   }
 
   func convert(pixelFormat: DepthPixelFormat) throws -> any HybridDepthSpec {
     guard let depthData else {
-      throw RuntimeError.error(withMessage: "Tried to convert an already disposed Depth!")
+      throw RuntimeError("Tried to convert an already disposed Depth!")
     }
     let osFormat = try pixelFormat.toCVPixelFormatType()
     let converted = depthData.converting(toDepthDataType: osFormat)
@@ -140,15 +140,15 @@ final class HybridDepth: HybridDepthSpec, NativeDepth, LazyLockableBuffer {
       metadata: metadata)
   }
 
-  func convertAsync(pixelFormat: DepthPixelFormat) throws -> Promise<any HybridDepthSpec> {
-    return Promise.async {
+  func convertAsync(pixelFormat: DepthPixelFormat) throws -> any Promise<any HybridDepthSpec> {
+    return .async {
       return try self.convert(pixelFormat: pixelFormat)
     }
   }
 
   func convertCameraPointToDepthPoint(cameraPoint: Point) throws -> Point {
     guard let pixelBuffer else {
-      throw RuntimeError.error(withMessage: "This Depth has already been disposed!")
+      throw RuntimeError("This Depth has already been disposed!")
     }
     let matrix = FrameCoordinateSystemConverter.getCameraToFrameMatrix(
       pixelBuffer: pixelBuffer,
@@ -159,7 +159,7 @@ final class HybridDepth: HybridDepthSpec, NativeDepth, LazyLockableBuffer {
 
   func convertDepthPointToCameraPoint(depthPoint: Point) throws -> Point {
     guard let pixelBuffer else {
-      throw RuntimeError.error(withMessage: "This Depth has already been disposed!")
+      throw RuntimeError("This Depth has already been disposed!")
     }
     let matrix = FrameCoordinateSystemConverter.getFrameToCameraMatrix(
       pixelBuffer: pixelBuffer,
@@ -170,7 +170,7 @@ final class HybridDepth: HybridDepthSpec, NativeDepth, LazyLockableBuffer {
 
   func getDepthData() throws -> ArrayBuffer {
     guard let depthData else {
-      throw RuntimeError.error(withMessage: "Cannot get an already disposed Depth Frame's data!")
+      throw RuntimeError("Cannot get an already disposed Depth Frame's data!")
     }
     try ensureBufferLocked()
     return try ArrayBuffer.fromPixelBuffer(depthData.depthDataMap)
@@ -178,14 +178,14 @@ final class HybridDepth: HybridDepthSpec, NativeDepth, LazyLockableBuffer {
 
   func getNativeBuffer() throws -> NativeBuffer {
     guard let pixelBuffer else {
-      throw RuntimeError.error(withMessage: "This Depth has already been disposed!")
+      throw RuntimeError("This Depth has already been disposed!")
     }
     return pixelBuffer.asNativeBuffer()
   }
 
   func toFrame() throws -> any HybridFrameSpec {
     guard let depthData else {
-      throw RuntimeError.error(withMessage: "Cannot convert an already disposed Depth to a Frame!")
+      throw RuntimeError("Cannot convert an already disposed Depth to a Frame!")
     }
     let format = try CMFormatDescription(imageBuffer: depthData.depthDataMap)
     let timing = CMSampleTimingInfo(
@@ -200,8 +200,8 @@ final class HybridDepth: HybridDepthSpec, NativeDepth, LazyLockableBuffer {
       buffer: sampleBuffer,
       metadata: metadata)
   }
-  func toFrameAsync() -> Promise<any HybridFrameSpec> {
-    return Promise.async {
+  func toFrameAsync() -> any Promise<any HybridFrameSpec> {
+    return .async {
       return try self.toFrame()
     }
   }

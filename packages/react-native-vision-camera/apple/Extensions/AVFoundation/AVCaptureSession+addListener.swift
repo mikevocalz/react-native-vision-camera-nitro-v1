@@ -9,7 +9,7 @@ import Foundation
 import NitroModules
 
 extension AVCaptureSession {
-  func addListener(for name: NSNotification.Name, listener: @escaping (Notification) -> Void)
+  func addListener(for name: NSNotification.Name, listener: @escaping @Sendable (Notification) -> Void)
     -> ListenerSubscription
   {
     let observer = NotificationCenter.default.addObserver(
@@ -17,7 +17,8 @@ extension AVCaptureSession {
       object: self,
       queue: .main,
       using: listener)
-    return ListenerSubscription(remove: {
+    nonisolated(unsafe) let observer = observer
+    return ListenerSubscription(remove: .native {
       NotificationCenter.default.removeObserver(observer)
     })
   }

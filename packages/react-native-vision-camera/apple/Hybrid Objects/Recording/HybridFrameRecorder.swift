@@ -26,10 +26,10 @@ final class HybridFrameRecorder: HybridRecorderSpec {
   /// the actual recorded data until `finishWriting` flushes.
   private var accumulatedBytes: Int64 = 0
 
-  private var onRecordingFinished: ((String, RecordingFinishedReason) -> Void)? = nil
-  private var onRecordingError: ((any Error) -> Void)? = nil
-  private var onRecordingPaused: (() -> Void)? = nil
-  private var onRecordingResumed: (() -> Void)? = nil
+  private var onRecordingFinished: (any Callback<(String, RecordingFinishedReason), Void>)? = nil
+  private var onRecordingError: (any Callback<any Error, Void>)? = nil
+  private var onRecordingPaused: (any Callback<(), Void>)? = nil
+  private var onRecordingResumed: (any Callback<(), Void>)? = nil
 
   private var isFinished: Bool {
     let isVideoTrackFinished = videoTrack?.isFinished ?? true
@@ -56,7 +56,7 @@ final class HybridFrameRecorder: HybridRecorderSpec {
     self.delegate = delegate
     self.settings = settings
 
-    super.init()
+    try super.init()
   }
 
   deinit {
@@ -93,14 +93,13 @@ final class HybridFrameRecorder: HybridRecorderSpec {
 
   func initializeVideoTrack(withSettings settings: [String: Any]) throws {
     guard !settings.isEmpty else {
-      throw RuntimeError.error(withMessage: "Tried to initialize Video Track with empty options!")
+      throw RuntimeError("Tried to initialize Video Track with empty options!")
     }
     guard videoTrack == nil else {
-      throw RuntimeError.error(withMessage: "Tried to initialize Video Track twice!")
+      throw RuntimeError("Tried to initialize Video Track twice!")
     }
     guard assetWriter.canApply(outputSettings: settings, forMediaType: .video) else {
-      throw RuntimeError.error(
-        withMessage: "The given output settings are not supported! \(settings)")
+      throw RuntimeError("The given output settings are not supported! \(settings)")
     }
 
     logger.info("Initializing Video AssetWriter with settings: \(settings)")
@@ -123,7 +122,7 @@ final class HybridFrameRecorder: HybridRecorderSpec {
     metadata.append(.libraryTag)
     if let hybridLocation = settings.location {
       guard let location = hybridLocation as? any NativeLocation else {
-        throw RuntimeError.error(withMessage: "Location is not of type `NativeLocation`!")
+        throw RuntimeError("Location is not of type `NativeLocation`!")
       }
       let locationTag = try location.location.toAVMutableMetadataItem()
       metadata.append(locationTag)
@@ -135,7 +134,7 @@ final class HybridFrameRecorder: HybridRecorderSpec {
     throws
   {
     guard audioTrack == nil else {
-      throw RuntimeError.error(withMessage: "Tried to initialize Audio Track twice!")
+      throw RuntimeError("Tried to initialize Audio Track twice!")
     }
 
     if let settings = settings {
@@ -152,14 +151,14 @@ final class HybridFrameRecorder: HybridRecorderSpec {
   }
 
   func startRecording(
-    onRecordingFinished: @escaping (String, RecordingFinishedReason) -> Void,
-    onRecordingError: @escaping (any Error) -> Void,
-    onRecordingPaused: (() -> Void)?,
-    onRecordingResumed: (() -> Void)?
-  ) throws -> Promise<Void> {
-    return Promise.parallel(queue) {
+    onRecordingFinished: any Callback<(String, RecordingFinishedReason), Void>,
+    onRecordingError: any Callback<any Error, Void>,
+    onRecordingPaused: (any Callback<(), Void>)?,
+    onRecordingResumed: (any Callback<(), Void>)?
+  ) throws -> any Promise<Void> {
+    return .parallel(queue) {
       guard !self.isRecording else {
-        throw RuntimeError.error(withMessage: "Tried starting Recorder twice!")
+        throw RuntimeError("Tried starting Recorder twice!")
       }
 
       // Notify about to start
@@ -170,7 +169,7 @@ final class HybridFrameRecorder: HybridRecorderSpec {
       guard success else {
         let error = self.assetWriter.error?.localizedDescription ?? "(no error)"
         self.delegate.onRecorderDidStop()
-        throw RuntimeError.error(withMessage: "Failed to start AssetWriter! Error: \(error)")
+        throw RuntimeError("Failed to start AssetWriter! Error: \(error)")
       }
       logger.info("AssetWriter started writing to \(self.filePath)!")
 
@@ -190,8 +189,8 @@ final class HybridFrameRecorder: HybridRecorderSpec {
     }
   }
 
-  func stopRecording() throws -> Promise<Void> {
-    return Promise.parallel(queue) {
+  func stopRecording() throws -> any Promise<Void> {
+    return .parallel(queue) {
       // Stop each track
       self.videoTrack?.stop()
       self.audioTrack?.stop()
@@ -212,32 +211,32 @@ final class HybridFrameRecorder: HybridRecorderSpec {
     }
   }
 
-  func pauseRecording() throws -> Promise<Void> {
-    return Promise.parallel(queue) {
+  func pauseRecording() throws -> any Promise<Void> {
+    return .parallel(queue) {
       // Pause each track
       self.videoTrack?.pause()
       self.audioTrack?.pause()
 
       // Notify listener
-      self.onRecordingPaused?()
+      self.onRecordingPaused?.callAndForget()
     }
   }
 
-  func resumeRecording() throws -> Promise<Void> {
-    return Promise.parallel(queue) {
+  func resumeRecording() throws -> any Promise<Void> {
+    return .parallel(queue) {
       // Resume each track
       self.videoTrack?.resume()
       self.audioTrack?.resume()
 
       // Notify listener
-      self.onRecordingResumed?()
+      self.onRecordingResumed?.callAndForget()
     }
   }
 
-  func cancelRecording() throws -> Promise<Void> {
-    return Promise.parallel(queue) {
+  func cancelRecording() throws -> any Promise<Void> {
+    return .parallel(queue) {
       guard self.assetWriter.status == .writing else {
-        throw RuntimeError.error(withMessage: "Not currently recording!")
+        throw RuntimeError("Not currently recording!")
       }
       // Clear callbacks so they don't fire during cancellation
       self.onRecordingFinished = nil
@@ -260,11 +259,9 @@ final class HybridFrameRecorder: HybridRecorderSpec {
         return
       }
       guard self.assetWriter.status == .writing else {
-        let error = RuntimeError.error(
-          withMessage:
-            "Frame arrived, but AssetWriter status is \(self.assetWriter.status.rawValue)!")
+        let error = RuntimeError("Frame arrived, but AssetWriter status is \(self.assetWriter.status.rawValue)!")
         logger.error("\(error)")
-        self.onRecordingError?(error)
+        self.onRecordingError?.callAndForget(error)
         return
       }
 
@@ -275,14 +272,14 @@ final class HybridFrameRecorder: HybridRecorderSpec {
         self.accumulatedBytes += Int64(CMSampleBufferGetTotalSampleSize(buffer))
       } catch {
         logger.error("Failed to append buffer to \(type.rawValue) track! \(error)")
-        self.onRecordingError?(error)
+        self.onRecordingError?.callAndForget(error)
       }
 
       // If we failed to write the frames, stop the Recording
       if self.assetWriter.status == .failed {
         logger.error("Failed to write buffer: \(self.assetWriter.error)")
         let error = self.assetWriter.error ?? RuntimeError("Failed to write Buffer!")
-        self.onRecordingError?(error)
+        self.onRecordingError?.callAndForget(error)
         // finish() will hit the error guard below - reason is unused in that branch
         self.finish(reason: .stopped)
         return
@@ -335,14 +332,12 @@ final class HybridFrameRecorder: HybridRecorderSpec {
     switch type {
     case .audio:
       guard let audioTrack else {
-        throw RuntimeError.error(
-          withMessage: "Tried to write an audio buffer, but no audio track was initialized!")
+        throw RuntimeError("Tried to write an audio buffer, but no audio track was initialized!")
       }
       return audioTrack
     case .video:
       guard let videoTrack else {
-        throw RuntimeError.error(
-          withMessage: "Tried to write a video buffer, but no video track was initialized!")
+        throw RuntimeError("Tried to write a video buffer, but no video track was initialized!")
       }
       return videoTrack
     }
@@ -357,7 +352,7 @@ final class HybridFrameRecorder: HybridRecorderSpec {
       // We don't even have a video track
       let error = RuntimeError("Failed to finish() - No video track was ever initialized/started!")
       logger.error("\(error.description)")
-      self.onRecordingError?(error)
+      self.onRecordingError?.callAndForget(error)
       assetWriter.cancelWriting()
       self.delegate.onRecorderDidStop()
       return
@@ -366,7 +361,7 @@ final class HybridFrameRecorder: HybridRecorderSpec {
       // The asset writer has an error - cancel everything.
       let error = RuntimeError("Failed to finish() - AssetWriter status was \(assetWriter.status.rawValue)!")
       logger.error("\(error.description)")
-      self.onRecordingError?(error)
+      self.onRecordingError?.callAndForget(error)
       assetWriter.cancelWriting()
       self.delegate.onRecorderDidStop()
       return
@@ -388,7 +383,7 @@ final class HybridFrameRecorder: HybridRecorderSpec {
     )
     assetWriter.finishWriting {
       logger.info("Asset Writer finished writing successfully!")
-      self.onRecordingFinished?(self.filePath, reason)
+      self.onRecordingFinished?.callAndForget(self.filePath, reason)
       self.delegate.onRecorderDidStop()
     }
   }

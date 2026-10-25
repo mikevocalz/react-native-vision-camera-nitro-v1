@@ -13,7 +13,7 @@ extension AVCaptureDevice {
    * Runs the given `closure` under an `AVCaptureDevice` lock, on
    * the device's `DispatchQueue`.
    * Once the `closure` returns, the `AVCaptureDevice` will be unlocked.
-   * To actually resolve the returned `Promise<T>`, the `closure` must call
+   * To actually resolve the returned `any Promise<T>`, the `closure` must call
    * `resolve` (argument #1), or `reject` (argument #2).
    */
   func withLock(
@@ -23,8 +23,8 @@ extension AVCaptureDevice {
         _ resolve: @escaping () -> Void,
         _ reject: @escaping (Error) -> Void
       ) throws -> Void
-  ) -> Promise<Void> {
-    let promise = Promise<Void>()
+  ) -> any Promise<Void> {
+    let promise = Promise_void.pending()
 
     queue.async {
       do {
@@ -37,7 +37,7 @@ extension AVCaptureDevice {
         // 2. Call the closure and pass a `completion` callback
         try closure(promise.resolve, promise.reject)
       } catch let error {
-        promise.reject(withError: error)
+        promise.reject(error: error)
       }
     }
 
@@ -48,12 +48,12 @@ extension AVCaptureDevice {
    * Runs the given `closure` under an `AVCaptureDevice` lock, on
    * the device's `DispatchQueue`.
    * Once the `closure` returns, the `AVCaptureDevice` will be unlocked.
-   * To actually resolve the returned `Promise<T>`, the `closure` must call
+   * To actually resolve the returned `any Promise<T>`, the `closure` must call
    * the `completion` handler (argument #1).
    */
   func withLock(
     _ queue: DispatchQueue, _ closure: @escaping (_ completion: @escaping () -> Void) throws -> Void
-  ) -> Promise<Void> {
+  ) -> any Promise<Void> {
     return self.withLock(queue) { resolve, _ in
       try closure(resolve)
     }
@@ -61,10 +61,10 @@ extension AVCaptureDevice {
   /**
    * Runs the given `closure` under an `AVCaptureDevice` lock, on
    * the device's `DispatchQueue`.
-   * Once the `closure` returns, the `Promise<T>` will be resolved.
+   * Once the `closure` returns, the `any Promise<T>` will be resolved.
    */
-  func withLock(_ queue: DispatchQueue, _ closure: @escaping () throws -> Void) -> Promise<Void> {
-    return Promise.parallel(queue) {
+  func withLock(_ queue: DispatchQueue, _ closure: @escaping () throws -> Void) -> any Promise<Void> {
+    return .parallel(queue) {
       try self.lockForConfiguration()
       defer { self.unlockForConfiguration() }
       try closure()

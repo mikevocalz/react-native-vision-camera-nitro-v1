@@ -6,6 +6,7 @@
 //
 
 import AVFoundation
+import UIKit
 import Foundation
 import NitroImage
 import NitroModules
@@ -19,11 +20,11 @@ final class HybridPhoto: HybridPhotoSpec, NativePhoto {
     photo: AVCapturePhoto,
     metadata: MediaSampleMetadata,
     containerFormat: PhotoContainerFormat
-  ) {
+  ) throws {
     self.photo = photo
     self.metadata = metadata
     self.containerFormat = containerFormat
-    super.init()
+    try super.init()
   }
 
   var memorySize: Int {
@@ -83,8 +84,7 @@ final class HybridPhoto: HybridPhotoSpec, NativePhoto {
   }
   func getPixelBuffer() throws -> ArrayBuffer {
     guard let pixelBuffer = photo.pixelBuffer else {
-      throw RuntimeError.error(
-        withMessage: "This Photo does not contain a pixel buffer! "
+      throw RuntimeError("This Photo does not contain a pixel buffer! "
           + "Check `photo.hasPixelBuffer` before calling `photo.getPixelBuffer()`")
     }
     return try ArrayBuffer.fromPixelBuffer(pixelBuffer)
@@ -94,13 +94,13 @@ final class HybridPhoto: HybridPhotoSpec, NativePhoto {
 
   func getFileData() throws -> ArrayBuffer {
     guard let data = photo.fileDataRepresentation() else {
-      throw RuntimeError.error(withMessage: "Failed to get photo's file data!")
+      throw RuntimeError("Failed to get photo's file data!")
     }
     return try ArrayBuffer.copy(data: data)
   }
 
-  func getFileDataAsync() throws -> Promise<ArrayBuffer> {
-    return Promise.async {
+  func getFileDataAsync() throws -> any Promise<ArrayBuffer> {
+    return .async {
       return try self.getFileData()
     }
   }
@@ -109,20 +109,20 @@ final class HybridPhoto: HybridPhotoSpec, NativePhoto {
 
   private func saveImage(to path: String) throws {
     guard let data = photo.fileDataRepresentation() else {
-      throw RuntimeError.error(withMessage: "Failed to get file data representation of Photo!")
+      throw RuntimeError("Failed to get file data representation of Photo!")
     }
     let url = URL(fileURLWithPath: path)
     try data.write(to: url)
   }
 
-  func saveToFileAsync(path: String) throws -> Promise<Void> {
-    return Promise.async(.utility) {
+  func saveToFileAsync(path: String) throws -> any Promise<Void> {
+    return .async(.utility) {
       try self.saveImage(to: path)
     }
   }
 
-  func saveToTemporaryFileAsync() throws -> Promise<String> {
-    return Promise.async(.utility) {
+  func saveToTemporaryFileAsync() throws -> any Promise<String> {
+    return .async(.utility) {
       // 1. Create temp path
       let fileType = try self.containerFormat.toUTType()
       let file = try URL.createTempURL(fileType: fileType)
@@ -137,10 +137,9 @@ final class HybridPhoto: HybridPhotoSpec, NativePhoto {
   func toImage() throws -> any HybridImageSpec {
     guard let cgImage = photo.cgImageRepresentation() else {
       if isRawPhoto {
-        throw RuntimeError.error(
-          withMessage: "Failed to get Image data! Raw Photos cannot be converted to Images.")
+        throw RuntimeError("Failed to get Image data! Raw Photos cannot be converted to Images.")
       } else {
-        throw RuntimeError.error(withMessage: "Failed to get Image data!")
+        throw RuntimeError("Failed to get Image data!")
       }
     }
     let uiOrientation = orientation.toUIImageOrientation(isMirrored: isMirrored)
@@ -148,8 +147,8 @@ final class HybridPhoto: HybridPhotoSpec, NativePhoto {
     return HybridUIImage(uiImage: uiImage)
   }
 
-  func toImageAsync() throws -> Promise<any HybridImageSpec> {
-    return Promise.async {
+  func toImageAsync() throws -> any Promise<any HybridImageSpec> {
+    return .async {
       return try self.toImage()
     }
   }

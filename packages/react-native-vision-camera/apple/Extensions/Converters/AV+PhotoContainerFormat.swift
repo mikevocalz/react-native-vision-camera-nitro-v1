@@ -48,7 +48,7 @@ extension PhotoContainerFormat {
   func toUTType() throws -> UTType {
     switch self {
     case .unknown:
-      throw RuntimeError.error(withMessage: "Cannot convert \"unknown\" ImageFormat to AVFileType!")
+      throw RuntimeError("Cannot convert \"unknown\" ImageFormat to AVFileType!")
     case .jpeg:
       return .jpeg
     case .heic:
@@ -57,14 +57,12 @@ extension PhotoContainerFormat {
       return .tiff
     case .dcm:
       guard let type = UTType(tag: "dcm", tagClass: .filenameExtension, conformingTo: nil) else {
-        throw RuntimeError.error(
-          withMessage: "PhotoContainerFormat \"dcm\" cannot be converted to UTType!")
+        throw RuntimeError("PhotoContainerFormat \"dcm\" cannot be converted to UTType!")
       }
       return type
     case .dng:
       guard #available(iOS 18.0, *) else {
-        throw RuntimeError.error(
-          withMessage: "PhotoContainerFormat \"dng\" is only available on iOS 18.0 or newer!")
+        throw RuntimeError("PhotoContainerFormat \"dng\" is only available on iOS 18.0 or newer!")
       }
       return .dng
     }

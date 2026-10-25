@@ -9,7 +9,8 @@ import Foundation
 import NitroModules
 
 extension AVMetadataItem {
-  static var libraryTag: AVMutableMetadataItem = {
+  // Built once and never mutated afterwards.
+  nonisolated(unsafe) static let libraryTag: AVMutableMetadataItem = {
     let item = AVMutableMetadataItem()
     item.keySpace = .quickTimeMetadata
     item.key = AVMetadataKey.quickTimeMetadataKeySoftware as (NSCopying & NSObjectProtocol)?

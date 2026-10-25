@@ -14,10 +14,10 @@ final class HybridFramePlane: HybridFramePlaneSpec {
   var pixelBuffer: CVPixelBuffer?
   let planeIndex: Int
 
-  init(buffer: CVPixelBuffer, planeIndex: Int) {
+  init(buffer: CVPixelBuffer, planeIndex: Int) throws {
     self.pixelBuffer = buffer
     self.planeIndex = planeIndex
-    super.init()
+    try super.init()
   }
 
   var memorySize: Int {
@@ -55,7 +55,7 @@ final class HybridFramePlane: HybridFramePlaneSpec {
 
   func getPixelBuffer() throws -> ArrayBuffer {
     guard let pixelBuffer else {
-      throw RuntimeError.error(withMessage: "This FramePlane has already been disposed!")
+      throw RuntimeError("This FramePlane has already been disposed!")
     }
     return try ArrayBuffer.fromPixelBuffer(pixelBuffer, planeIndex: planeIndex)
   }

@@ -19,24 +19,20 @@ final class VisionCamera: HybridCameraFactorySpec {
     return PermissionStatus(avStatus: status)
   }
 
-  func requestCameraPermission() -> Promise<Bool> {
-    return Promise.async {
+  func requestCameraPermission() -> any Promise<Bool> {
+    return .async {
       guard Bundle.main.infoDictionary?["NSCameraUsageDescription"] != nil else {
-        throw RuntimeError.error(
-          withMessage:
-            "Cannot request Camera Permission - Your Info.plist does not contain a `NSCameraUsageDescription` key!"
+        throw RuntimeError("Cannot request Camera Permission - Your Info.plist does not contain a `NSCameraUsageDescription` key!"
         )
       }
       return await AVCaptureDevice.requestAccess(for: .video)
     }
   }
 
-  func requestMicrophonePermission() -> Promise<Bool> {
-    return Promise.async {
+  func requestMicrophonePermission() -> any Promise<Bool> {
+    return .async {
       guard Bundle.main.infoDictionary?["NSMicrophoneUsageDescription"] != nil else {
-        throw RuntimeError.error(
-          withMessage:
-            "Cannot request Microphone Permission - Your Info.plist does not contain a `NSMicrophoneUsageDescription` key!"
+        throw RuntimeError("Cannot request Microphone Permission - Your Info.plist does not contain a `NSMicrophoneUsageDescription` key!"
         )
       }
       return await AVCaptureDevice.requestAccess(for: .audio)
@@ -47,13 +43,11 @@ final class VisionCamera: HybridCameraFactorySpec {
     return AVCaptureMultiCamSession.isMultiCamSupported
   }
 
-  func createCameraSession(enableMultiCam: Bool) -> Promise<any HybridCameraSessionSpec> {
-    return Promise.async {
+  func createCameraSession(enableMultiCam: Bool) -> any Promise<any HybridCameraSessionSpec> {
+    return .async {
       if enableMultiCam {
         guard self.supportsMultiCamSessions else {
-          throw RuntimeError.error(
-            withMessage:
-              "Failed to create CameraSession - this device does not support multi-cam session! (See .supportsMultiCamSession)"
+          throw RuntimeError("Failed to create CameraSession - this device does not support multi-cam session! (See .supportsMultiCamSession)"
           )
         }
       }
@@ -61,8 +55,8 @@ final class VisionCamera: HybridCameraFactorySpec {
     }
   }
 
-  func createDeviceFactory() -> Promise<any HybridCameraDeviceFactorySpec> {
-    return Promise.async {
+  func createDeviceFactory() -> any Promise<any HybridCameraDeviceFactorySpec> {
+    return .async {
       return HybridCameraDeviceFactory()
     }
   }
@@ -141,8 +135,8 @@ final class VisionCamera: HybridCameraFactorySpec {
     outputConfigurations: [CameraOutputConfiguration],
     constraints: [Constraint],
     requiresMultiCam: Bool?
-  ) -> Promise<any HybridCameraSessionConfigSpec> {
-    return Promise.parallel {
+  ) -> any Promise<any HybridCameraSessionConfigSpec> {
+    return .parallel {
       let outputs = outputConfigurations.map { $0.output }
       let resolvedConstraints = try ConstraintResolver.resolveConstraints(
         for: device,

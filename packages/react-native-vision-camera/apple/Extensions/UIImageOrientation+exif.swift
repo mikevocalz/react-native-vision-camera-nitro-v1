@@ -5,6 +5,7 @@
 ///
 
 import AVFoundation
+import UIKit
 import CoreImage
 import Foundation
 import NitroModules
@@ -29,7 +30,7 @@ extension UIImage.Orientation {
     case 8:
       self = .left
     default:
-      throw RuntimeError.error(withMessage: "Invalid EXIF Orientation Flag: \(value)")
+      throw RuntimeError("Invalid EXIF Orientation Flag: \(value)")
     }
   }
 

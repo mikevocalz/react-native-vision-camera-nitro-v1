@@ -5,6 +5,7 @@
 ///
 
 import AVFoundation
+import UIKit
 import Foundation
 import NitroModules
 

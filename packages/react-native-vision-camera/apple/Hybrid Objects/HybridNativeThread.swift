@@ -10,16 +10,18 @@ import NitroModules
 final class HybridNativeThread: HybridNativeThreadSpec {
   let queue: DispatchQueue
 
-  init(queue: DispatchQueue) {
+  init(queue: DispatchQueue) throws {
     self.queue = queue
-    super.init()
+    try super.init()
   }
 
   var id: String {
     return queue.label
   }
 
-  func runOnThread(task: @escaping () -> Void) throws {
-    queue.async(execute: task)
+  func runOnThread(task: any Callback<(), Void>) throws {
+    queue.async {
+      task()
+    }
   }
 }

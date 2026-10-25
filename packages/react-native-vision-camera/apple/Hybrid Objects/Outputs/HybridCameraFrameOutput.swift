@@ -18,9 +18,7 @@ final class HybridCameraFrameOutput: HybridCameraFrameOutputSpec, NativeCameraOu
   let requiresAudioInput: Bool = false
   let requiresDepthFormat: Bool = false
   let output: AVCaptureVideoDataOutput
-  lazy var thread: any HybridNativeThreadSpec = {
-    return HybridNativeThread(queue: queue)
-  }()
+  let thread: any HybridNativeThreadSpec
   var outputOrientation: CameraOrientation = .up {
     didSet {
       guard let connection = output.connection(with: .video) else { return }
@@ -40,7 +38,7 @@ final class HybridCameraFrameOutput: HybridCameraFrameOutputSpec, NativeCameraOu
     return .closestTo(options.targetResolution)
   }
 
-  init(options: FrameOutputOptions) {
+  init(options: FrameOutputOptions) throws {
     self.output = AVCaptureVideoDataOutput()
     self.delegate = FrameDelegate()
     self.options = options
@@ -51,7 +49,8 @@ final class HybridCameraFrameOutput: HybridCameraFrameOutputSpec, NativeCameraOu
       autoreleaseFrequency: .inherit,
       target: nil)
     self.queue.setSpecific(key: queueSpecificKey, value: ())
-    super.init()
+    self.thread = try HybridNativeThread(queue: self.queue)
+    try super.init()
 
     // Set up our `delegate`
     output.setSampleBufferDelegate(delegate, queue: queue)
@@ -145,10 +144,9 @@ final class HybridCameraFrameOutput: HybridCameraFrameOutputSpec, NativeCameraOu
       isMirrored: isMirrored)
   }
 
-  func setOnFrameCallback(onFrame: ((any HybridFrameSpec) -> Bool)?) throws {
+  func setOnFrameCallback(onFrame: (any Callback<any HybridFrameSpec, Bool>)?) throws {
     guard DispatchQueue.getSpecific(key: self.queueSpecificKey) != nil else {
-      throw RuntimeError.error(
-        withMessage: "setOnFrameCallback(...) must be called on the FrameOutput's `thread`!")
+      throw RuntimeError("setOnFrameCallback(...) must be called on the FrameOutput's `thread`!")
     }
     if let onFrame {
       delegate.onFrame = { (sampleBuffer, timestamp, bufferOrientation, isBufferMirrored) in
@@ -157,18 +155,22 @@ final class HybridCameraFrameOutput: HybridCameraFrameOutputSpec, NativeCameraOu
           at: timestamp,
           orientation: bufferOrientation,
           isMirrored: isBufferMirrored)
-        let frame = HybridFrame(
-          buffer: sampleBuffer,
-          metadata: metadata)
-        // Call sync JS function
-        _ = onFrame(frame)
+        do {
+          let frame = try HybridFrame(
+            buffer: sampleBuffer,
+            metadata: metadata)
+          // Call the JS function synchronously, we are on its thread.
+          _ = try onFrame.callSync(frame)
+        } catch {
+          logger.error("onFrame callback failed: \(error)")
+        }
       }
     } else {
       delegate.onFrame = nil
     }
   }
 
-  func setOnFrameDroppedCallback(onFrameDropped: ((FrameDroppedReason) -> Void)?) throws {
+  func setOnFrameDroppedCallback(onFrameDropped: (any Callback<FrameDroppedReason, Void>)?) throws {
     if let onFrameDropped {
       delegate.onFrameDropped = { sampleBuffer in
         guard let attachment = sampleBuffer.attachments[.droppedFrameReason] else {

@@ -14,16 +14,15 @@ final class HybridDeviceOrientationManager: HybridOrientationManagerSpec {
   private let motionManager = CMMotionManager()
   private let operationQueue = OperationQueue()
 
-  override init() {
-    super.init()
+  override init() throws {
+    try super.init()
     motionManager.accelerometerUpdateInterval = 0.2  // 200ms
   }
 
-  func startOrientationUpdates(onChanged: @escaping (CameraOrientation) -> Void) throws {
+  func startOrientationUpdates(onChanged: any Callback<CameraOrientation, Void>) throws {
     logger.info("Starting device orientation updates...")
     guard motionManager.isAccelerometerAvailable else {
-      throw RuntimeError.error(
-        withMessage: "Cannot listen to device orientation changes - accelerometer is not available!"
+      throw RuntimeError("Cannot listen to device orientation changes - accelerometer is not available!"
       )
     }
     if motionManager.isAccelerometerActive {

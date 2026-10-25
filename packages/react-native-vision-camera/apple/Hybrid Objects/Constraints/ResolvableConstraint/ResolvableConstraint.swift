@@ -13,7 +13,7 @@ struct ConstraintPenalty: Comparable, Equatable, Sendable {
   static func < (lhs: Self, rhs: Self) -> Bool {
     return lhs.distance < rhs.distance
   }
-  static var noPenalty = ConstraintPenalty(distance: 0)
+  static let noPenalty = ConstraintPenalty(distance: 0)
 }
 
 /// The result of resolving a constraint against a format.

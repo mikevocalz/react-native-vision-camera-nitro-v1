@@ -10,7 +10,9 @@ import Foundation
 
 final class CapturePhotoDelegate: NSObject, AVCapturePhotoCaptureDelegate {
   // Statically cache delegates because the AVCaptureOutput only captures them weakly
-  private static var delegates: [CapturePhotoDelegate] = []
+  // Appended on the caller's queue and removed on the AVFoundation delegate queue, so guarded by `delegatesLock`.
+  nonisolated(unsafe) private static var delegates: [CapturePhotoDelegate] = []
+  private static let delegatesLock = NSLock()
 
   private let onCaptured: (AVCapturePhoto, MediaSampleMetadata) -> Void
   private let onError: (any Error) -> Void
@@ -27,7 +29,9 @@ final class CapturePhotoDelegate: NSObject, AVCapturePhotoCaptureDelegate {
     self.callbacks = callbacks
     super.init()
     // Add a static strong reference while capture is in progress
-    CapturePhotoDelegate.delegates.append(self)
+    CapturePhotoDelegate.delegatesLock.withLock {
+      CapturePhotoDelegate.delegates.append(self)
+    }
   }
 
   // 1. Begin capture process
@@ -85,7 +89,9 @@ final class CapturePhotoDelegate: NSObject, AVCapturePhotoCaptureDelegate {
       }
     }
     // Remove the static strong reference, we're done
-    CapturePhotoDelegate.delegates.removeAll { $0 == self }
+    CapturePhotoDelegate.delegatesLock.withLock {
+      CapturePhotoDelegate.delegates.removeAll { $0 == self }
+    }
   }
 
   @available(iOS 17.0, *)

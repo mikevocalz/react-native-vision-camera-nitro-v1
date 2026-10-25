@@ -5,8 +5,8 @@
 //  Created by Marc Rousavy on 29.10.25.
 //
 
-import AVFoundation
-import Foundation
+public import AVFoundation
+public import Foundation
 
 public protocol RecorderDelegate: AnyObject {
   /**

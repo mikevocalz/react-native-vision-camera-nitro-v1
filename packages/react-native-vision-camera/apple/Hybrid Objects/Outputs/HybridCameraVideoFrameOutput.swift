@@ -39,7 +39,7 @@ final class HybridCameraVideoFrameOutput: HybridCameraVideoOutputSpec, NativeCam
   }
 
   // TODO: Support setting custom `targetBitRate`
-  init(options: VideoOutputOptions) {
+  init(options: VideoOutputOptions) throws {
     self.output = AVCaptureVideoDataOutput()
     self.delegate = FrameDelegate()
     self.options = options
@@ -53,7 +53,7 @@ final class HybridCameraVideoFrameOutput: HybridCameraVideoOutputSpec, NativeCam
     self.videoQueue = DispatchQueue(
       label: "com.margelo.camera.video-frame.video",
       qos: .utility)
-    super.init()
+    try super.init()
 
     // Set up our `delegate`
     output.setSampleBufferDelegate(delegate, queue: videoQueue)
@@ -91,17 +91,15 @@ final class HybridCameraVideoFrameOutput: HybridCameraVideoOutputSpec, NativeCam
 
   func getSupportedVideoCodecs() throws -> [VideoCodec] {
     guard output.connection(with: .video) != nil else {
-      throw RuntimeError.error(
-        withMessage:
-          "Cannot call `getSupportedVideoCodecs()` when VideoOutput is not yet connected to the CameraSession!"
+      throw RuntimeError("Cannot call `getSupportedVideoCodecs()` when VideoOutput is not yet connected to the CameraSession!"
       )
     }
     let availableCodecs = output.availableVideoCodecTypesForAssetWriter(writingTo: fileType.toAVFileType())
     return availableCodecs.map { VideoCodec(avCodec: $0) }
   }
 
-  func setOutputSettings(settings: VideoOutputSettings) -> Promise<Void> {
-    return Promise.parallel(queue) {
+  func setOutputSettings(settings: VideoOutputSettings) -> any Promise<Void> {
+    return .parallel(queue) {
       var currentSettings = self.output.videoSettings ?? [:]
 
       // codec={..}
@@ -110,8 +108,7 @@ final class HybridCameraVideoFrameOutput: HybridCameraVideoOutputSpec, NativeCam
         let availableCodecs = self.output.availableVideoCodecTypesForAssetWriter(
           writingTo: self.fileType.toAVFileType())
         guard availableCodecs.contains(avCodec) else {
-          throw RuntimeError.error(
-            withMessage: "VideoOutput does not support the codec \"\(codec.stringValue)\"!")
+          throw RuntimeError("VideoOutput does not support the codec \"\(codec.stringValue)\"!")
         }
         currentSettings[AVVideoCodecKey] = avCodec
       }
@@ -120,8 +117,8 @@ final class HybridCameraVideoFrameOutput: HybridCameraVideoOutputSpec, NativeCam
     }
   }
 
-  func createRecorder(settings: RecorderSettings) -> Promise<any HybridRecorderSpec> {
-    return Promise.parallel(queue) {
+  func createRecorder(settings: RecorderSettings) -> any Promise<any HybridRecorderSpec> {
+    return .parallel(queue) {
       // 1. Create AVAssetWriter Recorder
       let clock = try self.getMasterClock()
       let recorder = try HybridFrameRecorder(
@@ -135,8 +132,7 @@ final class HybridCameraVideoFrameOutput: HybridCameraVideoOutputSpec, NativeCam
         let videoSettings = self.output.recommendedVideoSettingsForAssetWriter(
           writingTo: self.fileType.toAVFileType())
       else {
-        throw RuntimeError.error(
-          withMessage: "Cannot initialize Recorder - no available video settings were found!")
+        throw RuntimeError("Cannot initialize Recorder - no available video settings were found!")
       }
       try recorder.initializeVideoTrack(withSettings: videoSettings)
 
@@ -198,15 +194,13 @@ final class HybridCameraVideoFrameOutput: HybridCameraVideoOutputSpec, NativeCam
 
   private func getMasterClock() throws -> CMClock {
     guard let connection = output.connection(with: .video) else {
-      throw RuntimeError.error(
-        withMessage: "The VideoOutput is not yet connected to the CameraSession!")
+      throw RuntimeError("The VideoOutput is not yet connected to the CameraSession!")
     }
     guard let inputPort = connection.inputPorts.first else {
-      throw RuntimeError.error(withMessage: "The VideoOutput is not yet connected to an input!")
+      throw RuntimeError("The VideoOutput is not yet connected to an input!")
     }
     guard let clock = inputPort.clock else {
-      throw RuntimeError.error(
-        withMessage: "The VideoOutput's connected input device does not have a master clock!")
+      throw RuntimeError("The VideoOutput's connected input device does not have a master clock!")
     }
     return clock
   }

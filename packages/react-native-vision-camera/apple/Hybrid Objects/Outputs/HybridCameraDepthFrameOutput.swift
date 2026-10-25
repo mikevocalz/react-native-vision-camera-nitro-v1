@@ -18,9 +18,7 @@ final class HybridCameraDepthFrameOutput: HybridCameraDepthFrameOutputSpec, Nati
   let requiresAudioInput: Bool = false
   let requiresDepthFormat: Bool = true
   let output: AVCaptureDepthDataOutput
-  lazy var thread: any HybridNativeThreadSpec = {
-    return HybridNativeThread(queue: queue)
-  }()
+  let thread: any HybridNativeThreadSpec
 
   var outputOrientation: CameraOrientation = .up {
     didSet {
@@ -41,7 +39,7 @@ final class HybridCameraDepthFrameOutput: HybridCameraDepthFrameOutputSpec, Nati
     return .closestTo(options.targetResolution)
   }
 
-  init(options: DepthFrameOutputOptions) {
+  init(options: DepthFrameOutputOptions) throws {
     self.output = AVCaptureDepthDataOutput()
     self.delegate = DepthFrameDelegate()
     self.options = options
@@ -52,7 +50,8 @@ final class HybridCameraDepthFrameOutput: HybridCameraDepthFrameOutputSpec, Nati
       autoreleaseFrequency: .inherit,
       target: nil)
     self.queue.setSpecific(key: queueSpecificKey, value: ())
-    super.init()
+    self.thread = try HybridNativeThread(queue: self.queue)
+    try super.init()
 
     // Set up our `delegate`
     output.setDelegate(delegate, callbackQueue: queue)
@@ -109,11 +108,9 @@ final class HybridCameraDepthFrameOutput: HybridCameraDepthFrameOutputSpec, Nati
       isMirrored: isMirrored)
   }
 
-  func setOnDepthFrameCallback(onDepthFrame: ((any HybridDepthSpec) -> Bool)?) throws {
+  func setOnDepthFrameCallback(onDepthFrame: (any Callback<any HybridDepthSpec, Bool>)?) throws {
     guard DispatchQueue.getSpecific(key: self.queueSpecificKey) != nil else {
-      throw RuntimeError.error(
-        withMessage:
-          "setOnDepthFrameCallback(...) must be called on the DepthFrameOutput's `thread`!")
+      throw RuntimeError("setOnDepthFrameCallback(...) must be called on the DepthFrameOutput's `thread`!")
     }
     if let onDepthFrame {
       delegate.onDepthFrame = { (depth, timestamp, bufferOrientation, isBufferMirrored) in
@@ -122,18 +119,22 @@ final class HybridCameraDepthFrameOutput: HybridCameraDepthFrameOutputSpec, Nati
           at: timestamp,
           orientation: bufferOrientation,
           isMirrored: isBufferMirrored)
-        let depth = HybridDepth(
-          depthData: depth,
-          metadata: metadata)
-        // Call sync JS function
-        _ = onDepthFrame(depth)
+        do {
+          let depth = try HybridDepth(
+            depthData: depth,
+            metadata: metadata)
+          // Call the JS function synchronously, we are on its thread.
+          _ = try onDepthFrame.callSync(depth)
+        } catch {
+          logger.error("onDepthFrame callback failed: \(error)")
+        }
       }
     } else {
       delegate.onDepthFrame = nil
     }
   }
 
-  func setOnDepthFrameDroppedCallback(onDepthFrameDropped: ((FrameDroppedReason) -> Void)?) throws {
+  func setOnDepthFrameDroppedCallback(onDepthFrameDropped: (any Callback<FrameDroppedReason, Void>)?) throws {
     if let onDepthFrameDropped {
       delegate.onDepthFrameDropped = { avReason in
         let reason = FrameDroppedReason(reason: avReason)

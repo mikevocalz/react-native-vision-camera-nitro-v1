@@ -17,7 +17,7 @@ final class HybridCameraSession: HybridCameraSessionSpec {
     autoreleaseFrequency: .inherit,
     target: nil)
 
-  init(enableMultiCam: Bool) {
+  init(enableMultiCam: Bool) throws {
     if enableMultiCam {
       self.session = AVCaptureMultiCamSession()
     } else {
@@ -26,7 +26,7 @@ final class HybridCameraSession: HybridCameraSessionSpec {
     // We manage formats manually via `device.activeFormat`, so opt out of the
     // session's preset-based format selection upfront.
     self.session.sessionPreset = .inputPriority
-    super.init()
+    try super.init()
   }
 
   var isRunning: Bool {
@@ -35,11 +35,11 @@ final class HybridCameraSession: HybridCameraSessionSpec {
 
   // pragma MARK: Configuration
   func configure(connections: [CameraSessionConnection], config: CameraSessionConfiguration?)
-    -> Promise<[any HybridCameraControllerSpec]>
+    -> any Promise<[any HybridCameraControllerSpec]>
   {
-    return Promise.parallel(Self.queue) {
+    return .parallel(Self.queue) {
       guard AVCaptureDevice.authorizationStatus(for: .video) == .authorized else {
-        throw RuntimeError.error(withMessage: "Camera Permission not yet granted!")
+        throw RuntimeError("Camera Permission not yet granted!")
       }
 
       // Ensure multi-cam is enabled if we have multiple inputs
@@ -211,8 +211,8 @@ final class HybridCameraSession: HybridCameraSessionSpec {
   }
 
   // pragma MARK: Start/Stop
-  func start() -> Promise<Void> {
-    return Promise.parallel(Self.queue) {
+  func start() -> any Promise<Void> {
+    return .parallel(Self.queue) {
       if self.session.isRunning {
         return
       }
@@ -220,8 +220,8 @@ final class HybridCameraSession: HybridCameraSessionSpec {
     }
   }
 
-  func stop() -> Promise<Void> {
-    return Promise.parallel(Self.queue) {
+  func stop() -> any Promise<Void> {
+    return .parallel(Self.queue) {
       if !self.session.isRunning {
         return
       }
@@ -304,7 +304,7 @@ final class HybridCameraSession: HybridCameraSessionSpec {
       let containsAudioInput = self.session.inputs.contains { $0.isMicrophone }
       if !containsAudioInput {
         guard AVCaptureDevice.authorizationStatus(for: .audio) == .authorized else {
-          throw RuntimeError.error(withMessage: "Audio Permission not yet granted!")
+          throw RuntimeError("Audio Permission not yet granted!")
         }
         try self.session.addAudioInput()
       }
@@ -404,20 +404,20 @@ final class HybridCameraSession: HybridCameraSessionSpec {
   }
 
   // pragma MARK: On Started/Stopped Listeners
-  func addOnStartedListener(onStarted: @escaping () -> Void) throws -> ListenerSubscription {
+  func addOnStartedListener(onStarted: any Callback<(), Void>) throws -> ListenerSubscription {
     return self.session.addListener(for: AVCaptureSession.didStartRunningNotification) { _ in
       onStarted()
     }
   }
 
-  func addOnStoppedListener(onStopped: @escaping () -> Void) throws -> ListenerSubscription {
+  func addOnStoppedListener(onStopped: any Callback<(), Void>) throws -> ListenerSubscription {
     return self.session.addListener(for: AVCaptureSession.didStopRunningNotification) { _ in
       onStopped()
     }
   }
 
   // pragma MARK: On Error Listener
-  func addOnErrorListener(onError: @escaping (any Error) -> Void) throws -> ListenerSubscription {
+  func addOnErrorListener(onError: any Callback<any Error, Void>) throws -> ListenerSubscription {
     return self.session.addListener(for: AVCaptureSession.runtimeErrorNotification) {
       notification in
       if let errorAny = notification.userInfo?[AVCaptureSessionErrorKey],
@@ -425,9 +425,7 @@ final class HybridCameraSession: HybridCameraSessionSpec {
       {
         onError(error)
       } else {
-        let unknownError = RuntimeError.error(
-          withMessage:
-            "CameraSession encountered an Error, but the payload didn't contain an `AVCaptureSessionErrorKey`!"
+        let unknownError = RuntimeError("CameraSession encountered an Error, but the payload didn't contain an `AVCaptureSessionErrorKey`!"
         )
         onError(unknownError)
       }
@@ -436,7 +434,7 @@ final class HybridCameraSession: HybridCameraSessionSpec {
 
   // pragma MARK: On Interrupted Listeners
   func addOnInterruptionStartedListener(
-    onInterruptionStarted: @escaping (InterruptionReason) -> Void
+    onInterruptionStarted: any Callback<InterruptionReason, Void>
   ) throws -> ListenerSubscription {
     return self.session.addListener(for: AVCaptureSession.wasInterruptedNotification) {
       notification in
@@ -452,7 +450,7 @@ final class HybridCameraSession: HybridCameraSessionSpec {
     }
   }
 
-  func addOnInterruptionEndedListener(onInterruptionEnded: @escaping () -> Void) throws
+  func addOnInterruptionEndedListener(onInterruptionEnded: any Callback<(), Void>) throws
     -> ListenerSubscription
   {
     return self.session.addListener(for: AVCaptureSession.interruptionEndedNotification) { _ in

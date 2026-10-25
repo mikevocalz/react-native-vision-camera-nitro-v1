@@ -10,7 +10,9 @@ import Foundation
 
 final class VideoDelegate: NSObject, AVCaptureFileOutputRecordingDelegate {
   // Statically cache delegates because the AVCaptureOutput only captures them weakly
-  private static var delegates: [VideoDelegate] = []
+  // Appended on the caller's queue and removed on the AVFoundation delegate queue, so guarded by `delegatesLock`.
+  nonisolated(unsafe) private static var delegates: [VideoDelegate] = []
+  private static let delegatesLock = NSLock()
 
   var onRecordingStarted: (() -> Void)?
   var onRecordingPaused: (() -> Void)?
@@ -32,7 +34,9 @@ final class VideoDelegate: NSObject, AVCaptureFileOutputRecordingDelegate {
     self.onRecordingError = onRecordingError
     super.init()
     // Add a static strong reference while capture is in progress
-    VideoDelegate.delegates.append(self)
+    VideoDelegate.delegatesLock.withLock {
+      VideoDelegate.delegates.append(self)
+    }
   }
 
   func fileOutput(
@@ -86,6 +90,8 @@ final class VideoDelegate: NSObject, AVCaptureFileOutputRecordingDelegate {
     }
 
     // Remove the static strong reference, we're done
-    VideoDelegate.delegates.removeAll { $0 == self }
+    VideoDelegate.delegatesLock.withLock {
+      VideoDelegate.delegates.removeAll { $0 == self }
+    }
   }
 }

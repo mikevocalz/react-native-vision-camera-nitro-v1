@@ -5,7 +5,7 @@
 //  Created by Marc Rousavy on 08.04.26.
 //
 
-import CoreMedia
+public import CoreMedia
 
 extension CMVideoDimensions: @retroactive Equatable {
   public static func == (lhs: CMVideoDimensions, rhs: CMVideoDimensions) -> Bool {

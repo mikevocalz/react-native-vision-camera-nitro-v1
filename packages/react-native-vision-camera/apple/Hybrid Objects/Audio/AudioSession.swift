@@ -27,14 +27,13 @@ final class AudioSession {
 
     // 3. Create audio input
     guard let microphone = AVCaptureDevice.default(for: .audio) else {
-      throw RuntimeError.error(withMessage: "No microphone available!")
+      throw RuntimeError("No microphone available!")
     }
     self.input = try AVCaptureDeviceInput(device: microphone)
 
     // 4. Add audio input
     guard audioSession.canAddInput(input) else {
-      throw RuntimeError.error(
-        withMessage: "Microphone \(input) cannot be added to AVCaptureSession \(audioSession)!")
+      throw RuntimeError("Microphone \(input) cannot be added to AVCaptureSession \(audioSession)!")
     }
     audioSession.addInput(input)
 
@@ -42,8 +41,7 @@ final class AudioSession {
     self.output = AVCaptureAudioDataOutput()
     // 6. Add audio output
     guard audioSession.canAddOutput(output) else {
-      throw RuntimeError.error(
-        withMessage: "Audio output \(output) cannot be added to AVCaptureSession \(audioSession)!")
+      throw RuntimeError("Audio output \(output) cannot be added to AVCaptureSession \(audioSession)!")
     }
     audioSession.addOutput(output)
 

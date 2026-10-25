@@ -5,8 +5,8 @@
 //  Created by Marc Rousavy on 05.11.25.
 //
 
-import AVFoundation
-import Foundation
+public import AVFoundation
+public import Foundation
 
 public protocol NativeFrame: AnyObject {
   var sampleBuffer: CMSampleBuffer? { get }

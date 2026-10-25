@@ -56,9 +56,7 @@ enum ConstraintResolver {
       case is any NativePreviewViewOutput:
         return nil
       default:
-        throw RuntimeError.error(
-          withMessage:
-            "Connection output \"\(output)\" is not of type `NativeCameraOutput` or `NativePreviewViewOutput`!"
+        throw RuntimeError("Connection output \"\(output)\" is not of type `NativeCameraOutput` or `NativePreviewViewOutput`!"
         )
       }
     }
@@ -96,7 +94,7 @@ enum ConstraintResolver {
         .map({ try evaluate($0, constraints: constraints) })
         .min(by: { $0.totalPenalty < $1.totalPenalty })
     else {
-      throw RuntimeError.error(withMessage: "The given `device` does not have any `formats`!")
+      throw RuntimeError("The given `device` does not have any `formats`!")
     }
     logger.debug("Selected Format: \(best.format)")
 
@@ -171,7 +169,7 @@ enum ConstraintResolver {
   ) throws(RuntimeError) -> [AVCaptureDevice.Format] {
     var formats = formats
     guard !formats.isEmpty else {
-      throw RuntimeError.error(withMessage: "The given `device` does not have any `formats`!")
+      throw RuntimeError("The given `device` does not have any `formats`!")
     }
 
     // 1. If we need a Depth Output, filter out formats without depth support
@@ -179,9 +177,7 @@ enum ConstraintResolver {
     if needsDepth {
       formats = formats.filter { !$0.supportedDepthDataFormats.isEmpty }
       guard !formats.isEmpty else {
-        throw RuntimeError.error(
-          withMessage:
-            "The given `device` does not have any `formats` that have `supportedDepthDataFormats`. Does this device support depth?"
+        throw RuntimeError("The given `device` does not have any `formats` that have `supportedDepthDataFormats`. Does this device support depth?"
         )
       }
     }
@@ -190,9 +186,7 @@ enum ConstraintResolver {
     if isMultiCam {
       formats = formats.filter { $0.isMultiCamSupported }
       guard !formats.isEmpty else {
-        throw RuntimeError.error(
-          withMessage:
-            "The given `device` does not have any `formats` that support multi-cam sessions! Does this `device` support multi-cam?"
+        throw RuntimeError("The given `device` does not have any `formats` that support multi-cam sessions! Does this `device` support multi-cam?"
         )
       }
     }
@@ -202,9 +196,7 @@ enum ConstraintResolver {
       outputs.allSatisfy { format.supportsOutput($0.output) }
     }
     guard !formats.isEmpty else {
-      throw RuntimeError.error(
-        withMessage:
-          "The given `device` does not have any `formats` that support the attached Outputs!")
+      throw RuntimeError("The given `device` does not have any `formats` that support the attached Outputs!")
     }
 
     return formats

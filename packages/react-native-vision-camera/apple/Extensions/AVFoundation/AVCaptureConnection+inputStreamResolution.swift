@@ -5,9 +5,9 @@
 //  Created by Marc Rousavy on 12.05.26.
 //
 
-import AVFoundation
-import CoreMedia
-import NitroModules
+public import AVFoundation
+public import CoreMedia
+public import NitroModules
 
 extension AVCaptureConnection {
   /**

@@ -6,6 +6,7 @@
 //
 
 import AVFoundation
+import UIKit
 import Foundation
 
 /// A view that auto-resizes its sublayers each time

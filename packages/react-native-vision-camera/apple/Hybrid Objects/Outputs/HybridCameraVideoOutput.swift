@@ -35,11 +35,11 @@ final class HybridCameraVideoOutput: HybridCameraVideoOutputSpec, NativeCameraOu
     return .closestTo(options.targetResolution)
   }
 
-  init(options: VideoOutputOptions) {
+  init(options: VideoOutputOptions) throws {
     self.output = AVCaptureMovieFileOutput()
     self.options = options
     self.fileType = options.fileType ?? .mov
-    super.init()
+    try super.init()
     self.setMetadataTag(.libraryTag)
   }
 
@@ -72,37 +72,29 @@ final class HybridCameraVideoOutput: HybridCameraVideoOutputSpec, NativeCameraOu
 
   func getSupportedVideoCodecs() throws -> [VideoCodec] {
     guard output.connection(with: .video) != nil else {
-      throw RuntimeError.error(
-        withMessage:
-          "Cannot call `getSupportedVideoCodecs()` when VideoOutput is not yet connected to the CameraSession!"
+      throw RuntimeError("Cannot call `getSupportedVideoCodecs()` when VideoOutput is not yet connected to the CameraSession!"
       )
     }
     return output.availableVideoCodecTypes.map { VideoCodec(avCodec: $0) }
   }
 
-  func setOutputSettings(settings: VideoOutputSettings) -> Promise<Void> {
-    return Promise.parallel(queue) {
+  func setOutputSettings(settings: VideoOutputSettings) -> any Promise<Void> {
+    return .parallel(queue) {
       guard let connection = self.output.connection(with: .video) else {
-        throw RuntimeError.error(
-          withMessage:
-            "Cannot set output settings when VideoOutput is not yet connected to the CameraSession!"
+        throw RuntimeError("Cannot set output settings when VideoOutput is not yet connected to the CameraSession!"
         )
       }
 
       if let codec = settings.codec {
         if codec.isRawCodec {
           guard self.options.targetBitRate == nil else {
-            throw RuntimeError.error(
-              withMessage:
-                "Cannot set bit-rate when recording in a RAW codec! (\(codec.stringValue))")
+            throw RuntimeError("Cannot set bit-rate when recording in a RAW codec! (\(codec.stringValue))")
           }
         }
 
         let avCodec = try codec.toAVVideoCodecType()
         guard self.output.availableVideoCodecTypes.contains(avCodec) else {
-          throw RuntimeError.error(
-            withMessage:
-              "Video codec \(codec.stringValue) is not supported by this device! "
+          throw RuntimeError("Video codec \(codec.stringValue) is not supported by this device! "
               + "Supported codecs: \(self.output.availableVideoCodecTypes.map(\.rawValue))")
         }
 
@@ -120,11 +112,11 @@ final class HybridCameraVideoOutput: HybridCameraVideoOutputSpec, NativeCameraOu
     }
   }
 
-  func createRecorder(settings: RecorderSettings) -> Promise<any HybridRecorderSpec> {
-    return Promise.parallel(queue) {
+  func createRecorder(settings: RecorderSettings) -> any Promise<any HybridRecorderSpec> {
+    return .parallel(queue) {
       if let hybridLocation = settings.location {
         guard let location = hybridLocation as? any NativeLocation else {
-          throw RuntimeError.error(withMessage: "Location is not of type `NativeLocation`!")
+          throw RuntimeError("Location is not of type `NativeLocation`!")
         }
         let metadataItem = try location.location.toAVMutableMetadataItem()
         self.setMetadataTag(metadataItem)

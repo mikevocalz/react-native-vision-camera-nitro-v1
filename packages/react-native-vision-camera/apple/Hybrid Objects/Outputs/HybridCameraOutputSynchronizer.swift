@@ -26,48 +26,48 @@ final class HybridCameraOutputSynchronizer: HybridCameraOutputSynchronizerSpec {
     self.outputs = outputs
     let avOutputs = try outputs.map { output in
       guard let hybridOutput = output as? any NativeCameraOutput else {
-        throw RuntimeError.error(
-          withMessage: "Output \(output) is not of type `NativeCameraOutput`!")
+        throw RuntimeError("Output \(output) is not of type `NativeCameraOutput`!")
       }
       return hybridOutput.output
     }
     guard avOutputs.count >= 2 else {
-      throw RuntimeError.error(
-        withMessage: "Cannot create CameraOutputSynchronizer with less than 2 outputs!")
+      throw RuntimeError("Cannot create CameraOutputSynchronizer with less than 2 outputs!")
     }
     let allConnected = avOutputs.allSatisfy { !$0.connections.isEmpty }
     guard allConnected else {
-      throw RuntimeError.error(
-        withMessage:
-          "Cannot create CameraOutputSynchronizer when not all of the given outputs are connected to the Camera!"
+      throw RuntimeError("Cannot create CameraOutputSynchronizer when not all of the given outputs are connected to the Camera!"
       )
     }
     self.synchronizer = AVCaptureDataOutputSynchronizer(dataOutputs: avOutputs)
     self.delegate = SynchronizedOutputDelegate()
-    super.init()
+    self.thread = try HybridNativeThread(queue: self.queue)
+    try super.init()
 
     // Set delegate
     self.synchronizer.setDelegate(self.delegate, queue: self.queue)
   }
 
-  lazy var thread: any HybridNativeThreadSpec = {
-    return HybridNativeThread(queue: queue)
-  }()
+  let thread: any HybridNativeThreadSpec
 
   func setOnFramesCallback(
-    onFrames: (([Variant__any_HybridFrameSpec___any_HybridDepthSpec_]) -> Bool)?
+    onFrames: (any Callback<[Variant__any_HybridFrameSpec___any_HybridDepthSpec_], Bool>)?
   ) throws {
     if let onFrames {
       delegate.onFrames = { frames in
-        let hybrids = frames.map { $0.toJS() }
-        _ = onFrames(hybrids)
+        do {
+          let hybrids = try frames.map { try $0.toJS() }
+          // Call the JS function synchronously, we are on its thread.
+          _ = try onFrames.callSync(hybrids)
+        } catch {
+          logger.error("onFrames callback failed: \(error)")
+        }
       }
     } else {
       delegate.onFrames = nil
     }
   }
 
-  func setOnFrameDroppedCallback(onFrameDropped: ((MediaType, FrameDroppedReason) -> Void)?) throws {
+  func setOnFrameDroppedCallback(onFrameDropped: (any Callback<(MediaType, FrameDroppedReason), Void>)?) throws {
     if let onFrameDropped {
       delegate.onFrameDropped = { mediaType, avReason in
         let reason = FrameDroppedReason(reason: avReason)
@@ -80,13 +80,13 @@ final class HybridCameraOutputSynchronizer: HybridCameraOutputSynchronizerSpec {
 }
 
 extension SynchronizedDataFrame {
-  func toJS() -> Variant__any_HybridFrameSpec___any_HybridDepthSpec_ {
+  func toJS() throws -> Variant__any_HybridFrameSpec___any_HybridDepthSpec_ {
     switch self.data {
     case .video(let buffer):
-      let frame = HybridFrame(buffer: buffer, metadata: metadata)
+      let frame = try HybridFrame(buffer: buffer, metadata: metadata)
       return .first(frame)
     case .depth(let buffer):
-      let depth = HybridDepth(depthData: buffer, metadata: metadata)
+      let depth = try HybridDepth(depthData: buffer, metadata: metadata)
       return .second(depth)
     }
   }

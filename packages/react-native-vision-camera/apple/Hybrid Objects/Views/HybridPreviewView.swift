@@ -5,20 +5,22 @@
 ///
 
 import AVFoundation
+import UIKit
 import Foundation
 import NitroImage
 import NitroModules
 
 final class HybridPreviewView: HybridPreviewViewSpec {
-  var view: UIView = AutoLayerResizingView()
+  // Fabric creates Nitro views on the main thread.
+  let view: UIView = MainActor.assumeIsolated { AutoLayerResizingView() }
   var previewOutput: (any HybridCameraPreviewOutputSpec)? {
     didSet {
       updatePreviewLayer()
     }
   }
 
-  var onPreviewStarted: (() -> Void)? = nil
-  var onPreviewStopped: (() -> Void)? = nil
+  var onPreviewStarted: (any Callback<(), Void>)? = nil
+  var onPreviewStopped: (any Callback<(), Void>)? = nil
   private var isPreviewingObserver: NSKeyValueObservation? = nil
 
   // This field does nothing on iOS.
@@ -66,8 +68,7 @@ final class HybridPreviewView: HybridPreviewViewSpec {
 
   func convertCameraPointToViewPoint(cameraPoint: Point) throws -> Point {
     guard let previewLayer else {
-      throw RuntimeError.error(
-        withMessage: "Cannot convert camera point to view point - PreviewView isn't ready yet!")
+      throw RuntimeError("Cannot convert camera point to view point - PreviewView isn't ready yet!")
     }
     let converted = previewLayer.layerPointConverted(
       fromCaptureDevicePoint: cameraPoint.toCGPoint())
@@ -76,8 +77,7 @@ final class HybridPreviewView: HybridPreviewViewSpec {
 
   func convertViewPointToCameraPoint(viewPoint: Point) throws -> Point {
     guard let previewLayer else {
-      throw RuntimeError.error(
-        withMessage: "Cannot convert camera point to view point - PreviewView isn't ready yet!")
+      throw RuntimeError("Cannot convert camera point to view point - PreviewView isn't ready yet!")
     }
     let converted = previewLayer.captureDevicePointConverted(fromLayerPoint: viewPoint.toCGPoint())
     return Point(converted)
@@ -87,17 +87,13 @@ final class HybridPreviewView: HybridPreviewViewSpec {
     scannedObject: (any HybridScannedObjectSpec)
   ) throws -> (any HybridScannedObjectSpec) {
     guard let previewLayer else {
-      throw RuntimeError.error(
-        withMessage:
-          "Cannot convert Scanned Object to view coordinates - PreviewView isn't ready yet!")
+      throw RuntimeError("Cannot convert Scanned Object to view coordinates - PreviewView isn't ready yet!")
     }
     guard let object = scannedObject as? any NativeScannedObject else {
-      throw RuntimeError.error(
-        withMessage: "The given `scannedObject` is not of type `NativeScannedObject`!")
+      throw RuntimeError("The given `scannedObject` is not of type `NativeScannedObject`!")
     }
     guard let transformedObject = previewLayer.transformedMetadataObject(for: object.object) else {
-      throw RuntimeError.error(
-        withMessage: "Failed to transform the Scanned Object's coordinates into view coordinates!")
+      throw RuntimeError("Failed to transform the Scanned Object's coordinates into view coordinates!")
     }
     return HybridCameraObjectOutput.createHybridScannedObject(from: transformedObject)
   }
@@ -106,8 +102,7 @@ final class HybridPreviewView: HybridPreviewViewSpec {
     -> any HybridMeteringPointSpec
   {
     guard let previewLayer else {
-      throw RuntimeError.error(
-        withMessage: "Cannot create MeteringPoint - PreviewView is not ready yet!")
+      throw RuntimeError("Cannot create MeteringPoint - PreviewView is not ready yet!")
     }
     let relativePoint = CGPoint(x: viewX, y: viewY)
     let normalizedPoint = previewLayer.captureDevicePointConverted(fromLayerPoint: relativePoint)
@@ -119,8 +114,8 @@ final class HybridPreviewView: HybridPreviewViewSpec {
       normalizedY: normalizedPoint.y)
   }
 
-  func takeSnapshot() throws -> Promise<any HybridImageSpec> {
-    throw RuntimeError.error(withMessage: "takeSnapshot() is not available on iOS!")
+  func takeSnapshot() throws -> any Promise<any HybridImageSpec> {
+    throw RuntimeError("takeSnapshot() is not available on iOS!")
   }
 
   private func updatePreviewLayer() {

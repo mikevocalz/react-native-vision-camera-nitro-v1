@@ -27,11 +27,9 @@ extension DepthPixelFormat {
   func toCVPixelFormatType() throws -> OSType {
     switch self {
     case .unknown:
-      throw RuntimeError.error(
-        withMessage: "Cannot convert DepthPixelFormat \"unknown\" to native OSType!")
+      throw RuntimeError("Cannot convert DepthPixelFormat \"unknown\" to native OSType!")
     case .depthPointCloud32Bit:
-      throw RuntimeError.error(
-        withMessage: "DepthPixelFormat \"depth-point-cloud-32-bit\" is not supported on iOS!")
+      throw RuntimeError("DepthPixelFormat \"depth-point-cloud-32-bit\" is not supported on iOS!")
     case .depth16Bit:
       return kCVPixelFormatType_DepthFloat16
     case .depth32Bit:

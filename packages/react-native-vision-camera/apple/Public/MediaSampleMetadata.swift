@@ -5,10 +5,10 @@
 //  Created by Marc Rousavy on 29.10.25.
 //
 
-import AVFoundation
-import Foundation
-import NitroModules
-import UIKit
+public import AVFoundation
+public import Foundation
+public import NitroModules
+public import UIKit
 
 public struct MediaSampleMetadata {
   let timestamp: CMTime
@@ -17,7 +17,7 @@ public struct MediaSampleMetadata {
 
   init(timestamp: CMTime, orientationFromOutput output: AVCaptureOutput) throws {
     guard let connection = output.connection(with: .video) else {
-      throw RuntimeError.error(withMessage: "Output \(output) does not have a video connection!")
+      throw RuntimeError("Output \(output) does not have a video connection!")
     }
     self.init(timestamp: timestamp, orientationFromConnection: connection)
   }

@@ -6,6 +6,7 @@
 //
 
 import AVFoundation
+import UIKit
 import Foundation
 import NitroImage
 import NitroModules
@@ -13,8 +14,8 @@ import NitroModules
 // Implementation of HybridImageSpec using NitroImage's default UIImage impl (`NativeImage`)
 internal final class HybridUIImage: HybridImageSpec, NativeImage {
   let uiImage: UIImage
-  init(uiImage: UIImage) {
+  init(uiImage: UIImage) throws {
     self.uiImage = uiImage
-    super.init()
+    try super.init()
   }
 }

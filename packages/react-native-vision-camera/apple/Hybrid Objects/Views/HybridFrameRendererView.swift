@@ -5,11 +5,13 @@
 ///
 
 import AVFoundation
+import UIKit
 import Foundation
 import NitroModules
 
 final class HybridFrameRendererView: HybridFrameRendererViewSpec {
-  var view: UIView = AutoLayerResizingView()
+  // Fabric creates Nitro views on the main thread.
+  let view: UIView = MainActor.assumeIsolated { AutoLayerResizingView() }
   var renderer: (any HybridFrameRendererSpec)? {
     didSet {
       updateRendererLayer()

@@ -34,7 +34,7 @@ final class HybridVideoRecorder: HybridRecorderSpec {
       withIntermediateDirectories: true
     )
     self.settings = settings
-    super.init()
+    try super.init()
   }
 
   var isRecording: Bool {
@@ -57,26 +57,25 @@ final class HybridVideoRecorder: HybridRecorderSpec {
   }
 
   func startRecording(
-    onRecordingFinished: @escaping (_ filePath: String, _ reason: RecordingFinishedReason) -> Void,
-    onRecordingError: @escaping (_ error: Error) -> Void,
-    onRecordingPaused: (() -> Void)?,
-    onRecordingResumed: (() -> Void)?
-  ) throws -> Promise<Void> {
-    let promise = Promise<Void>()
+    onRecordingFinished: any Callback<(String, RecordingFinishedReason), Void>,
+    onRecordingError: any Callback<any Error, Void>,
+    onRecordingPaused: (any Callback<(), Void>)?,
+    onRecordingResumed: (any Callback<(), Void>)?
+  ) throws -> any Promise<Void> {
+    let promise = Promise_void.pending()
     var isResolved = false
 
     queue.async {
       // On our serial queue, make sure we are connected to the Camera
       guard self.videoOutput.connection(with: .video) != nil else {
-        let error = RuntimeError.error(
-          withMessage: "VideoOutput is not yet connected to the CameraSession!")
-        promise.reject(withError: error)
+        let error = RuntimeError("VideoOutput is not yet connected to the CameraSession!")
+        promise.reject(error: error)
         return
       }
       // On our serial queue, make sure we are currently not recoring
       guard !self.videoOutput.isRecording else {
-        let error = RuntimeError.error(withMessage: "Active recording already in progress!")
-        promise.reject(withError: error)
+        let error = RuntimeError("Active recording already in progress!")
+        promise.reject(error: error)
         return
       }
 
@@ -87,8 +86,8 @@ final class HybridVideoRecorder: HybridRecorderSpec {
           promise.resolve()
           isResolved = true
         },
-        onRecordingPaused: onRecordingPaused,
-        onRecordingResumed: onRecordingResumed,
+        onRecordingPaused: onRecordingPaused.map { callback in { callback() } },
+        onRecordingResumed: onRecordingResumed.map { callback in { callback() } },
         onRecordingFinished: { url, reason in
           if self.isCancelled {
             // Recording was cancelled - delete the file
@@ -101,7 +100,7 @@ final class HybridVideoRecorder: HybridRecorderSpec {
         onRecordingError: { error in
           if !isResolved {
             // We failed to even start the video recording!
-            promise.reject(withError: error)
+            promise.reject(error: error)
             isResolved = true
           } else {
             // An error occurred later on
@@ -128,36 +127,34 @@ final class HybridVideoRecorder: HybridRecorderSpec {
     return promise
   }
 
-  func stopRecording() throws -> Promise<Void> {
-    return Promise.parallel(queue) {
+  func stopRecording() throws -> any Promise<Void> {
+    return .parallel(queue) {
       self.videoOutput.stopRecording()
     }
   }
 
-  func pauseRecording() throws -> Promise<Void> {
-    return Promise.parallel(queue) {
+  func pauseRecording() throws -> any Promise<Void> {
+    return .parallel(queue) {
       guard #available(iOS 18.0, *) else {
-        throw RuntimeError.error(
-          withMessage: "`pauseRecording()` is only available on iOS 18 or above!")
+        throw RuntimeError("`pauseRecording()` is only available on iOS 18 or above!")
       }
       self.videoOutput.pauseRecording()
     }
   }
 
-  func resumeRecording() throws -> Promise<Void> {
-    return Promise.parallel(queue) {
+  func resumeRecording() throws -> any Promise<Void> {
+    return .parallel(queue) {
       guard #available(iOS 18.0, *) else {
-        throw RuntimeError.error(
-          withMessage: "`resumeRecording()` is only available on iOS 18 or above!")
+        throw RuntimeError("`resumeRecording()` is only available on iOS 18 or above!")
       }
       self.videoOutput.resumeRecording()
     }
   }
 
-  func cancelRecording() throws -> Promise<Void> {
-    return Promise.parallel(queue) {
+  func cancelRecording() throws -> any Promise<Void> {
+    return .parallel(queue) {
       guard self.videoOutput.isRecording else {
-        throw RuntimeError.error(withMessage: "Not currently recording!")
+        throw RuntimeError("Not currently recording!")
       }
       // Mark as cancelled so the onRecordingFinished callback
       // deletes the file instead of notifying the caller

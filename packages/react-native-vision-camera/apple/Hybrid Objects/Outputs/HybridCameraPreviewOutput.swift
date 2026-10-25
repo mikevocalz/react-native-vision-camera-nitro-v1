@@ -5,13 +5,14 @@
 ///
 
 import AVFoundation
+import UIKit
 import Foundation
 import NitroModules
 
 final class HybridCameraPreviewOutput: HybridCameraPreviewOutputSpec, NativePreviewViewOutput {
   let mediaType: MediaType = .video
   let previewLayer: AVCaptureVideoPreviewLayer
-  private let orientationManager = HybridInterfaceOrientationManager()
+  private let orientationManager: HybridInterfaceOrientationManager
   var outputOrientation: CameraOrientation {
     get {
       return previewLayer.connection?.orientation ?? .up
@@ -46,16 +47,17 @@ final class HybridCameraPreviewOutput: HybridCameraPreviewOutputSpec, NativePrev
     return .min(screenSizePx)
   }
 
-  override init() {
+  override init() throws {
     self.previewLayer = AVCaptureVideoPreviewLayer()
     self.previewLayer.videoGravity = .resizeAspectFill
-    super.init()
-    self.orientationManager.startOrientationUpdates { [weak self] orientation in
+    self.orientationManager = try HybridInterfaceOrientationManager()
+    try super.init()
+    try self.orientationManager.startOrientationUpdates(onChanged: .native { [weak self] orientation in
       guard let self else { return }
       if let connection = self.previewLayer.connection {
         try? connection.setOrientation(orientation)
       }
-    }
+    })
   }
 
   deinit {

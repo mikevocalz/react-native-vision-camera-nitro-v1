@@ -5,6 +5,7 @@
 ///
 
 import AVFoundation
+import UIKit
 import CoreImage
 import Foundation
 import NitroModules
@@ -12,7 +13,7 @@ import NitroModules
 extension CMSampleBuffer {
   func toUIImage(orientation: UIImage.Orientation) throws -> UIImage {
     guard let imageBuffer else {
-      throw RuntimeError.error(withMessage: "This Frame does not have a PixelBuffer!")
+      throw RuntimeError("This Frame does not have a PixelBuffer!")
     }
 
     // Copy over any attachments (colorspace, EXIF, ...)

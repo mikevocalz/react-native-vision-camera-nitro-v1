@@ -4,8 +4,8 @@
 /// Copyright © 2025 Marc Rousavy @ Margelo
 ///
 
-import AVFoundation
-import Foundation
+public import AVFoundation
+public import Foundation
 
 public struct OutputConfiguration {
   let mirrorMode: MirrorMode

@@ -23,8 +23,7 @@ extension AVCaptureSession {
 
     // 3. Add it!
     guard self.canAddConnection(connection) else {
-      throw RuntimeError.error(
-        withMessage: "Connection \"\(connection)\" cannot be added to Camera Session!")
+      throw RuntimeError("Connection \"\(connection)\" cannot be added to Camera Session!")
     }
     logger.info("Adding Connection \(connection)...")
     self.addConnection(connection)

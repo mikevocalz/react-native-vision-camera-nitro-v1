@@ -269,7 +269,7 @@ final class MeteringTask {
    */
   func startMeteringAE(to point: CGPoint, responsiveness: FocusResponsiveness) throws {
     guard self.device.isExposurePointOfInterestSupported else {
-      throw RuntimeError.error(withMessage: "Metering Mode `AE` is not supported on this device!")
+      throw RuntimeError("Metering Mode `AE` is not supported on this device!")
     }
     logger.info("Started metering AE to \(point.debugDescription)...")
     // Track AE completion
@@ -295,7 +295,7 @@ final class MeteringTask {
    */
   func startMeteringAF(to point: CGPoint, responsiveness: FocusResponsiveness) throws {
     guard self.device.isFocusPointOfInterestSupported else {
-      throw RuntimeError.error(withMessage: "Metering Mode `AF` is not supported on this device!")
+      throw RuntimeError("Metering Mode `AF` is not supported on this device!")
     }
     logger.info("Started metering AF to \(point.debugDescription)...")
     // Track AF completion
@@ -357,7 +357,7 @@ final class MeteringTask {
         return .autoExpose
       }
     }
-    throw RuntimeError.error(withMessage: "Metering Mode `AF` is not supported on this device!")
+    throw RuntimeError("Metering Mode `AF` is not supported on this device!")
   }
 
   private func getFocusMode(responsiveness: FocusResponsiveness) throws -> AVCaptureDevice.FocusMode {
@@ -378,7 +378,7 @@ final class MeteringTask {
         return .autoFocus
       }
     }
-    throw RuntimeError.error(withMessage: "Metering Mode `AF` is not supported on this device!")
+    throw RuntimeError("Metering Mode `AF` is not supported on this device!")
   }
 
   private func getWhiteBalanceMode(responsiveness: FocusResponsiveness) throws
@@ -401,6 +401,6 @@ final class MeteringTask {
         return .autoWhiteBalance
       }
     }
-    throw RuntimeError.error(withMessage: "Metering Mode `AWB` is not supported on this device!")
+    throw RuntimeError("Metering Mode `AWB` is not supported on this device!")
   }
 }

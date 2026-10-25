@@ -53,7 +53,7 @@ final class HybridCameraObjectOutput: HybridCameraObjectOutputSpec, NativeCamera
     output.metadataObjectTypes = filteredObjectTypes
   }
 
-  func setOnObjectsScannedCallback(onObjectsScanned: (([any HybridScannedObjectSpec]) -> Void)?)
+  func setOnObjectsScannedCallback(onObjectsScanned: (any Callback<[any HybridScannedObjectSpec], Void>)?)
     throws
   {
     if let onObjectsScanned {

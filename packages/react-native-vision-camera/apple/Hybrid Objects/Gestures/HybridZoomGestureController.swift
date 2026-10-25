@@ -10,14 +10,15 @@ import NitroModules
 import UIKit
 
 final class HybridZoomGestureController: HybridZoomGestureControllerSpec, NativeGestureController {
-  let gestureRecognizer = UIPinchGestureRecognizer()
+  // Created on the calling (JS) thread, like VisionCamera 5.2.3 did.
+  let gestureRecognizer = MainActor.assumeIsolatedUnchecked { UIPinchGestureRecognizer() }
   weak var controller: (any HybridCameraControllerSpec)? = nil
 
   private let MAX_ZOOM_FACTOR = 15.0
   private var initialZoomFactor = 1.0
 
-  override init() {
-    super.init()
+  override init() throws {
+    try super.init()
     gestureRecognizer.cancelsTouchesInView = false
     gestureRecognizer.addTarget(self, action: #selector(onPinch(_:)))
   }

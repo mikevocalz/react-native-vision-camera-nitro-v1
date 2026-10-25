@@ -5,6 +5,7 @@
 ///
 
 import AVFoundation
+import UIKit
 import Foundation
 import NitroImage
 import NitroModules
@@ -53,7 +54,7 @@ final class HybridCameraPhotoOutput: HybridCameraPhotoOutputSpec, NativeCameraOu
   init(options: PhotoOutputOptions) throws {
     self.output = AVCapturePhotoOutput()
     self.options = options
-    super.init()
+    try super.init()
 
     output.maxPhotoQualityPrioritization = options.qualityPrioritization.toAVQualityPrioritization()
 
@@ -118,15 +119,14 @@ final class HybridCameraPhotoOutput: HybridCameraPhotoOutputSpec, NativeCameraOu
   func capturePhoto(
     settings: CapturePhotoSettings,
     callbacks: CapturePhotoCallbacks
-  ) -> Promise<any HybridPhotoSpec> {
+  ) -> any Promise<any HybridPhotoSpec> {
     guard output.connection(with: .video) != nil else {
-      let error = RuntimeError.error(
-        withMessage: "PhotoOutput is not yet connected to the CameraSession!")
-      return Promise.rejected(withError: error)
+      let error = RuntimeError("PhotoOutput is not yet connected to the CameraSession!")
+      return .rejected(with: error)
     }
 
     // 1. Prepare delegate that will resolve/reject Promise
-    let promise = Promise<any HybridPhotoSpec>()
+    let promise = Promise___VisionCamera__HybridPhotoSpec_cxx.pending()
     let resultingFormat = PhotoContainerFormat(targetFormat: self.options.containerFormat)
     let delegate = CapturePhotoDelegate(
       onCaptured: { photo, metadata in
@@ -152,10 +152,10 @@ final class HybridCameraPhotoOutput: HybridCameraPhotoOutputSpec, NativeCameraOu
           photo: photo,
           metadata: metadata,
           containerFormat: resultingFormat)
-        promise.resolve(withResult: image)
+        promise.resolve(result: image)
       },
       onError: { error in
-        promise.reject(withError: error)
+        promise.reject(error: error)
       },
       callbacks: callbacks)
 
@@ -168,14 +168,14 @@ final class HybridCameraPhotoOutput: HybridCameraPhotoOutputSpec, NativeCameraOu
       return promise
     } catch {
       // Something failed - e.g. creating Photo settings!
-      return Promise.rejected(withError: error)
+      return .rejected(with: error)
     }
   }
 
   func capturePhotoToFile(settings: CapturePhotoSettings, callbacks: CapturePhotoCallbacks) throws
-    -> Promise<PhotoFile>
+    -> any Promise<PhotoFile>
   {
-    return Promise.async {
+    return .async {
       let photo = try await self.capturePhoto(settings: settings, callbacks: callbacks)
         .await()
       let filePath = try await photo.saveToTemporaryFileAsync()
@@ -184,19 +184,19 @@ final class HybridCameraPhotoOutput: HybridCameraPhotoOutputSpec, NativeCameraOu
     }
   }
 
-  func prepareSettings(settings: [CapturePhotoSettings]) throws -> Promise<Void> {
-    let promise = Promise<Void>()
+  func prepareSettings(settings: [CapturePhotoSettings]) throws -> any Promise<Void> {
+    let promise = Promise_void.pending()
     let captureSettings = try settings.map {
       try $0.toAVCapturePhotoSettings(for: self.output, withOptions: self.options)
     }
     self.output.setPreparedPhotoSettingsArray(captureSettings) { prepared, error in
       if let error {
-        promise.reject(withError: error)
+        promise.reject(error: error)
       } else {
         if prepared {
           promise.resolve()
         } else {
-          promise.reject(withError: RuntimeError("Settings preparation has been canceled!"))
+          promise.reject(error: RuntimeError("Settings preparation has been canceled!"))
         }
       }
     }

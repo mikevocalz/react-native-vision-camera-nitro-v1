@@ -117,15 +117,14 @@ final class HybridCameraController: HybridCameraControllerSpec, NativeCameraCont
     return Double(captureDevice.iso)
   }
 
-  func configure(config: CameraControllerConfiguration) -> Promise<Void> {
+  func configure(config: CameraControllerConfiguration) -> any Promise<Void> {
     return captureDevice.withLock(queue) {
       let device = self.captureDevice
 
       // `enableLowLightBoost={...}`
       if let enableLowLightBoost = config.enableLowLightBoost {
         guard device.isLowLightBoostSupported else {
-          throw RuntimeError.error(
-            withMessage: "This CameraDevice does not support `enableLowLightBoost`!")
+          throw RuntimeError("This CameraDevice does not support `enableLowLightBoost`!")
         }
         device.automaticallyEnablesLowLightBoostWhenAvailable = enableLowLightBoost
       }
@@ -133,8 +132,7 @@ final class HybridCameraController: HybridCameraControllerSpec, NativeCameraCont
       // `enableSmoothAutoFocus={...}`
       if let enableSmoothAutoFocus = config.enableSmoothAutoFocus {
         guard device.isSmoothAutoFocusSupported else {
-          throw RuntimeError.error(
-            withMessage: "This CameraDevice does not support `enableSmoothAutoFocus`!")
+          throw RuntimeError("This CameraDevice does not support `enableSmoothAutoFocus`!")
         }
         device.isSmoothAutoFocusEnabled = enableSmoothAutoFocus
       }
@@ -142,23 +140,20 @@ final class HybridCameraController: HybridCameraControllerSpec, NativeCameraCont
       // `enableDistortionCorrection={...}`
       if let enableDistortionCorrection = config.enableDistortionCorrection {
         guard device.isGeometricDistortionCorrectionSupported else {
-          throw RuntimeError.error(
-            withMessage: "This CameraDevice does not support `enableDistortionCorrection`!")
+          throw RuntimeError("This CameraDevice does not support `enableDistortionCorrection`!")
         }
         device.isGeometricDistortionCorrectionEnabled = enableDistortionCorrection
       }
     }
   }
 
-  func setZoom(zoom: Double) -> Promise<Void> {
+  func setZoom(zoom: Double) -> any Promise<Void> {
     return captureDevice.withLock(queue) {
       // 1. Ensure zoom is within valid range
       let device = self.captureDevice
       guard zoom >= device.minAvailableVideoZoomFactor && zoom <= device.maxAvailableVideoZoomFactor
       else {
-        throw RuntimeError.error(
-          withMessage:
-            "`zoom` is not within the device's `minZoom` and `maxZoom` range! (Received: \(zoom), `device.minZoom`: \(device.minAvailableVideoZoomFactor), `device.maxZoom`: \(device.maxAvailableVideoZoomFactor)"
+        throw RuntimeError("`zoom` is not within the device's `minZoom` and `maxZoom` range! (Received: \(zoom), `device.minZoom`: \(device.minAvailableVideoZoomFactor), `device.maxZoom`: \(device.maxAvailableVideoZoomFactor)"
         )
       }
       // 2. Clamp zoom to the active format's max zoom (might be slightly smaller than device max zoom)
@@ -171,17 +166,17 @@ final class HybridCameraController: HybridCameraControllerSpec, NativeCameraCont
   func focusTo(
     point: any HybridMeteringPointSpec,
     options: FocusOptions
-  ) -> Promise<Void> {
+  ) -> any Promise<Void> {
     return captureDevice.withLock(queue) { resolve, reject in
       guard let point = point as? HybridMeteringPoint else {
-        throw RuntimeError.error(withMessage: "MeteringPoint is not of type `HybridMeteringPoint`!")
+        throw RuntimeError("MeteringPoint is not of type `HybridMeteringPoint`!")
       }
       let responsiveness = options.responsiveness ?? .snappy
       let adaptiveness = options.adaptiveness ?? .continuous
       let autoResetAfter = options.autoResetAfter ?? Variant_NullType_Double.second(5.0)
       let modes = options.modes ?? self.getAllSupportedMeteringModes()
       guard !modes.isEmpty else {
-        throw RuntimeError.error(withMessage: "MeteringModes cannot be empty!")
+        throw RuntimeError("MeteringModes cannot be empty!")
       }
 
       // Cancel any previous tasks
@@ -239,7 +234,7 @@ final class HybridCameraController: HybridCameraControllerSpec, NativeCameraCont
     return modes
   }
 
-  func resetFocus() -> Promise<Void> {
+  func resetFocus() -> any Promise<Void> {
     return captureDevice.withLock(queue) {
       // cancel an ongoing focus operation
       self.activeMeteringTask?.cancel()
@@ -268,13 +263,13 @@ final class HybridCameraController: HybridCameraControllerSpec, NativeCameraCont
     }
   }
 
-  func addSubjectAreaChangedListener(onSubjectAreaChanged: @escaping () -> Void) -> ListenerSubscription {
+  func addSubjectAreaChangedListener(onSubjectAreaChanged: any Callback<(), Void>) -> ListenerSubscription {
     return SubjectAreaMonitor.addObserver(
       device: captureDevice,
       onSubjectAreaDidChange: onSubjectAreaChanged)
   }
 
-  func setTorchMode(mode: TorchMode) -> Promise<Void> {
+  func setTorchMode(mode: TorchMode) -> any Promise<Void> {
     return captureDevice.withLock(queue) {
       // 1. Ensure we have a torch
       if !self.captureDevice.hasTorch {
@@ -282,9 +277,7 @@ final class HybridCameraController: HybridCameraControllerSpec, NativeCameraCont
           // We set it to off, we can ignore that we don't have a torch.
           return
         }
-        throw RuntimeError.error(
-          withMessage:
-            "Tried setting torch mode to `\(mode.stringValue)`, but the device does not have a `torch`!"
+        throw RuntimeError("Tried setting torch mode to `\(mode.stringValue)`, but the device does not have a `torch`!"
         )
       }
 
@@ -298,11 +291,10 @@ final class HybridCameraController: HybridCameraControllerSpec, NativeCameraCont
     }
   }
 
-  func enableTorchWithStrength(strength: Double) -> Promise<Void> {
+  func enableTorchWithStrength(strength: Double) -> any Promise<Void> {
     return captureDevice.withLock(queue) {
       guard self.device.supportsTorchStrength else {
-        throw RuntimeError.error(
-          withMessage: "Cannot enable torch - this CameraDevice does not support setting torch strength! (See `device.supportsTorchStrength`)"
+        throw RuntimeError("Cannot enable torch - this CameraDevice does not support setting torch strength! (See `device.supportsTorchStrength`)"
         )
       }
       let minStrength = self.captureDevice.minTorchStrength
@@ -316,7 +308,7 @@ final class HybridCameraController: HybridCameraControllerSpec, NativeCameraCont
     }
   }
 
-  func startZoomAnimation(zoom: Double, rate: Double) -> Promise<Void> {
+  func startZoomAnimation(zoom: Double, rate: Double) -> any Promise<Void> {
     return captureDevice.withLock(queue) { completion in
       if self.captureDevice.videoZoomFactor == zoom {
         // We are already exactly on our target value
@@ -339,13 +331,13 @@ final class HybridCameraController: HybridCameraControllerSpec, NativeCameraCont
     }
   }
 
-  func cancelZoomAnimation() -> Promise<Void> {
+  func cancelZoomAnimation() -> any Promise<Void> {
     return captureDevice.withLock(queue) {
       self.captureDevice.cancelVideoZoomRamp()
     }
   }
 
-  func setExposureBias(exposure: Double) -> Promise<Void> {
+  func setExposureBias(exposure: Double) -> any Promise<Void> {
     return captureDevice.withLock(queue) { completion in
       // 1. Ensure exposureBias is within range
       let device = self.captureDevice
@@ -364,12 +356,11 @@ final class HybridCameraController: HybridCameraControllerSpec, NativeCameraCont
     }
   }
 
-  func setFocusLocked(lensPosition: Double) -> Promise<Void> {
+  func setFocusLocked(lensPosition: Double) -> any Promise<Void> {
     return captureDevice.withLock(queue) { completion in
       // 1. Ensure values are within valid range
       guard lensPosition >= 0 && lensPosition <= 1 else {
-        throw RuntimeError.error(
-          withMessage: "`lensPosition` is not within 0.0 to 1.0 range! (Received: \(lensPosition))")
+        throw RuntimeError("`lensPosition` is not within 0.0 to 1.0 range! (Received: \(lensPosition))")
       }
 
       // 2. Lock Focus
@@ -380,7 +371,7 @@ final class HybridCameraController: HybridCameraControllerSpec, NativeCameraCont
     }
   }
 
-  func lockCurrentFocus() -> Promise<Void> {
+  func lockCurrentFocus() -> any Promise<Void> {
     return captureDevice.withLock(queue) { completion in
       self.captureDevice.setFocusModeLocked(lensPosition: AVCaptureDevice.currentLensPosition) {
         _ in
@@ -405,7 +396,7 @@ final class HybridCameraController: HybridCameraControllerSpec, NativeCameraCont
     return Double(captureDevice.activeFormat.maxISO)
   }
 
-  func setExposureLocked(duration: Double, iso: Double) -> Promise<Void> {
+  func setExposureLocked(duration: Double, iso: Double) -> any Promise<Void> {
     return captureDevice.withLock(queue) { completion in
       let device = self.captureDevice
       // 1. Ensure values are within valid range
@@ -413,16 +404,12 @@ final class HybridCameraController: HybridCameraControllerSpec, NativeCameraCont
         duration >= device.activeFormat.minExposureDuration.seconds
           && duration <= device.activeFormat.maxExposureDuration.seconds
       else {
-        throw RuntimeError.error(
-          withMessage:
-            "`duration` is not within the currently selected Format's `minExposureDuration` and `maxExposureDuration` range! (Received: \(duration), `activeFormat.minExposureDuration`: \(device.activeFormat.minExposureDuration.seconds), `activeFormat.maxExposureDuration`: \(device.activeFormat.maxExposureDuration.seconds)"
+        throw RuntimeError("`duration` is not within the currently selected Format's `minExposureDuration` and `maxExposureDuration` range! (Received: \(duration), `activeFormat.minExposureDuration`: \(device.activeFormat.minExposureDuration.seconds), `activeFormat.maxExposureDuration`: \(device.activeFormat.maxExposureDuration.seconds)"
         )
       }
       let iso = Float(iso)
       guard iso >= device.activeFormat.minISO && iso <= device.activeFormat.maxISO else {
-        throw RuntimeError.error(
-          withMessage:
-            "`iso` is not within the currently selected Format's `minISO` and `maxISO` range! (Received: \(iso), `activeFormat.minISO`: \(device.activeFormat.minISO), `activeFormat.maxISO`: \(device.activeFormat.maxISO)"
+        throw RuntimeError("`iso` is not within the currently selected Format's `minISO` and `maxISO` range! (Received: \(iso), `activeFormat.minISO`: \(device.activeFormat.minISO), `activeFormat.maxISO`: \(device.activeFormat.maxISO)"
         )
       }
 
@@ -435,7 +422,7 @@ final class HybridCameraController: HybridCameraControllerSpec, NativeCameraCont
     }
   }
 
-  func lockCurrentExposure() -> Promise<Void> {
+  func lockCurrentExposure() -> any Promise<Void> {
     return captureDevice.withLock(queue) { completion in
       self.captureDevice.setExposureModeCustom(
         duration: AVCaptureDevice.currentExposureDuration,
@@ -462,7 +449,7 @@ final class HybridCameraController: HybridCameraControllerSpec, NativeCameraCont
       greenGain: Double(gains.greenGain))
   }
 
-  func setWhiteBalanceLocked(whiteBalanceGains: WhiteBalanceGains) -> Promise<Void> {
+  func setWhiteBalanceLocked(whiteBalanceGains: WhiteBalanceGains) -> any Promise<Void> {
     return captureDevice.withLock(queue) { completion in
       // 1. Ensure values are within valid range
       let device = self.captureDevice
@@ -470,21 +457,15 @@ final class HybridCameraController: HybridCameraControllerSpec, NativeCameraCont
       let greenGain = Float(whiteBalanceGains.greenGain)
       let blueGain = Float(whiteBalanceGains.blueGain)
       guard redGain >= 1 && redGain <= device.maxWhiteBalanceGain else {
-        throw RuntimeError.error(
-          withMessage:
-            "`whiteBalanceGains.redGain` is not within the range of `1` to `device.maxWhiteBalanceGain`! (Received: \(redGain), min: 1.0, `device.maxWhiteBalanceGain`: \(device.maxWhiteBalanceGain)"
+        throw RuntimeError("`whiteBalanceGains.redGain` is not within the range of `1` to `device.maxWhiteBalanceGain`! (Received: \(redGain), min: 1.0, `device.maxWhiteBalanceGain`: \(device.maxWhiteBalanceGain)"
         )
       }
       guard greenGain >= 1 && greenGain <= device.maxWhiteBalanceGain else {
-        throw RuntimeError.error(
-          withMessage:
-            "`whiteBalanceGains.greenGain` is not within the range of `1` to `device.maxWhiteBalanceGain`! (Received: \(greenGain), min: 1.0, `device.maxWhiteBalanceGain`: \(device.maxWhiteBalanceGain)"
+        throw RuntimeError("`whiteBalanceGains.greenGain` is not within the range of `1` to `device.maxWhiteBalanceGain`! (Received: \(greenGain), min: 1.0, `device.maxWhiteBalanceGain`: \(device.maxWhiteBalanceGain)"
         )
       }
       guard blueGain >= 1 && blueGain <= device.maxWhiteBalanceGain else {
-        throw RuntimeError.error(
-          withMessage:
-            "`whiteBalanceGains.blueGain` is not within the range of `1` to `device.maxWhiteBalanceGain`! (Received: \(blueGain), min: 1.0, `device.maxWhiteBalanceGain`: \(device.maxWhiteBalanceGain)"
+        throw RuntimeError("`whiteBalanceGains.blueGain` is not within the range of `1` to `device.maxWhiteBalanceGain`! (Received: \(blueGain), min: 1.0, `device.maxWhiteBalanceGain`: \(device.maxWhiteBalanceGain)"
         )
       }
 
@@ -500,7 +481,7 @@ final class HybridCameraController: HybridCameraControllerSpec, NativeCameraCont
     }
   }
 
-  func lockCurrentWhiteBalance() -> Promise<Void> {
+  func lockCurrentWhiteBalance() -> any Promise<Void> {
     return captureDevice.withLock(queue) { completion in
       self.captureDevice.setWhiteBalanceModeLocked(with: AVCaptureDevice.currentWhiteBalanceGains) {
         _ in

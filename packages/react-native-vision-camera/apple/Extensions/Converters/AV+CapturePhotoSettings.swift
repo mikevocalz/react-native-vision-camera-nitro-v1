@@ -57,9 +57,7 @@ extension CapturePhotoSettings {
     quality: Double
   ) throws -> AVCapturePhotoSettings {
     guard quality >= 0.0 && quality <= 1.0 else {
-      throw RuntimeError.error(
-        withMessage:
-          "Photo `quality` is not within 0.0 to 1.0 range! (Received: \(quality))")
+      throw RuntimeError("Photo `quality` is not within 0.0 to 1.0 range! (Received: \(quality))")
     }
 
     switch containerFormat {
@@ -80,8 +78,7 @@ extension CapturePhotoSettings {
     case .dng:
       // For RAW, we need to get the first available RAW format (often Bayer14)
       guard let rawFormat = output.bestRawPixelFormat else {
-        throw RuntimeError.error(
-          withMessage: "This PhotoOutput does not support raw capture (\"dng\" format)! "
+        throw RuntimeError("This PhotoOutput does not support raw capture (\"dng\" format)! "
             + "Select a Format that contains `dng` in its `supportedPhotoContainerFormats` to capture raw photos."
         )
       }
@@ -138,14 +135,11 @@ extension CapturePhotoSettings {
       // TODO: This is probably broken since we need to set `output.enableDepthDataDelivery` first,
       //       at init or configuration time (configure(...)), not at each capture.
       guard settings.supportsDepthData else {
-        throw RuntimeError.error(
-          withMessage:
-            "Depth Data is only available in processed photo formats such as JPEG or HEIC - not in RAW/DNG!"
+        throw RuntimeError("Depth Data is only available in processed photo formats such as JPEG or HEIC - not in RAW/DNG!"
         )
       }
       if enableDepthData && !output.isDepthDataDeliverySupported {
-        throw RuntimeError.error(
-          withMessage: "`enableDepthData` is not supported on this PhotoOutput!")
+        throw RuntimeError("`enableDepthData` is not supported on this PhotoOutput!")
       }
       settings.isDepthDataDeliveryEnabled = enableDepthData
       settings.embedsDepthDataInPhoto = enableDepthData
@@ -153,8 +147,7 @@ extension CapturePhotoSettings {
     // enableCameraCalibrationDataDelivery={...}
     if let enableCameraCalibrationDataDelivery {
       if enableCameraCalibrationDataDelivery && !output.isCameraCalibrationDataDeliverySupported {
-        throw RuntimeError.error(
-          withMessage: "`enableCameraCalibrationDataDelivery` is not supported on this PhotoOutput!"
+        throw RuntimeError("`enableCameraCalibrationDataDelivery` is not supported on this PhotoOutput!"
         )
       }
       settings.isCameraCalibrationDataDeliveryEnabled = enableCameraCalibrationDataDelivery
@@ -192,7 +185,7 @@ extension CapturePhotoSettings {
     settings.addLibraryMetadataTag()
     if let location {
       guard let location = location as? any NativeLocation else {
-        throw RuntimeError.error(withMessage: "Location is not of type `NativeLocation`!")
+        throw RuntimeError("Location is not of type `NativeLocation`!")
       }
       settings.addLocationMetadataTag(location)
     }

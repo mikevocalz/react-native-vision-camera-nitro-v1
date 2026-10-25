@@ -13,9 +13,7 @@ extension AVCaptureConnection {
     let mediaType = output.mediaType.toAVMediaType()
     let targetPorts = input.ports.filter { $0.mediaType == mediaType }
     guard !targetPorts.isEmpty else {
-      throw RuntimeError.error(
-        withMessage:
-          "Output \"\(output)\" operates on mediaType \"\(output.mediaType.stringValue)\", but Input \"\(input.device.uniqueID)\" does not have any ports for that mediaType!"
+      throw RuntimeError("Output \"\(output)\" operates on mediaType \"\(output.mediaType.stringValue)\", but Input \"\(input.device.uniqueID)\" does not have any ports for that mediaType!"
       )
     }
 

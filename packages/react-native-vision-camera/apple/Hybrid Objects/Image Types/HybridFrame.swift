@@ -21,11 +21,11 @@ final class HybridFrame: HybridFrameSpec, NativeFrame, LazyLockableBuffer {
   init(
     buffer: CMSampleBuffer,
     metadata: MediaSampleMetadata
-  ) {
+  ) throws {
     self.sampleBuffer = buffer
     self.metadata = metadata
     self.planesCached = nil
-    super.init()
+    try super.init()
   }
 
   var memorySize: Int {
@@ -109,10 +109,10 @@ final class HybridFrame: HybridFrameSpec, NativeFrame, LazyLockableBuffer {
 
   func getPlanes() throws -> [any HybridFramePlaneSpec] {
     guard isValid else {
-      throw RuntimeError.error(withMessage: "This Frame has already been disposed!")
+      throw RuntimeError("This Frame has already been disposed!")
     }
     guard let pixelBuffer else {
-      throw RuntimeError.error(withMessage: "This Frame does not contain a Pixel Buffer!")
+      throw RuntimeError("This Frame does not contain a Pixel Buffer!")
     }
     if let planesCached {
       // we have planes cached
@@ -129,10 +129,10 @@ final class HybridFrame: HybridFrameSpec, NativeFrame, LazyLockableBuffer {
 
   func getPixelBuffer() throws -> ArrayBuffer {
     guard isValid else {
-      throw RuntimeError.error(withMessage: "This Frame has already been disposed!")
+      throw RuntimeError("This Frame has already been disposed!")
     }
     guard let pixelBuffer else {
-      throw RuntimeError.error(withMessage: "This Frame does not contain a Pixel Buffer!")
+      throw RuntimeError("This Frame does not contain a Pixel Buffer!")
     }
     try ensureBufferLocked()
     return try ArrayBuffer.fromPixelBuffer(pixelBuffer)
@@ -140,14 +140,14 @@ final class HybridFrame: HybridFrameSpec, NativeFrame, LazyLockableBuffer {
 
   func getNativeBuffer() throws -> NativeBuffer {
     guard let pixelBuffer else {
-      throw RuntimeError.error(withMessage: "This Frame does not contain a Pixel Buffer!")
+      throw RuntimeError("This Frame does not contain a Pixel Buffer!")
     }
     return pixelBuffer.asNativeBuffer()
   }
 
   func convertCameraPointToFramePoint(cameraPoint: Point) throws -> Point {
     guard let pixelBuffer else {
-      throw RuntimeError.error(withMessage: "This Frame has already been disposed!")
+      throw RuntimeError("This Frame has already been disposed!")
     }
     let matrix = FrameCoordinateSystemConverter.getCameraToFrameMatrix(
       pixelBuffer: pixelBuffer,
@@ -158,7 +158,7 @@ final class HybridFrame: HybridFrameSpec, NativeFrame, LazyLockableBuffer {
 
   func convertFramePointToCameraPoint(framePoint: Point) throws -> Point {
     guard let pixelBuffer else {
-      throw RuntimeError.error(withMessage: "This Frame has already been disposed!")
+      throw RuntimeError("This Frame has already been disposed!")
     }
     let matrix = FrameCoordinateSystemConverter.getFrameToCameraMatrix(
       pixelBuffer: pixelBuffer,

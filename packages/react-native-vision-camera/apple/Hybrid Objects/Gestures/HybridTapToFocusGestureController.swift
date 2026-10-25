@@ -12,13 +12,14 @@ import UIKit
 final class HybridTapToFocusGestureController: HybridTapToFocusGestureControllerSpec,
   NativeGestureController
 {
-  let gestureRecognizer = UITapGestureRecognizer()
+  // Created on the calling (JS) thread, like VisionCamera 5.2.3 did.
+  let gestureRecognizer = MainActor.assumeIsolatedUnchecked { UITapGestureRecognizer() }
   weak var controller: (any HybridCameraControllerSpec)? = nil
 
   private weak var previewView: (any HybridPreviewViewSpec)? = nil
 
-  override init() {
-    super.init()
+  override init() throws {
+    try super.init()
     gestureRecognizer.cancelsTouchesInView = false
     gestureRecognizer.addTarget(self, action: #selector(onTap(_:)))
   }

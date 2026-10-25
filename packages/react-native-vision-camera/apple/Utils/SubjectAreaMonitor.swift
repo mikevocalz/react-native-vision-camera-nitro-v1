@@ -22,7 +22,8 @@ enum SubjectAreaMonitor {
     init(device: AVCaptureDevice) { self.device = device }
   }
 
-  private static var entries: [String: Entry] = [:]
+  // Every access holds `lock`.
+  nonisolated(unsafe) private static var entries: [String: Entry] = [:]
   private static let lock = NSLock()
 
   /// Registers an observer for `subjectAreaDidChangeNotification` on the given device.
@@ -32,7 +33,7 @@ enum SubjectAreaMonitor {
   /// and disables monitoring if it was the last one across all callers.
   static func addObserver(
     device: AVCaptureDevice,
-    onSubjectAreaDidChange: @escaping () -> Void
+    onSubjectAreaDidChange: any Callback<(), Void>
   ) -> ListenerSubscription {
     let deviceKey = device.uniqueID
     let listenerID = UUID()
@@ -55,9 +56,9 @@ enum SubjectAreaMonitor {
     entry.tokens[listenerID] = token
     entries[deviceKey] = entry
 
-    return ListenerSubscription {
+    return ListenerSubscription(remove: .native {
       removeObserver(deviceKey: deviceKey, listenerID: listenerID)
-    }
+    })
   }
 
   private static func removeObserver(deviceKey: String, listenerID: UUID) {

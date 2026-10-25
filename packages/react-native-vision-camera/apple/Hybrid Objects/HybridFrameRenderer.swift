@@ -13,11 +13,10 @@ final class HybridFrameRenderer: HybridFrameRendererSpec, NativeFrameRenderer {
 
   func renderFrame(frame: any HybridFrameSpec) throws {
     guard let hybridFrame = frame as? any NativeFrame else {
-      throw RuntimeError.error(withMessage: "Frame \(frame) is not of type `NativeFrame`!")
+      throw RuntimeError("Frame \(frame) is not of type `NativeFrame`!")
     }
     guard let sampleBuffer = hybridFrame.sampleBuffer else {
-      throw RuntimeError.error(
-        withMessage: "Frame \(hybridFrame) does not have a valid `.sampleBuffer`!")
+      throw RuntimeError("Frame \(hybridFrame) does not have a valid `.sampleBuffer`!")
     }
 
     self.layer.enqueue(sampleBuffer)
@@ -25,7 +24,7 @@ final class HybridFrameRenderer: HybridFrameRendererSpec, NativeFrameRenderer {
       self.layer.flush()
     }
     if self.layer.status == .failed {
-      throw RuntimeError.error(withMessage: "Failed to render Frame!")
+      throw RuntimeError("Failed to render Frame!")
     }
   }
 }

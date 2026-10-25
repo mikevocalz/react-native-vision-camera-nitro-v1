@@ -12,9 +12,9 @@ import NitroModules
 final class HybridCameraCalibrationData: HybridCameraCalibrationDataSpec {
   let calibrationData: AVCameraCalibrationData
 
-  init(calibrationData: AVCameraCalibrationData) {
+  init(calibrationData: AVCameraCalibrationData) throws {
     self.calibrationData = calibrationData
-    super.init()
+    try super.init()
   }
 
   var pixelSize: Double {

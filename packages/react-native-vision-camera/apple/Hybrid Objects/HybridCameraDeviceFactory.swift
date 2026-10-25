@@ -9,12 +9,12 @@ import Foundation
 import NitroModules
 
 final class HybridCameraDeviceFactory: HybridCameraDeviceFactorySpec {
-  override init() {
+  override init() throws {
     self.discoverySession = AVCaptureDevice.DiscoverySession(
       deviceTypes: AVCaptureDevice.DeviceType.all,
       mediaType: nil,
       position: .unspecified)
-    super.init()
+    try super.init()
   }
 
   let discoverySession: AVCaptureDevice.DiscoverySession
@@ -49,7 +49,7 @@ final class HybridCameraDeviceFactory: HybridCameraDeviceFactorySpec {
     }
   }
 
-  func addOnCameraDevicesChangedListener(listener: @escaping ([any HybridCameraDeviceSpec]) -> Void)
+  func addOnCameraDevicesChangedListener(listener: any Callback<[any HybridCameraDeviceSpec], Void>)
     -> ListenerSubscription
   {
     // 1. Attach a listener using KVO
@@ -61,7 +61,9 @@ final class HybridCameraDeviceFactory: HybridCameraDeviceFactorySpec {
     }
 
     // 2. Return a remove function that removes the listener via KVO
-    return ListenerSubscription(remove: {
+    // NSKeyValueObservation.invalidate() is thread-safe.
+    nonisolated(unsafe) let observation = observation
+    return ListenerSubscription(remove: .native {
       observation.invalidate()
     })
   }
@@ -80,10 +82,10 @@ final class HybridCameraDeviceFactory: HybridCameraDeviceFactorySpec {
     return HybridCameraDevice(device: device)
   }
 
-  func getSupportedExtensions(camera: any HybridCameraDeviceSpec) throws -> Promise<
+  func getSupportedExtensions(camera: any HybridCameraDeviceSpec) throws -> any Promise<
     [any HybridCameraExtensionSpec]
   > {
     // There are no Camera Extensions on iOS.
-    return .resolved(withResult: [])
+    return .resolved(with: [])
   }
 }

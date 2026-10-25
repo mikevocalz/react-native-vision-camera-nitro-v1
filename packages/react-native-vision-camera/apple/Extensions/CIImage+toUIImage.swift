@@ -5,6 +5,7 @@
 ///
 
 import AVFoundation
+import UIKit
 import CoreImage
 import Foundation
 import NitroModules
@@ -19,7 +20,7 @@ extension CIImage {
         self,
         from: self.extent)
     else {
-      throw RuntimeError.error(withMessage: "Failed to copy CIImage into CGImage!")
+      throw RuntimeError("Failed to copy CIImage into CGImage!")
     }
     // No-copy wrap the CGImage in a UIImage
     return UIImage(

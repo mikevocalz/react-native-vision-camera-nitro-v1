@@ -5,6 +5,7 @@
 ///
 
 import AVFoundation
+import UIKit
 import Foundation
 import NitroModules
 
@@ -13,8 +14,7 @@ extension AVCapturePhoto {
     guard let orientationAny = self.metadata[kCGImagePropertyOrientation as String],
       let exifOrientation = orientationAny as? UInt32
     else {
-      throw RuntimeError.error(
-        withMessage: "Photo did not contain a `kCGImagePropertyOrientation` metadata key!")
+      throw RuntimeError("Photo did not contain a `kCGImagePropertyOrientation` metadata key!")
     }
     let uiOrientation = try UIImage.Orientation(fromExif: exifOrientation)
     let orientation = CameraOrientation(uiOrientation: uiOrientation)

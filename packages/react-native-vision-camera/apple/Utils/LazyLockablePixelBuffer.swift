@@ -24,11 +24,11 @@ extension LazyLockableBuffer {
       return
     }
     guard let pixelBuffer else {
-      throw RuntimeError.error(withMessage: "Failed to lock already disposed PixelBuffer!")
+      throw RuntimeError("Failed to lock already disposed PixelBuffer!")
     }
     let result = CVPixelBufferLockBaseAddress(pixelBuffer, .readOnly)
     guard result == kCVReturnSuccess else {
-      throw RuntimeError.error(withMessage: "Failed to lock PixelBuffer \(pixelBuffer)!")
+      throw RuntimeError("Failed to lock PixelBuffer \(pixelBuffer)!")
     }
     self.isLocked = true
   }

@@ -15,9 +15,7 @@ extension AVCaptureConnection {
 
   func setOrientation(_ orientation: CameraOrientation) throws {
     guard self.isVideoOrientationSupported else {
-      throw RuntimeError.error(
-        withMessage:
-          "Cannot set orientation=\"\(orientation.stringValue)\" - this connection does not support orientation changing"
+      throw RuntimeError("Cannot set orientation=\"\(orientation.stringValue)\" - this connection does not support orientation changing"
       )
     }
     self.videoOrientation = orientation.toAVCaptureVideoOrientation()

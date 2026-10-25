@@ -63,8 +63,7 @@ extension VideoCodec {
   func toAVVideoCodecType() throws -> AVVideoCodecType {
     switch self {
     case .unknown:
-      throw RuntimeError.error(
-        withMessage: "VideoCodec \"unknown\" cannot be used as AVVideoCodecType!")
+      throw RuntimeError("VideoCodec \"unknown\" cannot be used as AVVideoCodecType!")
     case .h264:
       return .h264
     case .h265:
@@ -85,20 +84,17 @@ extension VideoCodec {
       return .jpeg
     case .proRes4444Xq:
       guard #available(iOS 18.0, *) else {
-        throw RuntimeError.error(
-          withMessage: "VideoCodec \"pro-res-4444-xq\" is only available on iOS 18.0 or higher!")
+        throw RuntimeError("VideoCodec \"pro-res-4444-xq\" is only available on iOS 18.0 or higher!")
       }
       return .appleProRes4444XQ
     case .proResRaw:
       guard #available(iOS 26.0, *) else {
-        throw RuntimeError.error(
-          withMessage: "VideoCodec \"pro-res-raw\" is only available on iOS 18.0 or higher!")
+        throw RuntimeError("VideoCodec \"pro-res-raw\" is only available on iOS 18.0 or higher!")
       }
       return .proResRAW
     case .proResRawHq:
       guard #available(iOS 26.0, *) else {
-        throw RuntimeError.error(
-          withMessage: "VideoCodec \"pro-res-raw-hq\" is only available on iOS 18.0 or higher!")
+        throw RuntimeError("VideoCodec \"pro-res-raw-hq\" is only available on iOS 18.0 or higher!")
       }
       return .proResRAWHQ
     }
