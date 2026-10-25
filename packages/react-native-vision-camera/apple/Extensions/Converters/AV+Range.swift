@@ -10,6 +10,6 @@ import NitroModules
 
 extension Range {
   init(range: AVFrameRateRange) {
-    self.init(range.minFrameRate, range.maxFrameRate)
+    self.init(min: range.minFrameRate, max: range.maxFrameRate)
   }
 }

@@ -6,6 +6,7 @@
 //
 
 import AVFoundation
+import NitroModules
 
 /// Coordinates `AVCaptureDevice.isSubjectAreaChangeMonitoringEnabled` across
 /// multiple observers and multiple `HybridCameraController` instances per device.

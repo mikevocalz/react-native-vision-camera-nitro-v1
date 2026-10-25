@@ -14,7 +14,7 @@ struct ResolvedCameraSessionConnection {
   let outputs: [OutputConfiguration]
   let initialExposureBias: Double?
   let initialZoom: Double?
-  let onSessionConfigSelected: ((_ config: (any HybridCameraSessionConfigSpec)) -> Void)?
+  let onSessionConfigSelected: (any Callback<any HybridCameraSessionConfigSpec, Void>)?
   let constraints: [Constraint]
 
   init(connection: CameraSessionConnection) throws {

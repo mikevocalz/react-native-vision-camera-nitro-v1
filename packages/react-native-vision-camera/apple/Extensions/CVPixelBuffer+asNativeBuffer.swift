@@ -7,6 +7,7 @@
 
 import AVFoundation
 import CoreVideo
+import NitroModules
 
 extension UInt64 {
   fileprivate init(fromPointerAddress pointer: UnsafeMutableRawPointer) {
@@ -17,13 +18,14 @@ extension UInt64 {
 
 extension CVPixelBuffer {
   func asNativeBuffer() -> NativeBuffer {
-    let rawPointer =
+    nonisolated(unsafe) let rawPointer =
       Unmanaged
       .passRetained(self)
       .toOpaque()  // +1 retain
     let pointer = UInt64(fromPointerAddress: rawPointer)
-    var wasReleased = false
-    let release = {
+    // JS calls `release()` once, from one thread. `wasReleased` only backs the debug assertion.
+    nonisolated(unsafe) var wasReleased = false
+    let release: any Callback<(), Void> = .native {
       assert(!wasReleased, "Tried to release NativeBuffer twice!")
       Unmanaged<CVPixelBuffer>
         .fromOpaque(rawPointer)
