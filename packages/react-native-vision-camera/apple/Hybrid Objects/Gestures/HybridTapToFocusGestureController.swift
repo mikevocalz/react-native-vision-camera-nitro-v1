@@ -20,8 +20,13 @@ final class HybridTapToFocusGestureController: HybridTapToFocusGestureController
 
   override init() throws {
     try super.init()
-    gestureRecognizer.cancelsTouchesInView = false
-    gestureRecognizer.addTarget(self, action: #selector(onTap(_:)))
+    // Configured on the calling (JS) thread, like VisionCamera 5.2.3 did.
+    nonisolated(unsafe) let target = self
+    let gestureRecognizer = self.gestureRecognizer
+    MainActor.assumeIsolatedUnchecked {
+      gestureRecognizer.cancelsTouchesInView = false
+      gestureRecognizer.addTarget(target, action: #selector(onTap(_:)))
+    }
   }
 
   // UIKit delivers gesture actions on the main thread.

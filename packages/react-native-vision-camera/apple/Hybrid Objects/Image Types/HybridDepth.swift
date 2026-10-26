@@ -9,7 +9,7 @@ import AVFoundation
 import Foundation
 import NitroModules
 
-// `@unchecked Sendable`: V1 `.async` closures are `sending`; the `*Async` methods read `depthData` off the JS thread. `dispose()` racing one of them is the same race VisionCamera 5.2.3 has; JS owns the lifetime.
+// `@unchecked Sendable`: V1 `.parallel` closures are `@Sendable`; the `*Async` methods read `depthData` off the JS thread. `dispose()` racing one of them is the same race VisionCamera 5.2.3 has; JS owns the lifetime.
 final class HybridDepth: HybridDepthSpec, NativeDepth, LazyLockableBuffer, @unchecked Sendable {
   var depthData: AVDepthData?
   let metadata: MediaSampleMetadata
@@ -126,7 +126,7 @@ final class HybridDepth: HybridDepthSpec, NativeDepth, LazyLockableBuffer, @unch
   func rotateAsync(orientation: CameraOrientation, isMirrored: Bool) throws -> any Promise<
     any HybridDepthSpec
   > {
-    return .async {
+    return .parallel {
       return try self.rotate(orientation: orientation, isMirrored: isMirrored)
     }
   }
@@ -143,7 +143,7 @@ final class HybridDepth: HybridDepthSpec, NativeDepth, LazyLockableBuffer, @unch
   }
 
   func convertAsync(pixelFormat: DepthPixelFormat) throws -> any Promise<any HybridDepthSpec> {
-    return .async {
+    return .parallel {
       return try self.convert(pixelFormat: pixelFormat)
     }
   }
@@ -203,7 +203,7 @@ final class HybridDepth: HybridDepthSpec, NativeDepth, LazyLockableBuffer, @unch
       metadata: metadata)
   }
   func toFrameAsync() -> any Promise<any HybridFrameSpec> {
-    return .async {
+    return .parallel {
       return try self.toFrame()
     }
   }

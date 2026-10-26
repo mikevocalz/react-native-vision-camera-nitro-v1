@@ -11,7 +11,7 @@ import Foundation
 import NitroImage
 import NitroModules
 
-// `@unchecked Sendable`: V1 `.async` closures are `sending`; every stored property is an immutable `let`.
+// `@unchecked Sendable`: V1 `.parallel` closures are `@Sendable`; every stored property is an immutable `let`.
 final class HybridPhoto: HybridPhotoSpec, NativePhoto, @unchecked Sendable {
   let photo: AVCapturePhoto
   let metadata: MediaSampleMetadata
@@ -103,7 +103,7 @@ final class HybridPhoto: HybridPhotoSpec, NativePhoto, @unchecked Sendable {
   }
 
   func getFileDataAsync() throws -> any Promise<ArrayBuffer> {
-    return .async {
+    return .parallel {
       return try self.getFileData()
     }
   }
@@ -119,13 +119,13 @@ final class HybridPhoto: HybridPhotoSpec, NativePhoto, @unchecked Sendable {
   }
 
   func saveToFileAsync(path: String) throws -> any Promise<Void> {
-    return .async(.utility) {
+    return .parallel(.global(qos: .utility)) {
       try self.saveImage(to: path)
     }
   }
 
   func saveToTemporaryFileAsync() throws -> any Promise<String> {
-    return .async(.utility) {
+    return .parallel(.global(qos: .utility)) {
       // 1. Create temp path
       let fileType = try self.containerFormat.toUTType()
       let file = try URL.createTempURL(fileType: fileType)
@@ -151,7 +151,7 @@ final class HybridPhoto: HybridPhotoSpec, NativePhoto, @unchecked Sendable {
   }
 
   func toImageAsync() throws -> any Promise<any HybridImageSpec> {
-    return .async {
+    return .parallel {
       return try self.toImage()
     }
   }

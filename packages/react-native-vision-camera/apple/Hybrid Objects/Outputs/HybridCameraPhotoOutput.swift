@@ -135,7 +135,9 @@ final class HybridCameraPhotoOutput: HybridCameraPhotoOutputSpec, NativeCameraOu
         if self.options.previewImageTargetSize != nil,
           let onPreviewImageAvailable = callbacks.onPreviewImageAvailable
         {
-          Task {
+          // AVCapturePhoto is immutable once delivered, so decoding it on another thread is safe.
+          nonisolated(unsafe) let photo = photo
+          DispatchQueue.global(qos: .userInitiated).async {
             // On a separate Thread, start decoding the Preview Image Data
             guard let cgPreviewImage = photo.previewCGImageRepresentation() else {
               return

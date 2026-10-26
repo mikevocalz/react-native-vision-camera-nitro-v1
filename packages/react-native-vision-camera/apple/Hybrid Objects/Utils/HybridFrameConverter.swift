@@ -9,7 +9,7 @@ import Foundation
 import NitroImage
 import NitroModules
 
-// `@unchecked Sendable`: V1 `.async` closures are `sending`; it has no stored state.
+// `@unchecked Sendable`: V1 `.parallel` closures are `@Sendable`; it has no stored state.
 final class HybridFrameConverter: HybridFrameConverterSpec, @unchecked Sendable {
   func convertFrameToImage(frame: any HybridFrameSpec) throws -> any HybridImageSpec {
     guard let frame = frame as? any NativeFrame else {
@@ -24,7 +24,9 @@ final class HybridFrameConverter: HybridFrameConverterSpec, @unchecked Sendable 
   }
 
   func convertFrameToImageAsync(frame: any HybridFrameSpec) throws -> any Promise<any HybridImageSpec> {
-    return .async {
+    // JS keeps `frame` alive until the Promise settles; the conversion only reads it.
+    nonisolated(unsafe) let frame = frame
+    return .parallel {
       return try self.convertFrameToImage(frame: frame)
     }
   }
@@ -42,7 +44,9 @@ final class HybridFrameConverter: HybridFrameConverterSpec, @unchecked Sendable 
   }
 
   func convertDepthToImageAsync(depth: any HybridDepthSpec) throws -> any Promise<any HybridImageSpec> {
-    return .async {
+    // JS keeps `depth` alive until the Promise settles; the conversion only reads it.
+    nonisolated(unsafe) let depth = depth
+    return .parallel {
       return try self.convertDepthToImage(depth: depth)
     }
   }
