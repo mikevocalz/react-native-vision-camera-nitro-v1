@@ -2,13 +2,14 @@
   "name": "react-native-vision-camera",
   "version": "5.2.3-nitro-v1.0",
   "description": "VisionCamera is the fastest and most powerful Camera for react-native.",
-  "main": "src/index",
-  "module": "src/index",
-  "types": "src/index.ts",
-  "react-native": "src/index",
+  "main": "lib/index",
+  "module": "lib/index",
+  "types": "lib/index.d.ts",
+  "react-native": "lib/index",
   "source": "src/index",
   "files": [
     "src",
+    "lib",
     "react-native.config.js",
     "nitrogen",
     "android/build.gradle",
@@ -32,7 +33,7 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf android/build node_modules/**/android/build lib",
-    "build": "tsc",
+    "build": "tsc --noEmit false --declaration",
     "specs": "nitrogen && tsc --noEmit",
     "release": "release-it"
   },

@@ -11,7 +11,8 @@ import Foundation
 import NitroImage
 import NitroModules
 
-final class HybridPhoto: HybridPhotoSpec, NativePhoto {
+// `@unchecked Sendable`: V1 `.async` closures are `sending`; every stored property is an immutable `let`.
+final class HybridPhoto: HybridPhotoSpec, NativePhoto, @unchecked Sendable {
   let photo: AVCapturePhoto
   let metadata: MediaSampleMetadata
   let containerFormat: PhotoContainerFormat

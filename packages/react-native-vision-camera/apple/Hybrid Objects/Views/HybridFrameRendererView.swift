@@ -9,7 +9,8 @@ import UIKit
 import Foundation
 import NitroModules
 
-final class HybridFrameRendererView: HybridFrameRendererViewSpec {
+// `@unchecked Sendable`: the view and renderer layer are only touched on the main thread.
+final class HybridFrameRendererView: HybridFrameRendererViewSpec, @unchecked Sendable {
   // Fabric creates Nitro views on the main thread.
   let view: UIView = MainActor.assumeIsolated { AutoLayerResizingView() }
   var renderer: (any HybridFrameRendererSpec)? {

@@ -9,7 +9,8 @@ import AVFoundation
 import Foundation
 import NitroModules
 
-final class HybridDepth: HybridDepthSpec, NativeDepth, LazyLockableBuffer {
+// `@unchecked Sendable`: V1 `.async` closures are `sending`; the `*Async` methods read `depthData` off the JS thread. `dispose()` racing one of them is the same race VisionCamera 5.2.3 has; JS owns the lifetime.
+final class HybridDepth: HybridDepthSpec, NativeDepth, LazyLockableBuffer, @unchecked Sendable {
   var depthData: AVDepthData?
   let metadata: MediaSampleMetadata
   var isLocked: Bool = false

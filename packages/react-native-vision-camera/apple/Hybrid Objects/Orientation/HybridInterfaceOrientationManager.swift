@@ -8,7 +8,8 @@ import Foundation
 import NitroModules
 import UIKit
 
-final class HybridInterfaceOrientationManager: HybridOrientationManagerSpec {
+// `@unchecked Sendable`: its observer and orientation state are only touched on the main thread.
+final class HybridInterfaceOrientationManager: HybridOrientationManagerSpec, @unchecked Sendable {
   let source: OrientationSource = .interface
   private(set) var currentOrientation: CameraOrientation? = nil
   private var observer: NSObjectProtocol? = nil

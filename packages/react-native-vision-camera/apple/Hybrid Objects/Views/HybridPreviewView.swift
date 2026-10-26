@@ -10,7 +10,9 @@ import Foundation
 import NitroImage
 import NitroModules
 
-final class HybridPreviewView: HybridPreviewViewSpec {
+// `@unchecked Sendable`: Fabric sets props on the main thread and every view mutation
+// below runs in `DispatchQueue.main.async`, so its state stays on the main thread.
+final class HybridPreviewView: HybridPreviewViewSpec, @unchecked Sendable {
   // Fabric creates Nitro views on the main thread.
   let view: UIView = MainActor.assumeIsolated { AutoLayerResizingView() }
   var previewOutput: (any HybridCameraPreviewOutputSpec)? {
@@ -32,6 +34,7 @@ final class HybridPreviewView: HybridPreviewViewSpec {
       if newResizeMode != oldValue,
         let previewLayer
       {
+        nonisolated(unsafe) let previewLayer = previewLayer
         DispatchQueue.main.async {
           previewLayer.videoGravity = newResizeMode.toAVLayerVideoGravity()
         }
@@ -41,7 +44,8 @@ final class HybridPreviewView: HybridPreviewViewSpec {
 
   var gestureControllers: [any HybridGestureControllerSpec]? {
     didSet {
-      let newValue = gestureControllers
+      nonisolated(unsafe) let oldValue = oldValue
+      nonisolated(unsafe) let newValue = gestureControllers
       DispatchQueue.main.async {
         for oldController in oldValue ?? [] {
           if let oldController = oldController as? any NativeGestureController {

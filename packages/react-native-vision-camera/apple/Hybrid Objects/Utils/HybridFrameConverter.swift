@@ -9,7 +9,8 @@ import Foundation
 import NitroImage
 import NitroModules
 
-final class HybridFrameConverter: HybridFrameConverterSpec {
+// `@unchecked Sendable`: V1 `.async` closures are `sending`; it has no stored state.
+final class HybridFrameConverter: HybridFrameConverterSpec, @unchecked Sendable {
   func convertFrameToImage(frame: any HybridFrameSpec) throws -> any HybridImageSpec {
     guard let frame = frame as? any NativeFrame else {
       throw RuntimeError("The given `Frame` is not of type `NativeFrame`!")
