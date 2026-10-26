@@ -159,7 +159,7 @@ dependencies {
   // is what CustomLifecycle overrides. Without these the module fails to
   // compile with "Unresolved reference 'edit'" and "'lifecycle' overrides
   // nothing".
-  implementation "androidx.core:core-ktx:1.15.0"
+  implementation "androidx.core:core-ktx:1.19.1"
   implementation "androidx.lifecycle:lifecycle-common:2.8.7"
 
   // CameraX dependency
