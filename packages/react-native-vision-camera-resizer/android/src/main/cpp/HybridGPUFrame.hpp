@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "HybridGPUFrameSpec.hpp"
+#include <VisionCameraResizer/HybridGPUFrameSpec.hpp>
 #include "vulkan/VulkanBufferView.hpp"
 
 #include <memory>
@@ -27,7 +27,7 @@ public:
   std::optional<ChannelOrder> getChannelOrder() override;
   std::optional<DataType> getDataType() override;
   std::optional<PixelLayout> getPixelLayout() override;
-  std::shared_ptr<margelo::nitro::ArrayBuffer> getPixelBuffer() override;
+  ArrayBuffer getPixelBuffer() override;
   void dispose() override;
   size_t getExternalMemorySize() noexcept override;
 

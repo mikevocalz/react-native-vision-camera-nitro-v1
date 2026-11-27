@@ -1,0 +1,40 @@
+{
+  "version": 2,
+  "classes": {
+    "GPUFrame": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "c++"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "Resizer": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "c++"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "ResizerFactory": {
+      "android": {
+        "implementation": {
+          "className": "HybridResizerFactory",
+          "include": "\"HybridResizerFactory.hpp\""
+        },
+        "language": "c++"
+      },
+      "apple": {
+        "implementation": {
+          "className": "HybridResizerFactory"
+        },
+        "language": "swift"
+      }
+    }
+  }
+}

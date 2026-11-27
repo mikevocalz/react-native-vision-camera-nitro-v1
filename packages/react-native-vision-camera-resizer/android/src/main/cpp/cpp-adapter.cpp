@@ -1,4 +1,4 @@
-#include "VisionCameraResizerOnLoad.hpp"
+#include <VisionCameraResizer/private/VisionCameraResizerOnLoad.hpp>
 #include <fbjni/fbjni.h>
 #include <jni.h>
 

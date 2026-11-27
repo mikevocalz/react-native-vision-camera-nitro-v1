@@ -1,4 +1,4 @@
-import type { HybridObject } from 'react-native-nitro-modules'
+import { Android, Apple, type HybridObject } from 'react-native-nitro-modules'
 import type { Frame } from 'react-native-vision-camera'
 import type { ChannelOrder, DataType, PixelLayout } from './OutputFormat'
 import type { Resizer } from './Resizer.nitro'
@@ -16,8 +16,9 @@ import type { Resizer } from './Resizer.nitro'
  * {@linkcode GPUFrame} once it is no longer used to free
  * up resources as early as possible.
  */
-export interface GPUFrame
-  extends HybridObject<{ ios: 'swift'; android: 'c++' }> {
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'c++', allowMultipleImplementations: true })
+export declare class GPUFrame extends HybridObject {
   /**
    * Represents the width of the {@linkcode GPUFrame}, in pixels.
    *
@@ -65,3 +66,5 @@ export interface GPUFrame
    */
   getPixelBuffer(): ArrayBuffer
 }
+
+export * from '#nitro/GPUFrame'

@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <VisionCamera/NativeBuffer.hpp>
+#include <VisionCameraResizer/NativeBuffer.hpp>
 #include <android/hardware_buffer.h>
 #include <utility>
 
@@ -18,7 +18,7 @@ namespace margelo::nitro::camera::resizer {
  */
 class ScopedNativeBuffer final {
 public:
-  explicit ScopedNativeBuffer(camera::NativeBuffer nativeBuffer) : _nativeBuffer(std::move(nativeBuffer)) {}
+  explicit ScopedNativeBuffer(NativeBuffer nativeBuffer) : _nativeBuffer(std::move(nativeBuffer)) {}
   ScopedNativeBuffer(const ScopedNativeBuffer&) = delete;
   ScopedNativeBuffer(ScopedNativeBuffer&&) = delete;
 
@@ -39,7 +39,7 @@ public:
   }
 
 private:
-  camera::NativeBuffer _nativeBuffer;
+  NativeBuffer _nativeBuffer;
 };
 
 } // namespace margelo::nitro::camera::resizer

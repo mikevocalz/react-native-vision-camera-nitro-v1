@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "ResizerOptions.hpp"
+#include <VisionCameraResizer/ResizerOptions.hpp>
 #include "utils/OutputBufferLayout.hpp"
 #include "vulkan/VulkanBufferView.hpp"
 #include "vulkan/VulkanDynamicDispatch.hpp"

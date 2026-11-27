@@ -10,17 +10,17 @@
 
 namespace margelo::nitro::camera::resizer {
 
-HybridResizerFactory::HybridResizerFactory() : HybridObject(TAG) {}
+HybridResizerFactory::HybridResizerFactory() = default;
 
 bool HybridResizerFactory::isAvailable() {
   return vulkan::VulkanResizerPipeline::isSupported();
 }
 
-std::shared_ptr<Promise<std::shared_ptr<HybridResizerSpec>>> HybridResizerFactory::createResizer(const ResizerOptions& options) {
-  return Promise<std::shared_ptr<HybridResizerSpec>>::async([=]() {
+Promise<HybridResizerSpecCxx> HybridResizerFactory::createResizer(const ResizerOptions& options) {
+  return Promise<HybridResizerSpecCxx>::async([=]() {
     // Create `HybridResizer` on a separate C++ Thread (pooled),
     // so that the Vulkan setup doesn't block the main JS Thread.
-    return std::make_shared<HybridResizer>(options);
+    return HybridResizerSpecCxx::fromNative(std::make_shared<HybridResizer>(options));
   });
 }
 

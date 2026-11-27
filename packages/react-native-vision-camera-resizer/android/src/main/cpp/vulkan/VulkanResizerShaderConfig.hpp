@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "ResizerOptions.hpp"
+#include <VisionCameraResizer/ResizerOptions.hpp>
 
 #include <array>
 #include <cstdint>

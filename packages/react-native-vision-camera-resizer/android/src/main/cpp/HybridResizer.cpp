@@ -18,15 +18,15 @@ namespace {
   /**
    * Convert the camera orientation enum into the rotation contract expected by the shader.
    */
-  int orientationToDegrees(camera::CameraOrientation orientation) {
+  int orientationToDegrees(CameraOrientation orientation) {
     switch (orientation) {
-      case camera::CameraOrientation::UP:
+      case CameraOrientation::UP:
         return 0;
-      case camera::CameraOrientation::RIGHT:
+      case CameraOrientation::RIGHT:
         return 90;
-      case camera::CameraOrientation::DOWN:
+      case CameraOrientation::DOWN:
         return 180;
-      case camera::CameraOrientation::LEFT:
+      case CameraOrientation::LEFT:
         return 270;
     }
 
@@ -35,27 +35,27 @@ namespace {
 
 } // namespace
 
-HybridResizer::HybridResizer(const ResizerOptions& options) : HybridObject(TAG), _pipeline(std::make_unique<vulkan::VulkanResizerPipeline>(options)) {}
+HybridResizer::HybridResizer(const ResizerOptions& options) : _pipeline(std::make_unique<vulkan::VulkanResizerPipeline>(options)) {}
 
-std::shared_ptr<HybridGPUFrameSpec> HybridResizer::resize(const std::shared_ptr<camera::HybridFrameSpec>& frame) {
+HybridGPUFrameSpecCxx HybridResizer::resize(const adapters::VisionCamera::HybridFrameSpecCxx& frame) {
   if (_pipeline == nullptr) [[unlikely]] {
     throw std::runtime_error("This Resizer has already been disposed!");
   }
 
   // Keep the NativeBuffer alive while Vulkan borrows the underlying AHardwareBuffer pointer.
-  ScopedNativeBuffer nativeBuffer(frame->getNativeBuffer());
+  ScopedNativeBuffer nativeBuffer(frame.getNativeBuffer());
   AHardwareBuffer* hardwareBuffer = nativeBuffer.getHardwareBuffer();
   if (hardwareBuffer == nullptr) [[unlikely]] {
     throw std::runtime_error("Frame NativeBuffer pointer (AHardwareBuffer*) is null!");
   }
 
   // Run the Vulkan compute pipeline with the given Frame HardwareBuffer.
-  const int rotationDegrees = orientationToDegrees(frame->getOrientation());
-  const bool isMirrored = frame->getIsMirrored();
+  const int rotationDegrees = orientationToDegrees(frame.getOrientation());
+  const bool isMirrored = frame.getIsMirrored();
   const std::shared_ptr<vulkan::VulkanBufferView> outputBufferView = _pipeline->run(hardwareBuffer, rotationDegrees, isMirrored);
 
   // Wrap the resulting Vulkan GPU buffer as a zero-copy GPUFrame.
-  return std::make_shared<HybridGPUFrame>(std::move(outputBufferView));
+  return HybridGPUFrameSpecCxx::fromNative(std::make_shared<HybridGPUFrame>(std::move(outputBufferView)));
 }
 
 void HybridResizer::dispose() {

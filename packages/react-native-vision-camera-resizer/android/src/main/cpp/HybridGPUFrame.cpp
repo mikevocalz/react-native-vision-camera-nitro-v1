@@ -11,7 +11,7 @@
 
 namespace margelo::nitro::camera::resizer {
 
-HybridGPUFrame::HybridGPUFrame(std::shared_ptr<vulkan::VulkanBufferView> bufferView) : HybridObject(TAG), _bufferView(std::move(bufferView)) {
+HybridGPUFrame::HybridGPUFrame(std::shared_ptr<vulkan::VulkanBufferView> bufferView) : _bufferView(std::move(bufferView)) {
   if (_bufferView == nullptr) [[unlikely]] {
     throw std::runtime_error("GPUFrame buffer view is null.");
   }
@@ -57,13 +57,14 @@ std::optional<PixelLayout> HybridGPUFrame::getPixelLayout() {
   return bufferView->getPixelLayout();
 }
 
-std::shared_ptr<margelo::nitro::ArrayBuffer> HybridGPUFrame::getPixelBuffer() {
+ArrayBuffer HybridGPUFrame::getPixelBuffer() {
   const std::shared_ptr<vulkan::VulkanBufferView> bufferView = getBufferView();
   if (bufferView == nullptr) {
     throw std::runtime_error("This GPUFrame has already been disposed.");
   }
   // Expose the mapped Vulkan output memory directly so JS can read it without an extra copy.
-  return ArrayBuffer::wrap(bufferView->getData(), bufferView->getByteCount(), DeleteFn{});
+  // The Vulkan output slot owns the memory until this GPUFrame is disposed.
+  return ArrayBuffer::wrap(bufferView->getData(), bufferView->getByteCount(), []() {});
 }
 
 void HybridGPUFrame::dispose() {

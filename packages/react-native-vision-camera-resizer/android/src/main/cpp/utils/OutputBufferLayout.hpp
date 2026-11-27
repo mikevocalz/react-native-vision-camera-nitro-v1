@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "ChannelOrder.hpp"
-#include "DataType.hpp"
+#include <VisionCameraResizer/ChannelOrder.hpp>
+#include <VisionCameraResizer/DataType.hpp>
 #include <cstddef>
 #include <cstdint>
 

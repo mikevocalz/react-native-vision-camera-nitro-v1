@@ -6,9 +6,9 @@
 
 #pragma once
 
-#include "ChannelOrder.hpp"
-#include "DataType.hpp"
-#include "PixelLayout.hpp"
+#include <VisionCameraResizer/ChannelOrder.hpp>
+#include <VisionCameraResizer/DataType.hpp>
+#include <VisionCameraResizer/PixelLayout.hpp>
 #include <cstddef>
 #include <cstdint>
 #include <functional>

@@ -7,7 +7,8 @@
 #pragma once
 
 #include "HybridResizer.hpp"
-#include "HybridResizerFactorySpec.hpp"
+#include <VisionCameraResizer/HybridResizerFactorySpec.hpp>
+#include <VisionCameraResizer/HybridResizerSpecCxx.hpp>
 
 namespace margelo::nitro::camera::resizer {
 
@@ -16,7 +17,7 @@ public:
   HybridResizerFactory();
 
   bool isAvailable() override;
-  std::shared_ptr<Promise<std::shared_ptr<HybridResizerSpec>>> createResizer(const ResizerOptions& options) override;
+  Promise<HybridResizerSpecCxx> createResizer(const ResizerOptions& options) override;
 };
 
 } // namespace margelo::nitro::camera::resizer

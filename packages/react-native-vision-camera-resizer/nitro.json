@@ -1,24 +1,13 @@
 {
   "$schema": "https://nitro.margelo.com/nitro.schema.json",
+  "environment": "react-native",
   "cxxNamespace": ["camera", "resizer"],
-  "ios": {
-    "iosModuleName": "VisionCameraResizer"
+  "apple": {
+    "moduleName": "VisionCameraResizer"
   },
   "android": {
-    "androidNamespace": ["camera", "resizer"],
-    "androidCxxLibName": "VisionCameraResizer"
-  },
-  "autolinking": {
-    "ResizerFactory": {
-      "ios": {
-        "language": "swift",
-        "implementationClassName": "HybridResizerFactory"
-      },
-      "android": {
-        "language": "c++",
-        "implementationClassName": "HybridResizerFactory"
-      }
-    }
+    "namespace": ["camera", "resizer"],
+    "cxxLibName": "VisionCameraResizer"
   },
   "ignorePaths": ["**/node_modules"]
 }

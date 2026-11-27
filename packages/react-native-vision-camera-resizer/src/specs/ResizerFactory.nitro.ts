@@ -1,4 +1,4 @@
-import type { HybridObject } from 'react-native-nitro-modules'
+import { Android, Apple, type HybridObject } from 'react-native-nitro-modules'
 import type { Frame } from 'react-native-vision-camera'
 import type { ChannelOrder, DataType, PixelLayout } from './OutputFormat'
 import type { Resizer } from './Resizer.nitro'
@@ -80,8 +80,17 @@ export interface ResizerOptions {
  * })
  * ```
  */
-export interface ResizerFactory
-  extends HybridObject<{ ios: 'swift'; android: 'c++' }> {
+@Apple({ language: 'swift', implementation: { className: 'HybridResizerFactory' } })
+@Android({
+  language: 'c++',
+  implementation: {
+    className: 'HybridResizerFactory',
+    include: '"HybridResizerFactory.hpp"',
+  },
+})
+export declare class ResizerFactory extends HybridObject {
+  constructor()
+
   /**
    * Returns whether the GPU-accelerated resizer pipeline is supported
    * on this device.
@@ -97,3 +106,5 @@ export interface ResizerFactory
    */
   createResizer(options: ResizerOptions): Promise<Resizer>
 }
+
+export * from '#nitro/ResizerFactory'

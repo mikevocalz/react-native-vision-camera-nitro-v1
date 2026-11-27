@@ -1,11 +1,11 @@
 {
   "name": "react-native-vision-camera-resizer",
-  "version": "5.2.5",
+  "version": "5.2.5-nitro-v1.1",
   "description": "High-performance image and frame resizing plugin using Metal/Vulkan for react-native-vision-camera.",
   "main": "lib/index",
   "module": "lib/index",
   "types": "lib/index.d.ts",
-  "react-native": "src/index",
+  "react-native": "lib/index",
   "source": "src/index",
   "files": [
     "src",
@@ -18,24 +18,18 @@
     "android/fix-prefab.gradle",
     "android/CMakeLists.txt",
     "android/src",
-    "cpp",
-    "ios/**/*.h",
-    "ios/**/*.m",
-    "ios/**/*.mm",
-    "ios/**/*.cpp",
-    "ios/**/*.swift",
-    "ios/**/*.metal",
-    "app.plugin.js",
+    "apple/**/*.swift",
+    "apple/**/*.metal",
     "nitro.json",
     "*.podspec",
+    "Package.swift",
     "README.md"
   ],
   "scripts": {
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf android/build node_modules/**/android/build lib",
-    "build": "tsc",
-    "typescript": "tsc",
-    "specs": "tsc --noEmit false && nitrogen",
+    "build": "tsc --noEmit false --declaration",
+    "specs": "nitrogen && tsc --noEmit",
     "release": "release-it"
   },
   "keywords": [
@@ -70,21 +64,26 @@
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
-    "@types/react": "19.2.15",
-    "nitrogen": "0.37.2",
-    "react": "19.2.3",
-    "react-native": "0.85.3",
-    "react-native-nitro-modules": "0.37.2",
-    "react-native-vision-camera": "*",
-    "typescript": "6.0.3"
+    "@types/react": "19.3.0",
+    "nitrogen": "1.0.0-alpha.nightly.138.g43e09c161101",
+    "react": "19.3.0",
+    "react-native": "0.88.1",
+    "react-native-nitro-modules": "1.0.0-alpha.nightly.138.g43e09c161101",
+    "react-native-vision-camera": "workspace:*",
+    "typescript": "7.0.2",
+    "nitro-core": "1.0.0-alpha.nightly.138.g43e09c161101"
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*",
-    "react-native-nitro-modules": ">=0.37.2",
-    "react-native-vision-camera": "*"
+    "react-native": ">=0.88.0",
+    "react-native-nitro-modules": "*",
+    "react-native-vision-camera": "*",
+    "nitro-core": "*"
   },
   "peerDependenciesMeta": {
+    "nitro-core": {
+      "optional": true
+    },
     "react-native-nitro-modules": {
       "optional": true
     }
@@ -102,18 +101,14 @@
       "after:bump": "bun run build"
     }
   },
-  "react-native-builder-bob": {
-    "source": "src",
-    "output": "lib",
-    "targets": [
-      "commonjs",
-      "module",
-      [
-        "typescript",
-        {
-          "project": "tsconfig.build.json"
-        }
-      ]
+  "imports": {
+    "#nitro/*": "./nitrogen/generated/shared/javascript/*.cjs"
+  },
+  "swiftpmConfig": {
+    "name": "VisionCameraResizer",
+    "dependencies": [
+      "react-native-nitro-modules",
+      "react-native-vision-camera"
     ]
   }
 }

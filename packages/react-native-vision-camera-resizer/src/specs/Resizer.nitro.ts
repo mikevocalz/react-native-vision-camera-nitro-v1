@@ -1,4 +1,4 @@
-import type { HybridObject } from 'react-native-nitro-modules'
+import { Android, Apple, type HybridObject } from 'react-native-nitro-modules'
 import type {
   CameraFrameOutput,
   CameraSessionConfig,
@@ -24,8 +24,9 @@ import type { ResizerFactory } from './ResizerFactory.nitro'
  * When you are done with the {@linkcode Resizer}, it is recommended to
  * {@linkcode dispose | dispose()} it to free up resources.
  */
-export interface Resizer
-  extends HybridObject<{ ios: 'swift'; android: 'c++' }> {
+@Apple({ language: 'swift', allowMultipleImplementations: true })
+@Android({ language: 'c++', allowMultipleImplementations: true })
+export declare class Resizer extends HybridObject {
   /**
    * Resize the given {@linkcode frame} using the options
    * this {@linkcode Resizer} was configured with.
@@ -106,3 +107,5 @@ export interface Resizer
    */
   resize(frame: Frame): GPUFrame
 }
+
+export * from '#nitro/Resizer'

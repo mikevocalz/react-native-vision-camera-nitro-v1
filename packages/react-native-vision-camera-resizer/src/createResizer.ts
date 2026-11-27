@@ -1,12 +1,10 @@
-import { NitroModules } from 'react-native-nitro-modules'
 import type { Resizer } from './specs/Resizer.nitro'
-import type {
+import {
   ResizerFactory,
-  ResizerOptions,
+  type ResizerOptions,
 } from './specs/ResizerFactory.nitro'
 
-const factory =
-  NitroModules.createHybridObject<ResizerFactory>('ResizerFactory')
+const factory = new ResizerFactory()
 
 /**
  * Create a new {@linkcode Resizer} with the given {@linkcode ResizerOptions}

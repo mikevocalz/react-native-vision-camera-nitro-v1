@@ -6,8 +6,10 @@
 
 #pragma once
 
-#include "HybridResizerSpec.hpp"
-#include "ResizerOptions.hpp"
+#include <VisionCameraResizer/HybridFrameSpecCxx+VisionCamera.hpp>
+#include <VisionCameraResizer/HybridGPUFrameSpecCxx.hpp>
+#include <VisionCameraResizer/HybridResizerSpec.hpp>
+#include <VisionCameraResizer/ResizerOptions.hpp>
 #include "vulkan/VulkanResizerPipeline.hpp"
 
 #include <memory>
@@ -23,7 +25,7 @@ public:
   HybridResizer(const ResizerOptions& options);
   ~HybridResizer() override = default;
 
-  std::shared_ptr<HybridGPUFrameSpec> resize(const std::shared_ptr<camera::HybridFrameSpec>& frame) override;
+  HybridGPUFrameSpecCxx resize(const adapters::VisionCamera::HybridFrameSpecCxx& frame) override;
   void dispose() override;
   size_t getExternalMemorySize() noexcept override;
 

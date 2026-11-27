@@ -1,9 +1,7 @@
-project(VisionCameraResizer)
-cmake_minimum_required(VERSION 3.9.0)
+cmake_minimum_required(VERSION 3.22.1)
+project(VisionCameraResizer LANGUAGES C CXX)
 
 set (PACKAGE_NAME VisionCameraResizer)
-set (CMAKE_VERBOSE_MAKEFILE ON)
-set (CMAKE_CXX_STANDARD 20)
 
 # Define C++ library and add all sources
 add_library(${PACKAGE_NAME} SHARED
@@ -35,12 +33,13 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/../nitrogen/generated/android/VisionCameraRe
 # Set up local includes
 target_include_directories(${PACKAGE_NAME} PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/src/main/cpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../cpp"
 )
 
 find_library(LOG_LIB log)
 find_library(VULKAN_LIB vulkan)
-find_package(react-native-vision-camera REQUIRED)   # <-- for the HybridFrameSpec
+# The generated Frame C++ adapter calls VisionCamera's JHybridFrameSpec,
+# which lives in libVisionCamera.so.
+find_package(react-native-vision-camera REQUIRED CONFIG)
 
 # Link all libraries together
 target_link_libraries(
