@@ -9,7 +9,6 @@ import {
   render,
   waitUntil,
 } from 'react-native-harness'
-import { callback } from 'react-native-nitro-modules'
 import type {
   CameraDevice,
   CameraDeviceFactory,
@@ -218,12 +217,12 @@ describe('VisionCamera - Coordinates', () => {
       <NativePreviewView
         style={StyleSheet.absoluteFill}
         previewOutput={previewOutput}
-        hybridRef={callback((r: PreviewView) => {
+        hybridRef={(r: PreviewView) => {
           previewRef = r
-        })}
-        onPreviewStarted={callback(() => {
+        }}
+        onPreviewStarted={() => {
           previewStarted.resolve()
-        })}
+        }}
         onLayout={(e: LayoutChangeEvent) => {
           layout.resolve({
             width: e.nativeEvent.layout.width,
@@ -290,12 +289,12 @@ describe('VisionCamera - Coordinates', () => {
       <NativePreviewView
         style={StyleSheet.absoluteFill}
         previewOutput={previewOutput}
-        hybridRef={callback((r: PreviewView) => {
+        hybridRef={(r: PreviewView) => {
           previewRef = r
-        })}
-        onPreviewStarted={callback(() => {
+        }}
+        onPreviewStarted={() => {
           previewStarted.resolve()
-        })}
+        }}
         onLayout={(e: LayoutChangeEvent) => {
           layout.resolve({
             width: e.nativeEvent.layout.width,
@@ -353,12 +352,12 @@ describe('VisionCamera - Coordinates', () => {
       <NativePreviewView
         style={StyleSheet.absoluteFill}
         previewOutput={previewOutput}
-        hybridRef={callback((r: PreviewView) => {
+        hybridRef={(r: PreviewView) => {
           previewRef = r
-        })}
-        onPreviewStarted={callback(() => {
+        }}
+        onPreviewStarted={() => {
           previewStarted.resolve()
-        })}
+        }}
         onLayout={(e: LayoutChangeEvent) => {
           layout.resolve({
             width: e.nativeEvent.layout.width,
@@ -439,12 +438,12 @@ describe('VisionCamera - Coordinates', () => {
       <NativePreviewView
         style={StyleSheet.absoluteFill}
         previewOutput={previewOutput}
-        hybridRef={callback((r: PreviewView) => {
+        hybridRef={(r: PreviewView) => {
           previewRef = r
-        })}
-        onPreviewStarted={callback(() => {
+        }}
+        onPreviewStarted={() => {
           previewStarted.resolve()
-        })}
+        }}
         onLayout={(e: LayoutChangeEvent) => {
           layout.resolve({
             width: e.nativeEvent.layout.width,
@@ -550,12 +549,12 @@ describe('VisionCamera - Coordinates', () => {
       <NativePreviewView
         style={StyleSheet.absoluteFill}
         previewOutput={previewOutput}
-        hybridRef={callback((r: PreviewView) => {
+        hybridRef={(r: PreviewView) => {
           previewRef = r
-        })}
-        onPreviewStarted={callback(() => {
+        }}
+        onPreviewStarted={() => {
           previewStarted.resolve()
-        })}
+        }}
         onLayout={(e: LayoutChangeEvent) => {
           layout.resolve({
             width: e.nativeEvent.layout.width,

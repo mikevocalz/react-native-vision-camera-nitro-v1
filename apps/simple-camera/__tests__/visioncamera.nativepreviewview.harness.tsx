@@ -15,7 +15,6 @@ import {
   it,
   render,
 } from 'react-native-harness'
-import { callback } from 'react-native-nitro-modules'
 import type {
   CameraDevice,
   CameraDeviceFactory,
@@ -101,13 +100,13 @@ describe('VisionCamera - NativePreviewView', () => {
         <NativePreviewView
           style={StyleSheet.absoluteFill}
           previewOutput={previewOutput}
-          hybridRef={callback((preview: PreviewView) => {
+          hybridRef={(preview: PreviewView) => {
             previewRef.resolve(preview)
-          })}
+          }}
           onLayout={(event) => {
             layout.resolve(toLayout(event))
           }}
-          onPreviewStarted={callback(previewStarted.resolve)}
+          onPreviewStarted={previewStarted.resolve}
         />,
       )
 
@@ -165,13 +164,13 @@ describe('VisionCamera - NativePreviewView', () => {
         <NativePreviewView
           style={StyleSheet.absoluteFill}
           previewOutput={previewOutput}
-          hybridRef={callback((preview: PreviewView) => {
+          hybridRef={(preview: PreviewView) => {
             previewRef.resolve(preview)
-          })}
+          }}
           onLayout={(event) => {
             layout.resolve(toLayout(event))
           }}
-          onPreviewStarted={callback(previewStarted.resolve)}
+          onPreviewStarted={previewStarted.resolve}
         />,
       )
 
@@ -257,13 +256,13 @@ describe('VisionCamera - NativePreviewView', () => {
           <NativePreviewView
             testID={POSITIONED_PREVIEW_TEST_ID}
             style={styles.positionedPreview}
-            hybridRef={callback((preview: PreviewView) => {
+            hybridRef={(preview: PreviewView) => {
               previewRef.resolve(preview)
-            })}
+            }}
             onLayout={(event) => {
               previewLayout.resolve(toLayout(event))
             }}
-            onPreviewStarted={callback(previewStarted.resolve)}
+            onPreviewStarted={previewStarted.resolve}
           />
         </View>,
       )
@@ -354,13 +353,13 @@ describe('VisionCamera - NativePreviewView', () => {
           <NativePreviewView
             style={styles.issueFlexPreview}
             previewOutput={previewOutput}
-            hybridRef={callback((preview: PreviewView) => {
+            hybridRef={(preview: PreviewView) => {
               previewRef.resolve(preview)
-            })}
+            }}
             onLayout={(event) => {
               layout.resolve(toLayout(event))
             }}
-            onPreviewStarted={callback(previewStarted.resolve)}
+            onPreviewStarted={previewStarted.resolve}
           />
         </View>,
       )
@@ -428,13 +427,13 @@ describe('VisionCamera - NativePreviewView', () => {
             <NativePreviewView
               style={styles.issueFlexPreview}
               previewOutput={previewOutput}
-              hybridRef={callback((preview: PreviewView) => {
+              hybridRef={(preview: PreviewView) => {
                 previewRef.resolve(preview)
-              })}
+              }}
               onLayout={(event) => {
                 layout.resolve(toLayout(event))
               }}
-              onPreviewStarted={callback(previewStarted.resolve)}
+              onPreviewStarted={previewStarted.resolve}
             />
           </View>,
         )
@@ -509,13 +508,13 @@ describe('VisionCamera - NativePreviewView', () => {
             <NativePreviewView
               style={styles.fixedPreview}
               previewOutput={previewOutput}
-              hybridRef={callback((preview: PreviewView) => {
+              hybridRef={(preview: PreviewView) => {
                 previewRef.resolve(preview)
-              })}
+              }}
               onLayout={(event) => {
                 previewLayout.resolve(toLayout(event))
               }}
-              onPreviewStarted={callback(previewStarted.resolve)}
+              onPreviewStarted={previewStarted.resolve}
             />
           </View>
         </View>,
@@ -594,13 +593,13 @@ describe('VisionCamera - NativePreviewView', () => {
           <NativePreviewView
             style={[styles.resizablePreview, styles.tallPreview]}
             previewOutput={previewOutput}
-            hybridRef={callback((preview: PreviewView) => {
+            hybridRef={(preview: PreviewView) => {
               previewRef.resolve(preview)
-            })}
+            }}
             onLayout={(event) => {
               firstLayout.resolve(toLayout(event))
             }}
-            onPreviewStarted={callback(previewStarted.resolve)}
+            onPreviewStarted={previewStarted.resolve}
           />
         </View>,
       )
@@ -632,13 +631,13 @@ describe('VisionCamera - NativePreviewView', () => {
           <NativePreviewView
             style={[styles.resizablePreview, styles.widePreview]}
             previewOutput={previewOutput}
-            hybridRef={callback((preview: PreviewView) => {
+            hybridRef={(preview: PreviewView) => {
               previewRef.resolve(preview)
-            })}
+            }}
             onLayout={(event) => {
               secondLayout.resolve(toLayout(event))
             }}
-            onPreviewStarted={callback(previewStarted.resolve)}
+            onPreviewStarted={previewStarted.resolve}
           />
         </View>,
       )
@@ -684,13 +683,13 @@ describe('VisionCamera - NativePreviewView', () => {
           <NativePreviewView
             style={StyleSheet.absoluteFill}
             previewOutput={previewOutput}
-            hybridRef={callback((preview: PreviewView) => {
+            hybridRef={(preview: PreviewView) => {
               previewRef.resolve(preview)
-            })}
+            }}
             onLayout={(event) => {
               layout.resolve(toLayout(event))
             }}
-            onPreviewStarted={callback(previewStarted.resolve)}
+            onPreviewStarted={previewStarted.resolve}
           />,
         )
         unmount = renderResult.unmount
@@ -760,25 +759,25 @@ describe('VisionCamera - NativePreviewView', () => {
           <NativePreviewView
             style={styles.switchPreview}
             previewOutput={firstPreviewOutput}
-            hybridRef={callback((preview: PreviewView) => {
+            hybridRef={(preview: PreviewView) => {
               firstRef.resolve(preview)
-            })}
+            }}
             onLayout={(event) => {
               firstLayout.resolve(toLayout(event))
             }}
-            onPreviewStarted={callback(onFirstPreviewStarted)}
-            onPreviewStopped={callback(onFirstPreviewStopped)}
+            onPreviewStarted={onFirstPreviewStarted}
+            onPreviewStopped={onFirstPreviewStopped}
           />
           <NativePreviewView
             style={styles.switchPreview}
             previewOutput={secondPreviewOutput}
-            hybridRef={callback((preview: PreviewView) => {
+            hybridRef={(preview: PreviewView) => {
               secondRef.resolve(preview)
-            })}
+            }}
             onLayout={(event) => {
               secondLayout.resolve(toLayout(event))
             }}
-            onPreviewStarted={callback(onSecondPreviewStarted)}
+            onPreviewStarted={onSecondPreviewStarted}
           />
         </View>,
       )
@@ -901,24 +900,24 @@ describe('VisionCamera - NativePreviewView', () => {
           <NativePreviewView
             style={styles.switchPreview}
             previewOutput={firstPreviewOutput}
-            hybridRef={callback((preview: PreviewView) => {
+            hybridRef={(preview: PreviewView) => {
               firstRef.resolve(preview)
-            })}
+            }}
             onLayout={(event) => {
               firstLayout.resolve(toLayout(event))
             }}
-            onPreviewStarted={callback(firstPreviewStarted.resolve)}
+            onPreviewStarted={firstPreviewStarted.resolve}
           />
           <NativePreviewView
             style={styles.switchPreview}
             previewOutput={secondPreviewOutput}
-            hybridRef={callback((preview: PreviewView) => {
+            hybridRef={(preview: PreviewView) => {
               secondRef.resolve(preview)
-            })}
+            }}
             onLayout={(event) => {
               secondLayout.resolve(toLayout(event))
             }}
-            onPreviewStarted={callback(secondPreviewStarted.resolve)}
+            onPreviewStarted={secondPreviewStarted.resolve}
           />
         </View>,
       )
@@ -996,13 +995,13 @@ describe('VisionCamera - NativePreviewView', () => {
           style={StyleSheet.absoluteFill}
           previewOutput={previewOutput}
           gestureControllers={[tapGesture, zoomGesture]}
-          hybridRef={callback((preview: PreviewView) => {
+          hybridRef={(preview: PreviewView) => {
             previewRef.resolve(preview)
-          })}
+          }}
           onLayout={(event) => {
             layout.resolve(toLayout(event))
           }}
-          onPreviewStarted={callback(previewStarted.resolve)}
+          onPreviewStarted={previewStarted.resolve}
         />,
       )
 
@@ -1065,13 +1064,13 @@ describe('VisionCamera - NativePreviewView', () => {
                 style={styles.fixedPreview}
                 previewOutput={previewOutput}
                 resizeMode={resizeMode}
-                hybridRef={callback((preview: PreviewView) => {
+                hybridRef={(preview: PreviewView) => {
                   previewRef.resolve(preview)
-                })}
+                }}
                 onLayout={(event) => {
                   layout.resolve(toLayout(event))
                 }}
-                onPreviewStarted={callback(previewStarted.resolve)}
+                onPreviewStarted={previewStarted.resolve}
               />
             </View>
           </View>,
@@ -1158,13 +1157,13 @@ describe('VisionCamera - NativePreviewView', () => {
             style={StyleSheet.absoluteFill}
             previewOutput={previewOutput}
             implementationMode={implementationMode}
-            hybridRef={callback((preview: PreviewView) => {
+            hybridRef={(preview: PreviewView) => {
               previewRef.resolve(preview)
-            })}
+            }}
             onLayout={(event) => {
               layout.resolve(toLayout(event))
             }}
-            onPreviewStarted={callback(previewStarted.resolve)}
+            onPreviewStarted={previewStarted.resolve}
           />,
         )
         unmount = renderResult.unmount
@@ -1225,14 +1224,14 @@ describe('VisionCamera - NativePreviewView', () => {
         <NativePreviewView
           style={StyleSheet.absoluteFill}
           previewOutput={previewOutput}
-          hybridRef={callback((preview: PreviewView) => {
+          hybridRef={(preview: PreviewView) => {
             previewRef.resolve(preview)
-          })}
+          }}
           onLayout={(event) => {
             layout.resolve(toLayout(event))
           }}
-          onPreviewStarted={callback(onPreviewStarted)}
-          onPreviewStopped={callback(onPreviewStopped)}
+          onPreviewStarted={onPreviewStarted}
+          onPreviewStopped={onPreviewStopped}
         />,
       )
 

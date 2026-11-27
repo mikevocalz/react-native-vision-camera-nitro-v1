@@ -17,7 +17,6 @@ import {
   usePhotoOutput,
   useVideoOutput,
 } from 'react-native-vision-camera'
-import { useLocation } from 'react-native-vision-camera-location'
 import { useResizer } from 'react-native-vision-camera-resizer'
 import { CameraSelectorButton } from '../components/CameraSelectorButton'
 import { CameraView } from '../components/CameraView'
@@ -48,25 +47,6 @@ export function CameraScreen() {
   }, [defaultDevice])
 
   useEffect(() => logDevices(devices), [devices])
-
-  const location = useLocation({
-    accuracy: 'balanced',
-    distanceFilter: 10,
-  })
-  useEffect(() => {
-    if (!location.hasPermission) {
-      ;(async () => {
-        console.log(`requesting location permission...`)
-        const has = await location.requestPermission()
-        console.log(`location permssion: ${has}`)
-      })()
-    }
-  }, [location.hasPermission, location.requestPermission])
-  useEffect(() => {
-    const l = location.currentLocation
-    if (l == null) return
-    console.log(`Location: ${l.latitude} ${l.longitude}`)
-  }, [location.currentLocation])
 
   const photoOutput = usePhotoOutput({})
   const videoOutput = useVideoOutput({
@@ -162,12 +142,8 @@ export function CameraScreen() {
     try {
       console.log(`Capturing Photo...`)
       const start = performance.now()
-      const photo = await photoOutput.capturePhoto(
-        {
-          location: location.currentLocation,
-        },
-        {},
-      )
+      // react-native-vision-camera-location is not on Nitro V1 yet, so photos carry no location.
+      const photo = await photoOutput.capturePhoto({}, {})
       const end = performance.now()
       const duration = (end - start).toFixed(2)
       console.log(
@@ -177,7 +153,7 @@ export function CameraScreen() {
     } catch (e) {
       console.error(`Failed to take Photo!`, e)
     }
-  }, [navigation, photoOutput, location.currentLocation])
+  }, [navigation, photoOutput])
 
   const preparedRecorder = useRef<Recorder>(undefined)
   const activeRecorder = useRef<Recorder>(undefined)
