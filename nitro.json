@@ -1,0 +1,13 @@
+{
+  "$schema": "https://nitro.margelo.com/nitro.schema.json",
+  "environment": "react-native",
+  "cxxNamespace": ["camera"],
+  "apple": {
+    "moduleName": "VisionCamera"
+  },
+  "android": {
+    "namespace": ["camera"],
+    "cxxLibName": "VisionCamera"
+  },
+  "ignorePaths": ["**/node_modules"]
+}

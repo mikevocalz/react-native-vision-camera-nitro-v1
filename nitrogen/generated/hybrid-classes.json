@@ -1,0 +1,397 @@
+{
+  "version": 2,
+  "classes": {
+    "CameraCalibrationData": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "CameraController": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "CameraDepthFrameOutput": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "CameraDevice": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "CameraDeviceFactory": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "CameraExtension": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "CameraFactory": {
+      "android": {
+        "implementation": {
+          "className": "VisionCamera"
+        },
+        "language": "kotlin"
+      },
+      "apple": {
+        "implementation": {
+          "className": "VisionCamera"
+        },
+        "language": "swift"
+      }
+    },
+    "CameraFrameOutput": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "CameraObjectOutput": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "CameraOutput": {
+      "android": {
+        "allowInheritance": true,
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowInheritance": true,
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "CameraOutputSynchronizer": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "CameraPhotoOutput": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "CameraPreviewOutput": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "CameraSession": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "CameraSessionConfig": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "CameraVideoOutput": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "Depth": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "Frame": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "FrameConverter": {
+      "android": {
+        "implementation": {
+          "className": "HybridFrameConverter"
+        },
+        "language": "kotlin"
+      },
+      "apple": {
+        "implementation": {
+          "className": "HybridFrameConverter"
+        },
+        "language": "swift"
+      }
+    },
+    "FramePlane": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "FrameRenderer": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "FrameRendererView": {
+      "android": {
+        "implementation": {
+          "className": "HybridFrameRendererView",
+          "package": [
+            "views"
+          ]
+        },
+        "language": "kotlin"
+      },
+      "apple": {
+        "implementation": {
+          "className": "HybridFrameRendererView"
+        },
+        "language": "swift"
+      }
+    },
+    "GestureController": {
+      "android": {
+        "allowInheritance": true,
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowInheritance": true,
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "Location": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "MeteringPoint": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "NativeThread": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "NativeThreadFactory": {
+      "android": {
+        "implementation": {
+          "className": "HybridNativeThreadFactory"
+        },
+        "language": "kotlin"
+      },
+      "apple": {
+        "implementation": {
+          "className": "HybridNativeThreadFactory"
+        },
+        "language": "swift"
+      }
+    },
+    "OrientationManager": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "Photo": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "PreviewView": {
+      "android": {
+        "implementation": {
+          "className": "HybridPreviewView",
+          "package": [
+            "views"
+          ]
+        },
+        "language": "kotlin"
+      },
+      "apple": {
+        "implementation": {
+          "className": "HybridPreviewView"
+        },
+        "language": "swift"
+      }
+    },
+    "Recorder": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "ScannedCode": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "ScannedFace": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "ScannedObject": {
+      "android": {
+        "allowInheritance": true,
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowInheritance": true,
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "TapToFocusGestureController": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    },
+    "ZoomGestureController": {
+      "android": {
+        "allowMultipleImplementations": true,
+        "language": "kotlin"
+      },
+      "apple": {
+        "allowMultipleImplementations": true,
+        "language": "swift"
+      }
+    }
+  }
+}

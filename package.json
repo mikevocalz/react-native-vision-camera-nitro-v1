@@ -1,0 +1,92 @@
+{
+  "name": "react-native-vision-camera",
+  "version": "5.2.5-nitro-v1.1",
+  "description": "VisionCamera is the fastest and most powerful Camera for react-native.",
+  "main": "lib/index",
+  "module": "lib/index",
+  "types": "lib/index.d.ts",
+  "react-native": "lib/index",
+  "source": "src/index",
+  "files": [
+    "src",
+    "lib",
+    "react-native.config.js",
+    "nitrogen",
+    "android/build.gradle",
+    "android/gradle.properties",
+    "android/fix-prefab.gradle",
+    "android/CMakeLists.txt",
+    "android/src",
+    "apple/**/*.h",
+    "apple/**/*.m",
+    "apple/**/*.mm",
+    "apple/**/*.cpp",
+    "apple/**/*.swift",
+    "cpp/**/*.h",
+    "cpp/**/*.hpp",
+    "cpp/**/*.cpp",
+    "nitro.json",
+    "*.podspec",
+    "Package.swift",
+    "README.md"
+  ],
+  "keywords": [
+    "react-native",
+    "camera",
+    "react-native-camera",
+    "vision-camera",
+    "photo",
+    "video",
+    "frame-processor",
+    "frame-processing",
+    "barcode",
+    "qr-code",
+    "scanner",
+    "jsi",
+    "worklet",
+    "ios",
+    "android",
+    "realtime",
+    "high-performance"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/margelo/react-native-vision-camera.git"
+  },
+  "author": "Marc Rousavy <me@mrousavy.com> (https://github.com/mrousavy)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/margelo/react-native-vision-camera/issues"
+  },
+  "homepage": "https://visioncamera.margelo.com",
+  "peerDependencies": {
+    "nitro-core": "*",
+    "react": "*",
+    "react-native": ">=0.88.0",
+    "react-native-nitro-modules": "*",
+    "react-native-nitro-image": ">=0.15.2-nitro-v1.1"
+  },
+  "peerDependenciesMeta": {
+    "nitro-core": {
+      "optional": true
+    },
+    "react-native-nitro-modules": {
+      "optional": true
+    }
+  },
+  "imports": {
+    "#nitro/*": "./nitrogen/generated/shared/javascript/*.cjs"
+  },
+  "swiftpmConfig": {
+    "name": "VisionCamera",
+    "dependencies": [
+      "react-native-nitro-modules",
+      "react-native-nitro-image"
+    ]
+  },
+  "gitHead": "2856de2999bd7f08f5c179a70cc1840767173c65",
+  "nitroV1": {
+    "sourceCommit": "2856de2999bd7f08f5c179a70cc1840767173c65",
+    "nitroVersion": "1.0.0-alpha.nightly.138.g43e09c161101"
+  }
+}

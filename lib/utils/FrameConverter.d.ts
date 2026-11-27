@@ -1,0 +1,8 @@
+import 'react-native-nitro-modules';
+import { FrameConverter } from '../specs/utils/FrameConverter.nitro';
+/**
+ * The {@linkcode HybridFrameConverter} can be used to convert
+ * {@linkcode Frame}s and {@linkcode Depth} frames to
+ * {@linkcode Image}s.
+ */
+export declare const HybridFrameConverter: FrameConverter;

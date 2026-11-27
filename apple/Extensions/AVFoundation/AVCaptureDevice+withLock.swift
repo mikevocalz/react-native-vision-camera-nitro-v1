@@ -1,0 +1,79 @@
+///
+/// AVCaptureDevice+withLock.swift
+/// VisionCamera
+/// Copyright © 2025 Marc Rousavy @ Margelo
+///
+
+import AVFoundation
+import Foundation
+import NitroModules
+
+extension AVCaptureDevice {
+  /**
+   * Runs the given `closure` under an `AVCaptureDevice` lock, on
+   * the device's `DispatchQueue`.
+   * Once the `closure` returns, the `AVCaptureDevice` will be unlocked.
+   * To actually resolve the returned `any Promise<T>`, the `closure` must call
+   * `resolve` (argument #1), or `reject` (argument #2).
+   */
+  func withLock(
+    _ queue: DispatchQueue,
+    _ closure:
+      @escaping (
+        _ resolve: @escaping () -> Void,
+        _ reject: @escaping (Error) -> Void
+      ) throws -> Void
+  ) -> any Promise<Void> {
+    let promise = Promise_void.pending()
+    // The device and closure are only used on `queue`, which owns the device configuration.
+    nonisolated(unsafe) let device = self
+    nonisolated(unsafe) let closure = closure
+
+    queue.async {
+      do {
+        // 1. Lock the device
+        try device.lockForConfiguration()
+        defer {
+          // 3. Once the closure suspended, we can unlock the device again
+          device.unlockForConfiguration()
+        }
+        // 2. Call the closure and pass a `completion` callback
+        try closure(promise.resolve, promise.reject)
+      } catch let error {
+        promise.reject(error: error)
+      }
+    }
+
+    return promise
+  }
+
+  /**
+   * Runs the given `closure` under an `AVCaptureDevice` lock, on
+   * the device's `DispatchQueue`.
+   * Once the `closure` returns, the `AVCaptureDevice` will be unlocked.
+   * To actually resolve the returned `any Promise<T>`, the `closure` must call
+   * the `completion` handler (argument #1).
+   */
+  func withLock(
+    _ queue: DispatchQueue, _ closure: @escaping (_ completion: @escaping () -> Void) throws -> Void
+  ) -> any Promise<Void> {
+    return self.withLock(queue) { resolve, _ in
+      try closure(resolve)
+    }
+  }
+  /**
+   * Runs the given `closure` under an `AVCaptureDevice` lock, on
+   * the device's `DispatchQueue`.
+   * Once the `closure` returns, the `any Promise<T>` will be resolved.
+   */
+  func withLock(_ queue: DispatchQueue, _ closure: @escaping () throws -> Void) -> any Promise<Void> {
+    // The device and closure are only used on `queue`, which owns the device configuration.
+    nonisolated(unsafe) let device = self
+    nonisolated(unsafe) let closure = closure
+    return .parallel(queue) {
+      try device.lockForConfiguration()
+      defer { device.unlockForConfiguration() }
+      try closure()
+    }
+  }
+}
