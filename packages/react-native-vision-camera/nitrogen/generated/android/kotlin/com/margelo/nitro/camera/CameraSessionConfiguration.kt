@@ -9,7 +9,6 @@ package com.margelo.nitro.camera
 
 import androidx.annotation.Keep
 import com.facebook.proguard.annotations.DoNotStrip
-import java.util.Objects
 
 
 /**
@@ -25,20 +24,17 @@ data class CameraSessionConfiguration(
   @Keep
   val allowBackgroundAudioPlayback: Boolean?
 ) {
-
-
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is CameraSessionConfiguration) return false
-    return Objects.deepEquals(this.allowHapticsAndSystemSoundsPlayback, other.allowHapticsAndSystemSoundsPlayback)
-      && Objects.deepEquals(this.allowBackgroundAudioPlayback, other.allowBackgroundAudioPlayback)
+    return (this.allowHapticsAndSystemSoundsPlayback == null && other.allowHapticsAndSystemSoundsPlayback == null || this.allowHapticsAndSystemSoundsPlayback != null && other.allowHapticsAndSystemSoundsPlayback != null && this.allowHapticsAndSystemSoundsPlayback == other.allowHapticsAndSystemSoundsPlayback)
+      && (this.allowBackgroundAudioPlayback == null && other.allowBackgroundAudioPlayback == null || this.allowBackgroundAudioPlayback != null && other.allowBackgroundAudioPlayback != null && this.allowBackgroundAudioPlayback == other.allowBackgroundAudioPlayback)
   }
 
   override fun hashCode(): Int {
-    return arrayOf<Any?>(
-      allowHapticsAndSystemSoundsPlayback,
-      allowBackgroundAudioPlayback
-    ).contentDeepHashCode()
+    var result = (if (this.allowHapticsAndSystemSoundsPlayback != null) this.allowHapticsAndSystemSoundsPlayback.hashCode() else 0)
+    result = 31 * result + (if (this.allowBackgroundAudioPlayback != null) this.allowBackgroundAudioPlayback.hashCode() else 0)
+    return result
   }
 
   companion object {

@@ -9,7 +9,6 @@ package com.margelo.nitro.camera
 
 import androidx.annotation.Keep
 import com.facebook.proguard.annotations.DoNotStrip
-import java.util.Objects
 
 
 /**
@@ -28,22 +27,19 @@ data class CameraControllerConfiguration(
   @Keep
   val enableDistortionCorrection: Boolean?
 ) {
-
-
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is CameraControllerConfiguration) return false
-    return Objects.deepEquals(this.enableLowLightBoost, other.enableLowLightBoost)
-      && Objects.deepEquals(this.enableSmoothAutoFocus, other.enableSmoothAutoFocus)
-      && Objects.deepEquals(this.enableDistortionCorrection, other.enableDistortionCorrection)
+    return (this.enableLowLightBoost == null && other.enableLowLightBoost == null || this.enableLowLightBoost != null && other.enableLowLightBoost != null && this.enableLowLightBoost == other.enableLowLightBoost)
+      && (this.enableSmoothAutoFocus == null && other.enableSmoothAutoFocus == null || this.enableSmoothAutoFocus != null && other.enableSmoothAutoFocus != null && this.enableSmoothAutoFocus == other.enableSmoothAutoFocus)
+      && (this.enableDistortionCorrection == null && other.enableDistortionCorrection == null || this.enableDistortionCorrection != null && other.enableDistortionCorrection != null && this.enableDistortionCorrection == other.enableDistortionCorrection)
   }
 
   override fun hashCode(): Int {
-    return arrayOf<Any?>(
-      enableLowLightBoost,
-      enableSmoothAutoFocus,
-      enableDistortionCorrection
-    ).contentDeepHashCode()
+    var result = (if (this.enableLowLightBoost != null) this.enableLowLightBoost.hashCode() else 0)
+    result = 31 * result + (if (this.enableSmoothAutoFocus != null) this.enableSmoothAutoFocus.hashCode() else 0)
+    result = 31 * result + (if (this.enableDistortionCorrection != null) this.enableDistortionCorrection.hashCode() else 0)
+    return result
   }
 
   companion object {

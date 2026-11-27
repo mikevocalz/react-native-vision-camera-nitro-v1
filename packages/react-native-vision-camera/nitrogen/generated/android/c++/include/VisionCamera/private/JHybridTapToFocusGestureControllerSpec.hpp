@@ -12,6 +12,12 @@
 #include <fbjni/fbjni.h>
 #include <stdexcept>
 #include <VisionCamera/private/JHybridTapToFocusGestureControllerSpecJavaPart.hpp>
+#include <VisionCamera/private/JListenerSubscription.hpp>
+#include <VisionCamera/private/JCallback_void_std__shared_ptr_HybridMeteringPointSpec_.hpp>
+#include <NitroModules/JNIConverter+Callback.hpp>
+#include <VisionCamera/private/JHybridMeteringPointSpecJavaPart.hpp>
+#include <NitroModules/JNIConverter+HybridObject.hpp>
+#include <NitroModules/JSIConverter+JHybridObject.hpp>
 #include <VisionCamera/private/JHybridGestureControllerSpec.hpp>
 
 namespace margelo::nitro::camera {
@@ -58,7 +64,8 @@ namespace margelo::nitro::camera {
 
   public:
     // Methods
-
+    jni::local_ref<JListenerSubscription> addOnTapListener(const jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void_std__shared_ptr_HybridMeteringPointSpec_::JavaPart>>& onTap);
+    jni::local_ref<JListenerSubscription> addOnFocusCompletedListener(const jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void_std__shared_ptr_HybridMeteringPointSpec_::JavaPart>>& onFocusCompleted);
 
   public:
     // Constructor and static members

@@ -8,6 +8,10 @@
 #include <VisionCamera/private/JPhotoFile.hpp>
 #include <NitroModules/JNIConverter+String.hpp>
 #include <NitroModules/JSIConverter+JString.hpp>
+#include <NitroModules/JNIConverter+Primitives.hpp>
+#include <NitroModules/JSIConverter+JNIPrimitives.hpp>
+#include <VisionCamera/private/JCameraOrientation.hpp>
+#include <VisionCamera/private/JPhotoContainerFormat.hpp>
 #include <NitroModules/PropNameIDCache.hpp>
 #include <NitroModules/JSIHelpers.hpp>
 
@@ -15,12 +19,19 @@ namespace margelo::nitro {
 
   jni::local_ref<margelo::nitro::camera::JPhotoFile> JSIConverter<jni::local_ref<margelo::nitro::camera::JPhotoFile>>::fromJSI(jsi::Runtime& runtime, const jsi::Value& value) {
     auto object = value.asObject(runtime);
-    return margelo::nitro::camera::JPhotoFile::create(JSIConverter<jni::local_ref<jni::JString>>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "filePath"))));
+    return margelo::nitro::camera::JPhotoFile::create(JSIConverter<jni::local_ref<jni::JString>>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "filePath"))), JSIConverter<jdouble>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "width"))), JSIConverter<jdouble>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "height"))), JSIConverter<jni::local_ref<margelo::nitro::camera::JCameraOrientation>>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "orientation"))), JSIConverter<jboolean>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "isMirrored"))), JSIConverter<jdouble>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "timestamp"))), JSIConverter<jboolean>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "isRawPhoto"))), JSIConverter<jni::local_ref<margelo::nitro::camera::JPhotoContainerFormat>>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "containerFormat"))));
   }
 
   jsi::Value JSIConverter<jni::local_ref<margelo::nitro::camera::JPhotoFile>>::toJSI(jsi::Runtime& runtime, jni::alias_ref<margelo::nitro::camera::JPhotoFile> value) {
     jsi::Object object(runtime);
     object.setProperty(runtime, PropNameIDCache::get(runtime, "filePath"), JSIConverter<jni::local_ref<jni::JString>>::toJSI(runtime, value->getFilePath()));
+    object.setProperty(runtime, PropNameIDCache::get(runtime, "width"), JSIConverter<jdouble>::toJSI(runtime, value->getWidth()));
+    object.setProperty(runtime, PropNameIDCache::get(runtime, "height"), JSIConverter<jdouble>::toJSI(runtime, value->getHeight()));
+    object.setProperty(runtime, PropNameIDCache::get(runtime, "orientation"), JSIConverter<jni::local_ref<margelo::nitro::camera::JCameraOrientation>>::toJSI(runtime, value->getOrientation()));
+    object.setProperty(runtime, PropNameIDCache::get(runtime, "isMirrored"), JSIConverter<jboolean>::toJSI(runtime, value->getIsMirrored()));
+    object.setProperty(runtime, PropNameIDCache::get(runtime, "timestamp"), JSIConverter<jdouble>::toJSI(runtime, value->getTimestamp()));
+    object.setProperty(runtime, PropNameIDCache::get(runtime, "isRawPhoto"), JSIConverter<jboolean>::toJSI(runtime, value->getIsRawPhoto()));
+    object.setProperty(runtime, PropNameIDCache::get(runtime, "containerFormat"), JSIConverter<jni::local_ref<margelo::nitro::camera::JPhotoContainerFormat>>::toJSI(runtime, value->getContainerFormat()));
     return object;
   }
 
@@ -28,7 +39,7 @@ namespace margelo::nitro {
     if (!value.isObject()) return false;
     auto object = value.getObject(runtime);
     if (!isPlainObject(runtime, object)) return false;
-    return JSIConverter<jni::local_ref<jni::JString>>::canConvert(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "filePath")));
+    return JSIConverter<jni::local_ref<jni::JString>>::canConvert(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "filePath"))) && JSIConverter<jdouble>::canConvert(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "width"))) && JSIConverter<jdouble>::canConvert(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "height"))) && JSIConverter<jni::local_ref<margelo::nitro::camera::JCameraOrientation>>::canConvert(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "orientation"))) && JSIConverter<jboolean>::canConvert(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "isMirrored"))) && JSIConverter<jdouble>::canConvert(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "timestamp"))) && JSIConverter<jboolean>::canConvert(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "isRawPhoto"))) && JSIConverter<jni::local_ref<margelo::nitro::camera::JPhotoContainerFormat>>::canConvert(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "containerFormat")));
   }
 
 } // namespace margelo::nitro

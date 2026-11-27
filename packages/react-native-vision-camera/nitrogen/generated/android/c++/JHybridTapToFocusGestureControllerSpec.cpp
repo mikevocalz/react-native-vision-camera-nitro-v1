@@ -6,6 +6,12 @@
 ///
 
 #include <VisionCamera/private/JHybridTapToFocusGestureControllerSpec.hpp>
+#include <VisionCamera/private/JListenerSubscription.hpp>
+#include <VisionCamera/private/JCallback_void_std__shared_ptr_HybridMeteringPointSpec_.hpp>
+#include <NitroModules/JNIConverter+Callback.hpp>
+#include <VisionCamera/private/JHybridMeteringPointSpec.hpp>
+#include <NitroModules/JNIConverter+HybridObject.hpp>
+#include <NitroModules/JSIConverter+JHybridObject.hpp>
 
 namespace margelo::nitro::camera {
 
@@ -15,7 +21,8 @@ namespace margelo::nitro::camera {
 
   const std::shared_ptr<const HybridClass>& JHybridTapToFocusGestureControllerSpec::Class::get() {
     static const auto hybridClass = HybridClass::create<Class>([](HybridClass& clazz) {
-
+      clazz.registerHybridMethod("addOnTapListener", &JHybridTapToFocusGestureControllerSpec::addOnTapListener);
+      clazz.registerHybridMethod("addOnFocusCompletedListener", &JHybridTapToFocusGestureControllerSpec::addOnFocusCompletedListener);
     });
     return hybridClass;
   }
@@ -55,6 +62,15 @@ namespace margelo::nitro::camera {
 
 
   // Methods
-
+  jni::local_ref<JListenerSubscription> JHybridTapToFocusGestureControllerSpec::addOnTapListener(const jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void_std__shared_ptr_HybridMeteringPointSpec_::JavaPart>>& onTap) {
+    static const auto __method = CxxPart::getClass()->getMethod<jni::local_ref<JListenerSubscription>(jni::alias_ref<JCallback<margelo::nitro::camera::JCallback_void_std__shared_ptr_HybridMeteringPointSpec_::JavaPart>> /* onTap */)>("addOnTapListener");
+    auto __result = __method(_javaPart, onTap);
+    return __result;
+  }
+  jni::local_ref<JListenerSubscription> JHybridTapToFocusGestureControllerSpec::addOnFocusCompletedListener(const jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void_std__shared_ptr_HybridMeteringPointSpec_::JavaPart>>& onFocusCompleted) {
+    static const auto __method = CxxPart::getClass()->getMethod<jni::local_ref<JListenerSubscription>(jni::alias_ref<JCallback<margelo::nitro::camera::JCallback_void_std__shared_ptr_HybridMeteringPointSpec_::JavaPart>> /* onFocusCompleted */)>("addOnFocusCompletedListener");
+    auto __result = __method(_javaPart, onFocusCompleted);
+    return __result;
+  }
 
 } // namespace margelo::nitro::camera

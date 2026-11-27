@@ -14,6 +14,10 @@
 
 namespace margelo::nitro::camera {
 
+  jni::local_ref<JCallback_void_std__string_RecordingFinishedReason::JFunction_cxx> JCallback_void_std__string_RecordingFinishedReason::JFunction_cxx::create(jni::alias_ref<JCallback<JavaPart>> callback) {
+    return newInstance(callback);
+  }
+
   JNIRetainedValue<void>::Type JCallback_void_std__string_RecordingFinishedReason::JFunction_cxx::invoke(JNIRetainedValue<jni::local_ref<jni::JString>>::Type filePath, JNIRetainedValue<jni::local_ref<margelo::nitro::camera::JRecordingFinishedReason>>::Type reason) const {
     static const auto __method = javaClassStatic()->getMethod<void(jni::alias_ref<jni::JString>, jni::alias_ref<JRecordingFinishedReason>)>("call");
     __method(self(), JNIRetainedValue<jni::local_ref<jni::JString>>::borrow(filePath), JNIRetainedValue<jni::local_ref<margelo::nitro::camera::JRecordingFinishedReason>>::borrow(reason));
@@ -35,12 +39,9 @@ namespace margelo::nitro::camera {
     callAndForget(filePath, reason);
   }
 
-  jni::local_ref<JCallback_void_std__string_RecordingFinishedReason::JavaPart> JCallback_void_std__string_RecordingFinishedReason::fromCxx_cxx(jni::alias_ref<jni::JClass>, jni::alias_ref<JCxxCallback::javaobject> callback) {
-    return create(getCallback(callback));
-  }
-
-  jni::local_ref<JCallback_void_std__string_RecordingFinishedReason::JavaPart> JCallback_void_std__string_RecordingFinishedReason::fromFunction_cxx(jni::alias_ref<jni::JClass>, jni::alias_ref<JFunction_cxx> function) {
-    return create(CallbackType::make(JNICallable<JFunction_cxx, NativeSignature>(jni::make_global(function))));
+  JCallback_void_std__string_RecordingFinishedReason::CallbackType JCallback_void_std__string_RecordingFinishedReason::fromKotlin(jni::alias_ref<JCallback<JavaPart>> callback) {
+    auto function = JFunction_cxx::create(callback);
+    return CallbackType::make(JNICallable<JFunction_cxx, NativeSignature>(jni::make_global(function)));
   }
 
   void JCallback_void_std__string_RecordingFinishedReason::registerNatives() {
@@ -48,8 +49,6 @@ namespace margelo::nitro::camera {
       makeNativeMethod("callSync_cxx", JCallback_void_std__string_RecordingFinishedReason::callSync_cxx),
       makeNativeMethod("callAsync_cxx", JCallback_void_std__string_RecordingFinishedReason::callAsync_cxx),
       makeNativeMethod("callAndForget_cxx", JCallback_void_std__string_RecordingFinishedReason::callAndForget_cxx),
-      makeNativeMethod("fromCxx_cxx", JCallback_void_std__string_RecordingFinishedReason::fromCxx_cxx),
-      makeNativeMethod("fromFunction_cxx", JCallback_void_std__string_RecordingFinishedReason::fromFunction_cxx),
     });
   }
 

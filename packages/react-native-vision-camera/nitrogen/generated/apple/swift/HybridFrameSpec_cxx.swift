@@ -7,6 +7,7 @@
 internal import NitroModules
 internal import CxxStdlib
 internal import VisionCameraAppleCxx
+internal import NitroModulesAppleCxx
 
 /**
  * A class implementation that bridges HybridFrameSpec over to C++.
@@ -186,10 +187,12 @@ public final class HybridFrameSpec_cxx {
 
   // Methods
 
-  public final func getPlanes(__outResult: UnsafeMutableRawPointer) -> bridge.Result_void {
+  public final func getPlanes(__onResult: UnsafeRawPointer) -> bridge.Result_void {
     do {
       let value = try __implementation.getPlanes()
-      __outResult.assumingMemoryBound(to: [HybridFramePlaneSpec_cxx].self).initialize(to: value.map { $0.getCxxWrapper() })
+      withUnsafePointer(to: value.map { $0.getCxxWrapper() }) { pointer in
+        margelo.nitro.SwiftResultConsumer.consume(__onResult, UnsafeRawPointer(pointer))
+      }
       return bridge.Result_void.withValue()
     } catch {
       return bridge.Result_void.withError(error.toCpp())
@@ -205,30 +208,36 @@ public final class HybridFrameSpec_cxx {
     }
   }
 
-  public final func getNativeBuffer(__outResult: UnsafeMutableRawPointer) -> bridge.Result_void {
+  public final func getNativeBuffer(__onResult: UnsafeRawPointer) -> bridge.Result_void {
     do {
       let value = try __implementation.getNativeBuffer()
-      __outResult.assumingMemoryBound(to: NativeBuffer.self).initialize(to: value)
+      withUnsafePointer(to: value) { pointer in
+        margelo.nitro.SwiftResultConsumer.consume(__onResult, UnsafeRawPointer(pointer))
+      }
       return bridge.Result_void.withValue()
     } catch {
       return bridge.Result_void.withError(error.toCpp())
     }
   }
 
-  public final func convertCameraPointToFramePoint(cameraPoint: Point, __outResult: UnsafeMutableRawPointer) -> bridge.Result_void {
+  public final func convertCameraPointToFramePoint(cameraPoint: Point, __onResult: UnsafeRawPointer) -> bridge.Result_void {
     do {
       let value = try __implementation.convertCameraPointToFramePoint(cameraPoint: cameraPoint)
-      __outResult.assumingMemoryBound(to: Point.self).initialize(to: value)
+      withUnsafePointer(to: value) { pointer in
+        margelo.nitro.SwiftResultConsumer.consume(__onResult, UnsafeRawPointer(pointer))
+      }
       return bridge.Result_void.withValue()
     } catch {
       return bridge.Result_void.withError(error.toCpp())
     }
   }
 
-  public final func convertFramePointToCameraPoint(framePoint: Point, __outResult: UnsafeMutableRawPointer) -> bridge.Result_void {
+  public final func convertFramePointToCameraPoint(framePoint: Point, __onResult: UnsafeRawPointer) -> bridge.Result_void {
     do {
       let value = try __implementation.convertFramePointToCameraPoint(framePoint: framePoint)
-      __outResult.assumingMemoryBound(to: Point.self).initialize(to: value)
+      withUnsafePointer(to: value) { pointer in
+        margelo.nitro.SwiftResultConsumer.consume(__onResult, UnsafeRawPointer(pointer))
+      }
       return bridge.Result_void.withValue()
     } catch {
       return bridge.Result_void.withError(error.toCpp())

@@ -9,7 +9,6 @@ package com.margelo.nitro.camera
 
 import androidx.annotation.Keep
 import com.facebook.proguard.annotations.DoNotStrip
-import java.util.Objects
 
 
 /**
@@ -22,18 +21,14 @@ data class VideoDynamicRangeConstraint(
   @Keep
   val videoDynamicRange: TargetDynamicRange
 ) {
-
-
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is VideoDynamicRangeConstraint) return false
-    return Objects.deepEquals(this.videoDynamicRange, other.videoDynamicRange)
+    return this.videoDynamicRange == other.videoDynamicRange
   }
 
   override fun hashCode(): Int {
-    return arrayOf<Any?>(
-      videoDynamicRange
-    ).contentDeepHashCode()
+    return this.videoDynamicRange.hashCode()
   }
 
   companion object {

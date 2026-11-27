@@ -9,7 +9,6 @@ package com.margelo.nitro.camera
 
 import androidx.annotation.Keep
 import com.facebook.proguard.annotations.DoNotStrip
-import java.util.Objects
 
 
 /**
@@ -37,28 +36,25 @@ data class VideoOutputOptions(
   @Keep
   val fileType: RecorderFileType?
 ) {
-
-
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is VideoOutputOptions) return false
-    return Objects.deepEquals(this.targetResolution, other.targetResolution)
-      && Objects.deepEquals(this.enableAudio, other.enableAudio)
-      && Objects.deepEquals(this.enablePersistentRecorder, other.enablePersistentRecorder)
-      && Objects.deepEquals(this.enableHigherResolutionCodecs, other.enableHigherResolutionCodecs)
-      && Objects.deepEquals(this.targetBitRate, other.targetBitRate)
-      && Objects.deepEquals(this.fileType, other.fileType)
+    return this.targetResolution == other.targetResolution
+      && (this.enableAudio == null && other.enableAudio == null || this.enableAudio != null && other.enableAudio != null && this.enableAudio == other.enableAudio)
+      && (this.enablePersistentRecorder == null && other.enablePersistentRecorder == null || this.enablePersistentRecorder != null && other.enablePersistentRecorder != null && this.enablePersistentRecorder == other.enablePersistentRecorder)
+      && (this.enableHigherResolutionCodecs == null && other.enableHigherResolutionCodecs == null || this.enableHigherResolutionCodecs != null && other.enableHigherResolutionCodecs != null && this.enableHigherResolutionCodecs == other.enableHigherResolutionCodecs)
+      && (this.targetBitRate == null && other.targetBitRate == null || this.targetBitRate != null && other.targetBitRate != null && this.targetBitRate.toBits() == other.targetBitRate.toBits())
+      && (this.fileType == null && other.fileType == null || this.fileType != null && other.fileType != null && this.fileType == other.fileType)
   }
 
   override fun hashCode(): Int {
-    return arrayOf<Any?>(
-      targetResolution,
-      enableAudio,
-      enablePersistentRecorder,
-      enableHigherResolutionCodecs,
-      targetBitRate,
-      fileType
-    ).contentDeepHashCode()
+    var result = this.targetResolution.hashCode()
+    result = 31 * result + (if (this.enableAudio != null) this.enableAudio.hashCode() else 0)
+    result = 31 * result + (if (this.enablePersistentRecorder != null) this.enablePersistentRecorder.hashCode() else 0)
+    result = 31 * result + (if (this.enableHigherResolutionCodecs != null) this.enableHigherResolutionCodecs.hashCode() else 0)
+    result = 31 * result + (if (this.targetBitRate != null) this.targetBitRate.hashCode() else 0)
+    result = 31 * result + (if (this.fileType != null) this.fileType.hashCode() else 0)
+    return result
   }
 
   companion object {

@@ -70,8 +70,8 @@ namespace margelo::nitro::camera {
 
   public:
     // Methods
-    void setOnFrameCallback(const jni::local_ref<JOptional<margelo::nitro::camera::JCallback_bool_std__shared_ptr_HybridFrameSpec_::JavaPart>>& onFrame);
-    void setOnFrameDroppedCallback(const jni::local_ref<JOptional<margelo::nitro::camera::JCallback_void_FrameDroppedReason::JavaPart>>& onFrameDropped);
+    void setOnFrameCallback(const jni::local_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_bool_std__shared_ptr_HybridFrameSpec_::JavaPart>>>& onFrame);
+    void setOnFrameDroppedCallback(const jni::local_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void_FrameDroppedReason::JavaPart>>>& onFrameDropped);
 
   public:
     // Constructor and static members

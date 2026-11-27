@@ -1,5 +1,5 @@
 ///
-/// HybridCameraPhotoOutput.swift
+/// HybridZoomGestureController.swift
 /// VisionCamera
 /// Copyright © 2025 Marc Rousavy @ Margelo
 ///
@@ -16,6 +16,7 @@ final class HybridZoomGestureController: HybridZoomGestureControllerSpec, Native
 
   private let MAX_ZOOM_FACTOR = 15.0
   private var initialZoomFactor = 1.0
+  private let onZoomChangedListeners = ListenerRegistry<any Callback<Double, Void>>()
 
   override init() throws {
     try super.init()
@@ -43,6 +44,7 @@ final class HybridZoomGestureController: HybridZoomGestureControllerSpec, Native
       let minZoom = device.minAvailableVideoZoomFactor
       let maxZoom = min(device.maxAvailableVideoZoomFactor, MAX_ZOOM_FACTOR)
       let zoom = min(max(targetFactor, minZoom), maxZoom)
+      onZoomChangedListeners.snapshot().forEach { $0(zoom) }
 
       controller.queue.async {
         do {
@@ -56,5 +58,11 @@ final class HybridZoomGestureController: HybridZoomGestureControllerSpec, Native
     default:
       break
     }
+  }
+
+  func addOnZoomChangedListener(onZoomChanged: any Callback<Double, Void>) throws
+    -> ListenerSubscription
+  {
+    return onZoomChangedListeners.add(onZoomChanged)
   }
 }

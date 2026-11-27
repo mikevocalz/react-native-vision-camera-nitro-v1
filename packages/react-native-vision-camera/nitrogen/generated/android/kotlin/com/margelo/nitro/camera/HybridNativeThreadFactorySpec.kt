@@ -78,8 +78,7 @@ abstract class HybridNativeThreadFactorySpec: HybridObject() {
     @DoNotStrip
     @Keep
     private fun constructor_cxx(): HybridNativeThreadFactorySpec {
-      val __result = HybridNativeThreadFactory.constructor()
-      return __result
+      return HybridNativeThreadFactory.constructor()
     }
   }
 }

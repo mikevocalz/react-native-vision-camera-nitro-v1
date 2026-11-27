@@ -95,9 +95,9 @@ namespace margelo::nitro::camera {
   }
 
   // Methods
-  jni::local_ref<JListenerSubscription> JHybridCameraDeviceFactorySpec::addOnCameraDevicesChangedListener(const jni::local_ref<margelo::nitro::camera::JCallback_void_std__vector_std__shared_ptr_HybridCameraDeviceSpec__::JavaPart>& listener) {
-    static const auto __method = CxxPart::getClass()->getNonvirtualMethod<jni::local_ref<JListenerSubscription>(jni::alias_ref<margelo::nitro::camera::JCallback_void_std__vector_std__shared_ptr_HybridCameraDeviceSpec__::JavaPart> /* listener */)>("addOnCameraDevicesChangedListener_cxx");
-    auto __result = __method(_javaPart, CxxPart::getClass(), listener);
+  jni::local_ref<JListenerSubscription> JHybridCameraDeviceFactorySpec::addOnCameraDevicesChangedListener(const jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void_std__vector_std__shared_ptr_HybridCameraDeviceSpec__::JavaPart>>& listener) {
+    static const auto __method = CxxPart::getClass()->getMethod<jni::local_ref<JListenerSubscription>(jni::alias_ref<JCallback<margelo::nitro::camera::JCallback_void_std__vector_std__shared_ptr_HybridCameraDeviceSpec__::JavaPart>> /* listener */)>("addOnCameraDevicesChangedListener");
+    auto __result = __method(_javaPart, listener);
     return __result;
   }
   jni::local_ref<JOptional<JHybridCameraDeviceSpecJavaPart>> JHybridCameraDeviceFactorySpec::getCameraForId(const jni::local_ref<jni::JString>& id) {

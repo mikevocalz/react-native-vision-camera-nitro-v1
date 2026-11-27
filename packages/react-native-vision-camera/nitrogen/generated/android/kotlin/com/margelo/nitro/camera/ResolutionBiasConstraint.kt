@@ -9,7 +9,6 @@ package com.margelo.nitro.camera
 
 import androidx.annotation.Keep
 import com.facebook.proguard.annotations.DoNotStrip
-import java.util.Objects
 
 
 /**
@@ -22,18 +21,14 @@ data class ResolutionBiasConstraint(
   @Keep
   val resolutionBias: HybridCameraOutputSpec
 ) {
-
-
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is ResolutionBiasConstraint) return false
-    return Objects.deepEquals(this.resolutionBias, other.resolutionBias)
+    return this.resolutionBias == other.resolutionBias
   }
 
   override fun hashCode(): Int {
-    return arrayOf<Any?>(
-      resolutionBias
-    ).contentDeepHashCode()
+    return this.resolutionBias.hashCode()
   }
 
   companion object {

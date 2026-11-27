@@ -7,6 +7,7 @@
 internal import NitroModules
 internal import CxxStdlib
 internal import VisionCameraAppleCxx
+internal import NitroModulesAppleCxx
 
 /**
  * A class implementation that bridges HybridCameraDeviceSpec over to C++.
@@ -326,10 +327,12 @@ public final class HybridCameraDeviceSpec_cxx {
 
   // Methods
 
-  public final func getSupportedResolutions(outputStreamType: OutputStreamType, __outResult: UnsafeMutableRawPointer) -> bridge.Result_void {
+  public final func getSupportedResolutions(outputStreamType: OutputStreamType, __onResult: UnsafeRawPointer) -> bridge.Result_void {
     do {
       let value = try __implementation.getSupportedResolutions(outputStreamType: outputStreamType)
-      __outResult.assumingMemoryBound(to: [Size].self).initialize(to: value)
+      withUnsafePointer(to: value) { pointer in
+        margelo.nitro.SwiftResultConsumer.consume(__onResult, UnsafeRawPointer(pointer))
+      }
       return bridge.Result_void.withValue()
     } catch {
       return bridge.Result_void.withError(error.toCpp())

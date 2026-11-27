@@ -18,12 +18,12 @@ public struct ListenerSubscription: Sendable {
   }
 
   @_spi(NitroCxx)
-  public static func init_cxx(_ remove: margelo.nitro.camera.swift_bridge.Callback_void) -> Self {
-    return Self(remove: remove)
+  public static func init_cxx(_ remove: UnsafeRawPointer) -> Self {
+    return Self(remove: remove.load(as: margelo.nitro.camera.swift_bridge.Callback_void.self))
   }
 
   @_spi(NitroCxx)
-  public borrowing func getRemove_cxx() -> margelo.nitro.camera.swift_bridge.Callback_void {
-    return self.remove.toCpp()
+  public borrowing func getRemove_cxx(_ __outResult: UnsafeMutableRawPointer) -> Void {
+    __outResult.initializeMemory(as: margelo.nitro.camera.swift_bridge.Callback_void.self, repeating: self.remove.toCpp(), count: 1)
   }
 }

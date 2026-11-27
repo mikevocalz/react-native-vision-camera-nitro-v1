@@ -16,6 +16,10 @@
 
 namespace margelo::nitro::camera {
 
+  jni::local_ref<JCallback_void_std__vector_std__shared_ptr_HybridCameraDeviceSpec__::JFunction_cxx> JCallback_void_std__vector_std__shared_ptr_HybridCameraDeviceSpec__::JFunction_cxx::create(jni::alias_ref<JCallback<JavaPart>> callback) {
+    return newInstance(callback);
+  }
+
   JNIRetainedValue<void>::Type JCallback_void_std__vector_std__shared_ptr_HybridCameraDeviceSpec__::JFunction_cxx::invoke(JNIRetainedValue<jni::local_ref<jni::JArrayClass<margelo::nitro::camera::JHybridCameraDeviceSpecJavaPart>>>::Type newDevices) const {
     static const auto __method = javaClassStatic()->getMethod<void(jni::alias_ref<jni::JArrayClass<JHybridCameraDeviceSpecJavaPart>>)>("call");
     __method(self(), JNIRetainedValue<jni::local_ref<jni::JArrayClass<margelo::nitro::camera::JHybridCameraDeviceSpecJavaPart>>>::borrow(newDevices));
@@ -37,12 +41,9 @@ namespace margelo::nitro::camera {
     callAndForget(newDevices);
   }
 
-  jni::local_ref<JCallback_void_std__vector_std__shared_ptr_HybridCameraDeviceSpec__::JavaPart> JCallback_void_std__vector_std__shared_ptr_HybridCameraDeviceSpec__::fromCxx_cxx(jni::alias_ref<jni::JClass>, jni::alias_ref<JCxxCallback::javaobject> callback) {
-    return create(getCallback(callback));
-  }
-
-  jni::local_ref<JCallback_void_std__vector_std__shared_ptr_HybridCameraDeviceSpec__::JavaPart> JCallback_void_std__vector_std__shared_ptr_HybridCameraDeviceSpec__::fromFunction_cxx(jni::alias_ref<jni::JClass>, jni::alias_ref<JFunction_cxx> function) {
-    return create(CallbackType::make(JNICallable<JFunction_cxx, NativeSignature>(jni::make_global(function))));
+  JCallback_void_std__vector_std__shared_ptr_HybridCameraDeviceSpec__::CallbackType JCallback_void_std__vector_std__shared_ptr_HybridCameraDeviceSpec__::fromKotlin(jni::alias_ref<JCallback<JavaPart>> callback) {
+    auto function = JFunction_cxx::create(callback);
+    return CallbackType::make(JNICallable<JFunction_cxx, NativeSignature>(jni::make_global(function)));
   }
 
   void JCallback_void_std__vector_std__shared_ptr_HybridCameraDeviceSpec__::registerNatives() {
@@ -50,8 +51,6 @@ namespace margelo::nitro::camera {
       makeNativeMethod("callSync_cxx", JCallback_void_std__vector_std__shared_ptr_HybridCameraDeviceSpec__::callSync_cxx),
       makeNativeMethod("callAsync_cxx", JCallback_void_std__vector_std__shared_ptr_HybridCameraDeviceSpec__::callAsync_cxx),
       makeNativeMethod("callAndForget_cxx", JCallback_void_std__vector_std__shared_ptr_HybridCameraDeviceSpec__::callAndForget_cxx),
-      makeNativeMethod("fromCxx_cxx", JCallback_void_std__vector_std__shared_ptr_HybridCameraDeviceSpec__::fromCxx_cxx),
-      makeNativeMethod("fromFunction_cxx", JCallback_void_std__vector_std__shared_ptr_HybridCameraDeviceSpec__::fromFunction_cxx),
     });
   }
 

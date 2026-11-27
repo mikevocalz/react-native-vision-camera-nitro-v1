@@ -10,8 +10,11 @@ import androidx.camera.core.Camera
 import com.margelo.nitro.NitroModules
 import com.margelo.nitro.camera.HybridCameraControllerSpec
 import com.margelo.nitro.camera.HybridZoomGestureControllerSpec
+import com.margelo.nitro.camera.ListenerSubscription
 import com.margelo.nitro.camera.hybrids.HybridCameraController
 import com.margelo.nitro.camera.public.NativeGestureController
+import com.margelo.nitro.core.Callback
+import java.util.concurrent.CopyOnWriteArraySet
 import kotlin.math.max
 import kotlin.math.min
 
@@ -28,6 +31,8 @@ class HybridZoomGestureController :
     get() = NitroModules.applicationContext ?: throw Error("Context not available!")
   private var initialZoomFactor = 1f
   private var isPinching = false
+  // Added/removed on the JS thread, emitted on the main thread.
+  private val onZoomChangedListeners = CopyOnWriteArraySet<Callback<(zoom: Double) -> Unit>>()
   private val camera: Camera?
     get() {
       val controller = controller as? HybridCameraController ?: return null
@@ -59,6 +64,7 @@ class HybridZoomGestureController :
           val maxZoom = min(zoomState.maxZoomRatio, MAX_ZOOM_FACTOR)
           val zoom = min(max(targetFactor, minZoom), maxZoom)
 
+          onZoomChangedListeners.forEach { it(zoom.toDouble()) }
           camera.cameraControl.setZoomRatio(zoom)
           return super.onScale(detector)
         }
@@ -116,5 +122,14 @@ class HybridZoomGestureController :
         return (event.pointerCount > 1) || isPinching
       }
     }
+  }
+
+  override fun addOnZoomChangedListener(onZoomChanged: Callback<(zoom: Double) -> Unit>): ListenerSubscription {
+    onZoomChangedListeners.add(onZoomChanged)
+    return ListenerSubscription(
+      Callback.Arity0<Unit> {
+        onZoomChangedListeners.remove(onZoomChanged)
+      },
+    )
   }
 }

@@ -92,8 +92,7 @@ abstract class HybridFrameConverterSpec: HybridObject() {
     @DoNotStrip
     @Keep
     private fun constructor_cxx(): HybridFrameConverterSpec {
-      val __result = HybridFrameConverter.constructor()
-      return __result
+      return HybridFrameConverter.constructor()
     }
   }
 }

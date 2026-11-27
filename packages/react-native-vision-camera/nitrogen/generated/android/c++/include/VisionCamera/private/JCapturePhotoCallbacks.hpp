@@ -26,30 +26,30 @@ namespace margelo::nitro::camera {
   struct JCapturePhotoCallbacks final : public jni::JavaClass<JCapturePhotoCallbacks> {
     static constexpr auto kJavaDescriptor = "Lcom/margelo/nitro/camera/CapturePhotoCallbacks;";
 
-    static jni::local_ref<JCapturePhotoCallbacks> create(jni::alias_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>> onWillBeginCapture, jni::alias_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>> onWillCapturePhoto, jni::alias_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>> onDidCapturePhoto, jni::alias_ref<JOptional<margelo::nitro::camera::JCallback_void_std__shared_ptr_margelo__nitro__image__HybridImageSpec_::JavaPart>> onPreviewImageAvailable) {
+    static jni::local_ref<JCapturePhotoCallbacks> create(jni::alias_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>> onWillBeginCapture, jni::alias_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>> onWillCapturePhoto, jni::alias_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>> onDidCapturePhoto, jni::alias_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void_std__shared_ptr_margelo__nitro__image__HybridImageSpec_::JavaPart>>> onPreviewImageAvailable) {
       static const auto clazz = javaClassStatic();
-      static const auto create = clazz->getStaticMethod<JCapturePhotoCallbacks(jni::alias_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>>, jni::alias_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>>, jni::alias_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>>, jni::alias_ref<JOptional<margelo::nitro::camera::JCallback_void_std__shared_ptr_margelo__nitro__image__HybridImageSpec_::JavaPart>>)>("fromCpp");
+      static const auto create = clazz->getStaticMethod<JCapturePhotoCallbacks(jni::alias_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>>, jni::alias_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>>, jni::alias_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>>, jni::alias_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void_std__shared_ptr_margelo__nitro__image__HybridImageSpec_::JavaPart>>>)>("fromCpp");
       return create(clazz, onWillBeginCapture, onWillCapturePhoto, onDidCapturePhoto, onPreviewImageAvailable);
     }
 
-    jni::local_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>> getOnWillBeginCapture() const {
-      static const auto method = javaClassStatic()->getMethod<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>()>("getOnWillBeginCapture_cxx");
-      return method(this->self());
+    jni::local_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>> getOnWillBeginCapture() const {
+      static const auto field = javaClassStatic()->getField<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>>("onWillBeginCapture");
+      return getFieldValue(field);
     }
 
-    jni::local_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>> getOnWillCapturePhoto() const {
-      static const auto method = javaClassStatic()->getMethod<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>()>("getOnWillCapturePhoto_cxx");
-      return method(this->self());
+    jni::local_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>> getOnWillCapturePhoto() const {
+      static const auto field = javaClassStatic()->getField<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>>("onWillCapturePhoto");
+      return getFieldValue(field);
     }
 
-    jni::local_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>> getOnDidCapturePhoto() const {
-      static const auto method = javaClassStatic()->getMethod<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>()>("getOnDidCapturePhoto_cxx");
-      return method(this->self());
+    jni::local_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>> getOnDidCapturePhoto() const {
+      static const auto field = javaClassStatic()->getField<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>>("onDidCapturePhoto");
+      return getFieldValue(field);
     }
 
-    jni::local_ref<JOptional<margelo::nitro::camera::JCallback_void_std__shared_ptr_margelo__nitro__image__HybridImageSpec_::JavaPart>> getOnPreviewImageAvailable() const {
-      static const auto method = javaClassStatic()->getMethod<JOptional<margelo::nitro::camera::JCallback_void_std__shared_ptr_margelo__nitro__image__HybridImageSpec_::JavaPart>()>("getOnPreviewImageAvailable_cxx");
-      return method(this->self());
+    jni::local_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void_std__shared_ptr_margelo__nitro__image__HybridImageSpec_::JavaPart>>> getOnPreviewImageAvailable() const {
+      static const auto field = javaClassStatic()->getField<JOptional<JCallback<margelo::nitro::camera::JCallback_void_std__shared_ptr_margelo__nitro__image__HybridImageSpec_::JavaPart>>>("onPreviewImageAvailable");
+      return getFieldValue(field);
     }
   };
 

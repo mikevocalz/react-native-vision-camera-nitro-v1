@@ -7,13 +7,16 @@
 
 #pragma once
 
+#include <NitroModules/ReactNativeCore.hpp>
 #include <NitroModules/ReactProp.hpp>
 #include <NitroModules/ViewComponentDescriptor.hpp>
 #include <NitroModules/ViewPropsHolderState.hpp>
+#if __has_include(<React/View.h>)
+#include <React/View.h>
+#else
 #include <react/renderer/components/view/ConcreteViewShadowNode.h>
 #include <react/renderer/components/view/ViewProps.h>
-#include <react/renderer/core/PropsParserContext.h>
-#include <react/renderer/core/RawProps.h>
+#endif
 
 #include <string>
 
@@ -61,8 +64,8 @@ namespace margelo::nitro::camera::views {
     nitro::ReactProp<jni::alias_ref<JOptional<JPreviewResizeMode>>> resizeMode;
     nitro::ReactProp<jni::alias_ref<JOptional<JPreviewImplementationMode>>> implementationMode;
     nitro::ReactProp<jni::global_ref<JOptional<jni::JArrayClass<JHybridGestureControllerSpecJavaPart>>>> gestureControllers;
-    nitro::ReactProp<jni::global_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>>> onPreviewStarted;
-    nitro::ReactProp<jni::global_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>>> onPreviewStopped;
+    nitro::ReactProp<jni::global_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>>> onPreviewStarted;
+    nitro::ReactProp<jni::global_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>>> onPreviewStopped;
     nitro::ReactProp<std::optional<Callback<void(const std::shared_ptr<HybridObject>& /* ref */)>>> hybridRef;
 
     [[nodiscard]]

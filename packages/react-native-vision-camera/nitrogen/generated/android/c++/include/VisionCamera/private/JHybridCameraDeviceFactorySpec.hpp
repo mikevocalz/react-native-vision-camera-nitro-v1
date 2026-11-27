@@ -76,7 +76,7 @@ namespace margelo::nitro::camera {
 
   public:
     // Methods
-    jni::local_ref<JListenerSubscription> addOnCameraDevicesChangedListener(const jni::local_ref<margelo::nitro::camera::JCallback_void_std__vector_std__shared_ptr_HybridCameraDeviceSpec__::JavaPart>& listener);
+    jni::local_ref<JListenerSubscription> addOnCameraDevicesChangedListener(const jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void_std__vector_std__shared_ptr_HybridCameraDeviceSpec__::JavaPart>>& listener);
     jni::local_ref<JOptional<JHybridCameraDeviceSpecJavaPart>> getCameraForId(const jni::local_ref<jni::JString>& id);
     jni::local_ref<JTypedPromise<jni::local_ref<jni::JArrayClass<JHybridCameraExtensionSpecJavaPart>>>> getSupportedExtensions(const jni::local_ref<JHybridCameraDeviceSpecJavaPart>& camera);
     jni::local_ref<JOptional<JHybridCameraDeviceSpecJavaPart>> getDefaultCamera(const jni::local_ref<JTargetCameraPosition>& position);

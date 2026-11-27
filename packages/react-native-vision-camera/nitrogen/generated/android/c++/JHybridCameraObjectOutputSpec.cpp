@@ -64,9 +64,9 @@ namespace margelo::nitro::camera {
 
 
   // Methods
-  void JHybridCameraObjectOutputSpec::setOnObjectsScannedCallback(const jni::local_ref<JOptional<margelo::nitro::camera::JCallback_void_std__vector_std__shared_ptr_HybridScannedObjectSpec__::JavaPart>>& onObjectsScanned) {
-    static const auto __method = CxxPart::getClass()->getNonvirtualMethod<void(jni::alias_ref<JOptional<margelo::nitro::camera::JCallback_void_std__vector_std__shared_ptr_HybridScannedObjectSpec__::JavaPart>> /* onObjectsScanned */)>("setOnObjectsScannedCallback_cxx");
-    __method(_javaPart, CxxPart::getClass(), onObjectsScanned);
+  void JHybridCameraObjectOutputSpec::setOnObjectsScannedCallback(const jni::local_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void_std__vector_std__shared_ptr_HybridScannedObjectSpec__::JavaPart>>>& onObjectsScanned) {
+    static const auto __method = CxxPart::getClass()->getMethod<void(jni::alias_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void_std__vector_std__shared_ptr_HybridScannedObjectSpec__::JavaPart>>> /* onObjectsScanned */)>("setOnObjectsScannedCallback");
+    __method(_javaPart, onObjectsScanned);
   }
 
 } // namespace margelo::nitro::camera

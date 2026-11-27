@@ -31,6 +31,8 @@
 #include <VisionCamera/private/JHybridNativeThreadSpec.hpp>
 #include <VisionCamera/private/JHybridNativeThreadFactorySpec.hpp>
 #include <VisionCamera/private/JHybridGestureControllerSpec.hpp>
+#include <VisionCamera/private/JCallback_void_std__shared_ptr_HybridMeteringPointSpec_.hpp>
+#include <VisionCamera/private/JCallback_void_double.hpp>
 #include <VisionCamera/private/JHybridCameraExtensionSpec.hpp>
 #include <VisionCamera/private/JCallback_void_std__vector_std__shared_ptr_HybridCameraDeviceSpec__.hpp>
 #include <VisionCamera/private/JHybridCameraCalibrationDataSpec.hpp>
@@ -86,6 +88,8 @@ namespace margelo::nitro::camera {
     margelo::nitro::camera::JHybridNativeThreadSpec::CxxPart::registerNatives();
     margelo::nitro::camera::JHybridNativeThreadFactorySpec::CxxPart::registerNatives();
     margelo::nitro::camera::JHybridGestureControllerSpec::CxxPart::registerNatives();
+    margelo::nitro::camera::JCallback_void_std__shared_ptr_HybridMeteringPointSpec_::registerNatives();
+    margelo::nitro::camera::JCallback_void_double::registerNatives();
     margelo::nitro::camera::JHybridCameraExtensionSpec::CxxPart::registerNatives();
     margelo::nitro::camera::JCallback_void_std__vector_std__shared_ptr_HybridCameraDeviceSpec__::registerNatives();
     margelo::nitro::camera::JHybridCameraCalibrationDataSpec::CxxPart::registerNatives();

@@ -87,8 +87,8 @@ namespace margelo::nitro::camera {
   }
 
   ::VisionCamera::Point HybridPreviewViewSpecSwift::convertCameraPointToViewPoint(const ::VisionCamera::Point& cameraPoint) {
-    auto __result = withSwiftResult<::VisionCamera::Point>([&](void* __outResult) {
-      return _swiftPart.convertCameraPointToViewPoint(cameraPoint, __outResult);
+    auto __result = receiveSwiftResult<::VisionCamera::Point>([&](const void* __onResult) {
+      return _swiftPart.convertCameraPointToViewPoint(cameraPoint, __onResult);
     });
     if (__result.hasError()) [[unlikely]] {
       std::rethrow_exception(__result.error());
@@ -97,8 +97,8 @@ namespace margelo::nitro::camera {
   }
 
   ::VisionCamera::Point HybridPreviewViewSpecSwift::convertViewPointToCameraPoint(const ::VisionCamera::Point& viewPoint) {
-    auto __result = withSwiftResult<::VisionCamera::Point>([&](void* __outResult) {
-      return _swiftPart.convertViewPointToCameraPoint(viewPoint, __outResult);
+    auto __result = receiveSwiftResult<::VisionCamera::Point>([&](const void* __onResult) {
+      return _swiftPart.convertViewPointToCameraPoint(viewPoint, __onResult);
     });
     if (__result.hasError()) [[unlikely]] {
       std::rethrow_exception(__result.error());

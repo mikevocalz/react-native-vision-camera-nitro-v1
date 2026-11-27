@@ -8,17 +8,22 @@
 #include <VisionCamera/private/ListenerSubscription-Swift.hpp>
 #include <VisionCamera/private/VisionCamera-Swift-Cxx-Umbrella.hpp>
 #include <NitroModules/PropNameIDCache.hpp>
+#include <NitroModules/SwiftResult.hpp>
+#include <memory>
 
 namespace margelo::nitro {
 
   ::VisionCamera::ListenerSubscription JSIConverter<::VisionCamera::ListenerSubscription>::fromJSI(jsi::Runtime& runtime, const jsi::Value& value) {
     auto object = value.asObject(runtime);
-    return ::VisionCamera::ListenerSubscription::init_cxx(JSIConverter<Callback<void()>>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "remove"))));
+    auto __remove = JSIConverter<Callback<void()>>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "remove")));
+    return ::VisionCamera::ListenerSubscription::init_cxx(std::addressof(__remove));
   }
 
   jsi::Value JSIConverter<::VisionCamera::ListenerSubscription>::toJSI(jsi::Runtime& runtime, const ::VisionCamera::ListenerSubscription& value) {
     jsi::Object object(runtime);
-    object.setProperty(runtime, PropNameIDCache::get(runtime, "remove"), JSIConverter<Callback<void()>>::toJSI(runtime, value.getRemove_cxx()));
+    object.setProperty(runtime, PropNameIDCache::get(runtime, "remove"), JSIConverter<Callback<void()>>::toJSI(runtime, makeCxxValue<Callback<void()>>([&](void* __outResult) {
+      value.getRemove_cxx(__outResult);
+    })));
     return object;
   }
 

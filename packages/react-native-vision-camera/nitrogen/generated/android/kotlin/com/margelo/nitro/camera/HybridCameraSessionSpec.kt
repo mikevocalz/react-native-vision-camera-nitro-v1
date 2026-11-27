@@ -45,50 +45,25 @@ abstract class HybridCameraSessionSpec: HybridObject() {
   @Keep
   abstract fun stop(): Promise<Unit>
 
+  @DoNotStrip
+  @Keep
   abstract fun addOnStartedListener(onStarted: Callback<() -> Unit>): ListenerSubscription
 
   @DoNotStrip
   @Keep
-  private fun addOnStartedListener_cxx(onStarted: Callback_void): ListenerSubscription {
-    val __result = addOnStartedListener(onStarted)
-    return __result
-  }
-
   abstract fun addOnStoppedListener(onStopped: Callback<() -> Unit>): ListenerSubscription
 
   @DoNotStrip
   @Keep
-  private fun addOnStoppedListener_cxx(onStopped: Callback_void): ListenerSubscription {
-    val __result = addOnStoppedListener(onStopped)
-    return __result
-  }
-
   abstract fun addOnErrorListener(onError: Callback<(error: Throwable) -> Unit>): ListenerSubscription
 
   @DoNotStrip
   @Keep
-  private fun addOnErrorListener_cxx(onError: Callback_void_std__exception_ptr): ListenerSubscription {
-    val __result = addOnErrorListener(onError)
-    return __result
-  }
-
   abstract fun addOnInterruptionStartedListener(onInterruptionStarted: Callback<(reason: InterruptionReason) -> Unit>): ListenerSubscription
 
   @DoNotStrip
   @Keep
-  private fun addOnInterruptionStartedListener_cxx(onInterruptionStarted: Callback_void_InterruptionReason): ListenerSubscription {
-    val __result = addOnInterruptionStartedListener(onInterruptionStarted)
-    return __result
-  }
-
   abstract fun addOnInterruptionEndedListener(onInterruptionEnded: Callback<() -> Unit>): ListenerSubscription
-
-  @DoNotStrip
-  @Keep
-  private fun addOnInterruptionEndedListener_cxx(onInterruptionEnded: Callback_void): ListenerSubscription {
-    val __result = addOnInterruptionEndedListener(onInterruptionEnded)
-    return __result
-  }
 
   // Default implementation of `HybridObject.toString()`
   override fun toString(): String {

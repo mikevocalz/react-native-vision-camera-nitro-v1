@@ -9,7 +9,6 @@ package com.margelo.nitro.camera
 
 import androidx.annotation.Keep
 import com.facebook.proguard.annotations.DoNotStrip
-import java.util.Objects
 
 
 /**
@@ -25,20 +24,17 @@ data class Point(
   @Keep
   val y: Double
 ) {
-
-
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is Point) return false
-    return Objects.deepEquals(this.x, other.x)
-      && Objects.deepEquals(this.y, other.y)
+    return this.x.toBits() == other.x.toBits()
+      && this.y.toBits() == other.y.toBits()
   }
 
   override fun hashCode(): Int {
-    return arrayOf<Any?>(
-      x,
-      y
-    ).contentDeepHashCode()
+    var result = this.x.hashCode()
+    result = 31 * result + this.y.hashCode()
+    return result
   }
 
   companion object {

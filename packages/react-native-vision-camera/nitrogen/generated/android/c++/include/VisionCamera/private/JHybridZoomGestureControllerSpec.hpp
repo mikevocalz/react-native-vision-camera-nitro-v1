@@ -12,6 +12,11 @@
 #include <fbjni/fbjni.h>
 #include <stdexcept>
 #include <VisionCamera/private/JHybridZoomGestureControllerSpecJavaPart.hpp>
+#include <VisionCamera/private/JListenerSubscription.hpp>
+#include <VisionCamera/private/JCallback_void_double.hpp>
+#include <NitroModules/JNIConverter+Callback.hpp>
+#include <NitroModules/JNIConverter+Primitives.hpp>
+#include <NitroModules/JSIConverter+JNIPrimitives.hpp>
 #include <VisionCamera/private/JHybridGestureControllerSpec.hpp>
 
 namespace margelo::nitro::camera {
@@ -58,7 +63,7 @@ namespace margelo::nitro::camera {
 
   public:
     // Methods
-
+    jni::local_ref<JListenerSubscription> addOnZoomChangedListener(const jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void_double::JavaPart>>& onZoomChanged);
 
   public:
     // Constructor and static members

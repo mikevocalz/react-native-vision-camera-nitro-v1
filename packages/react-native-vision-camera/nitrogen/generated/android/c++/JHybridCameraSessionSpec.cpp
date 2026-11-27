@@ -104,29 +104,29 @@ namespace margelo::nitro::camera {
     auto __result = __method(_javaPart);
     return __result;
   }
-  jni::local_ref<JListenerSubscription> JHybridCameraSessionSpec::addOnStartedListener(const jni::local_ref<margelo::nitro::camera::JCallback_void::JavaPart>& onStarted) {
-    static const auto __method = CxxPart::getClass()->getNonvirtualMethod<jni::local_ref<JListenerSubscription>(jni::alias_ref<margelo::nitro::camera::JCallback_void::JavaPart> /* onStarted */)>("addOnStartedListener_cxx");
-    auto __result = __method(_javaPart, CxxPart::getClass(), onStarted);
+  jni::local_ref<JListenerSubscription> JHybridCameraSessionSpec::addOnStartedListener(const jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>& onStarted) {
+    static const auto __method = CxxPart::getClass()->getMethod<jni::local_ref<JListenerSubscription>(jni::alias_ref<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>> /* onStarted */)>("addOnStartedListener");
+    auto __result = __method(_javaPart, onStarted);
     return __result;
   }
-  jni::local_ref<JListenerSubscription> JHybridCameraSessionSpec::addOnStoppedListener(const jni::local_ref<margelo::nitro::camera::JCallback_void::JavaPart>& onStopped) {
-    static const auto __method = CxxPart::getClass()->getNonvirtualMethod<jni::local_ref<JListenerSubscription>(jni::alias_ref<margelo::nitro::camera::JCallback_void::JavaPart> /* onStopped */)>("addOnStoppedListener_cxx");
-    auto __result = __method(_javaPart, CxxPart::getClass(), onStopped);
+  jni::local_ref<JListenerSubscription> JHybridCameraSessionSpec::addOnStoppedListener(const jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>& onStopped) {
+    static const auto __method = CxxPart::getClass()->getMethod<jni::local_ref<JListenerSubscription>(jni::alias_ref<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>> /* onStopped */)>("addOnStoppedListener");
+    auto __result = __method(_javaPart, onStopped);
     return __result;
   }
-  jni::local_ref<JListenerSubscription> JHybridCameraSessionSpec::addOnErrorListener(const jni::local_ref<margelo::nitro::camera::JCallback_void_std__exception_ptr::JavaPart>& onError) {
-    static const auto __method = CxxPart::getClass()->getNonvirtualMethod<jni::local_ref<JListenerSubscription>(jni::alias_ref<margelo::nitro::camera::JCallback_void_std__exception_ptr::JavaPart> /* onError */)>("addOnErrorListener_cxx");
-    auto __result = __method(_javaPart, CxxPart::getClass(), onError);
+  jni::local_ref<JListenerSubscription> JHybridCameraSessionSpec::addOnErrorListener(const jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void_std__exception_ptr::JavaPart>>& onError) {
+    static const auto __method = CxxPart::getClass()->getMethod<jni::local_ref<JListenerSubscription>(jni::alias_ref<JCallback<margelo::nitro::camera::JCallback_void_std__exception_ptr::JavaPart>> /* onError */)>("addOnErrorListener");
+    auto __result = __method(_javaPart, onError);
     return __result;
   }
-  jni::local_ref<JListenerSubscription> JHybridCameraSessionSpec::addOnInterruptionStartedListener(const jni::local_ref<margelo::nitro::camera::JCallback_void_InterruptionReason::JavaPart>& onInterruptionStarted) {
-    static const auto __method = CxxPart::getClass()->getNonvirtualMethod<jni::local_ref<JListenerSubscription>(jni::alias_ref<margelo::nitro::camera::JCallback_void_InterruptionReason::JavaPart> /* onInterruptionStarted */)>("addOnInterruptionStartedListener_cxx");
-    auto __result = __method(_javaPart, CxxPart::getClass(), onInterruptionStarted);
+  jni::local_ref<JListenerSubscription> JHybridCameraSessionSpec::addOnInterruptionStartedListener(const jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void_InterruptionReason::JavaPart>>& onInterruptionStarted) {
+    static const auto __method = CxxPart::getClass()->getMethod<jni::local_ref<JListenerSubscription>(jni::alias_ref<JCallback<margelo::nitro::camera::JCallback_void_InterruptionReason::JavaPart>> /* onInterruptionStarted */)>("addOnInterruptionStartedListener");
+    auto __result = __method(_javaPart, onInterruptionStarted);
     return __result;
   }
-  jni::local_ref<JListenerSubscription> JHybridCameraSessionSpec::addOnInterruptionEndedListener(const jni::local_ref<margelo::nitro::camera::JCallback_void::JavaPart>& onInterruptionEnded) {
-    static const auto __method = CxxPart::getClass()->getNonvirtualMethod<jni::local_ref<JListenerSubscription>(jni::alias_ref<margelo::nitro::camera::JCallback_void::JavaPart> /* onInterruptionEnded */)>("addOnInterruptionEndedListener_cxx");
-    auto __result = __method(_javaPart, CxxPart::getClass(), onInterruptionEnded);
+  jni::local_ref<JListenerSubscription> JHybridCameraSessionSpec::addOnInterruptionEndedListener(const jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>& onInterruptionEnded) {
+    static const auto __method = CxxPart::getClass()->getMethod<jni::local_ref<JListenerSubscription>(jni::alias_ref<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>> /* onInterruptionEnded */)>("addOnInterruptionEndedListener");
+    auto __result = __method(_javaPart, onInterruptionEnded);
     return __result;
   }
 

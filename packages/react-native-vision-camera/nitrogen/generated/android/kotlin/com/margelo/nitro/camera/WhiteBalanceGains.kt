@@ -9,7 +9,6 @@ package com.margelo.nitro.camera
 
 import androidx.annotation.Keep
 import com.facebook.proguard.annotations.DoNotStrip
-import java.util.Objects
 
 
 /**
@@ -28,22 +27,19 @@ data class WhiteBalanceGains(
   @Keep
   val greenGain: Double
 ) {
-
-
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is WhiteBalanceGains) return false
-    return Objects.deepEquals(this.redGain, other.redGain)
-      && Objects.deepEquals(this.blueGain, other.blueGain)
-      && Objects.deepEquals(this.greenGain, other.greenGain)
+    return this.redGain.toBits() == other.redGain.toBits()
+      && this.blueGain.toBits() == other.blueGain.toBits()
+      && this.greenGain.toBits() == other.greenGain.toBits()
   }
 
   override fun hashCode(): Int {
-    return arrayOf<Any?>(
-      redGain,
-      blueGain,
-      greenGain
-    ).contentDeepHashCode()
+    var result = this.redGain.hashCode()
+    result = 31 * result + this.blueGain.hashCode()
+    result = 31 * result + this.greenGain.hashCode()
+    return result
   }
 
   companion object {

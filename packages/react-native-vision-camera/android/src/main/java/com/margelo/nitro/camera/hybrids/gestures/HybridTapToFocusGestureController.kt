@@ -13,10 +13,14 @@ import androidx.camera.view.PreviewView
 import com.margelo.nitro.NitroModules
 import com.margelo.nitro.camera.FocusOptions
 import com.margelo.nitro.camera.HybridCameraControllerSpec
+import com.margelo.nitro.camera.HybridMeteringPointSpec
 import com.margelo.nitro.camera.HybridTapToFocusGestureControllerSpec
+import com.margelo.nitro.camera.ListenerSubscription
 import com.margelo.nitro.camera.hybrids.HybridCameraController
 import com.margelo.nitro.camera.hybrids.metering.HybridMeteringPoint
 import com.margelo.nitro.camera.public.NativeGestureController
+import com.margelo.nitro.core.Callback
+import java.util.concurrent.CopyOnWriteArraySet
 
 class HybridTapToFocusGestureController :
   HybridTapToFocusGestureControllerSpec(),
@@ -24,8 +28,12 @@ class HybridTapToFocusGestureController :
   override var controller: HybridCameraControllerSpec? = null
 
   private var previewView: PreviewView? = null
+  // Added/removed on the JS thread, emitted on the main thread.
+  private val onTapListeners = CopyOnWriteArraySet<Callback<(point: HybridMeteringPointSpec) -> Unit>>()
+  private val onFocusCompletedListeners = CopyOnWriteArraySet<Callback<(point: HybridMeteringPointSpec) -> Unit>>()
   private val context: Context
     get() = NitroModules.applicationContext ?: throw Error("Context not available!")
+  private val mainHandler = Handler(Looper.getMainLooper())
   private var isTracking = false
   private val gestureDetector =
     GestureDetector(
@@ -42,12 +50,22 @@ class HybridTapToFocusGestureController :
           val controller = controller ?: return false
 
           val point = previewView.meteringPointFactory.createPoint(e.x, e.y)
-          val meteringPoint = HybridMeteringPoint(e.x.toDouble(), e.y.toDouble(), null, point)
-          controller.focusTo(meteringPoint, FocusOptions(null, null, null, null))
+          val density = context.resources.displayMetrics.density
+          val meteringPoint = HybridMeteringPoint((e.x / density).toDouble(), (e.y / density).toDouble(), null, point)
+          onTapListeners.forEach { it(meteringPoint) }
+          controller
+            .focusTo(meteringPoint, FocusOptions(null, null, null, null))
+            .then {
+              mainHandler.post {
+                onFocusCompletedListeners.forEach { it(meteringPoint) }
+              }
+            }.catch { error ->
+              Log.e(TAG, "Failed to focus!", error)
+            }
           return true
         }
       },
-      Handler(Looper.getMainLooper()),
+      mainHandler,
     )
 
   override fun onTouchEvent(
@@ -92,5 +110,25 @@ class HybridTapToFocusGestureController :
         return false
       }
     }
+  }
+
+  override fun addOnTapListener(onTap: Callback<(point: HybridMeteringPointSpec) -> Unit>): ListenerSubscription {
+    onTapListeners.add(onTap)
+    return ListenerSubscription(
+      Callback.Arity0<Unit> {
+        onTapListeners.remove(onTap)
+      },
+    )
+  }
+
+  override fun addOnFocusCompletedListener(
+    onFocusCompleted: Callback<(point: HybridMeteringPointSpec) -> Unit>,
+  ): ListenerSubscription {
+    onFocusCompletedListeners.add(onFocusCompleted)
+    return ListenerSubscription(
+      Callback.Arity0<Unit> {
+        onFocusCompletedListeners.remove(onFocusCompleted)
+      },
+    )
   }
 }

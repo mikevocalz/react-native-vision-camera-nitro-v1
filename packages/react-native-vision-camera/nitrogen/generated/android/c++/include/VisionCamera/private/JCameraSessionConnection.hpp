@@ -42,9 +42,9 @@ namespace margelo::nitro::camera {
   struct JCameraSessionConnection final : public jni::JavaClass<JCameraSessionConnection> {
     static constexpr auto kJavaDescriptor = "Lcom/margelo/nitro/camera/CameraSessionConnection;";
 
-    static jni::local_ref<JCameraSessionConnection> create(jni::alias_ref<JCameraDeviceOrPosition> input, jni::alias_ref<jni::JArrayClass<JCameraOutputConfiguration>> outputs, jni::alias_ref<jni::JArrayClass<JConstraint>> constraints, jni::alias_ref<JOptional<jni::JDouble>> initialZoom, jni::alias_ref<JOptional<jni::JDouble>> initialExposureBias, jni::alias_ref<JOptional<margelo::nitro::camera::JCallback_void_std__shared_ptr_HybridCameraSessionConfigSpec_::JavaPart>> onSessionConfigSelected) {
+    static jni::local_ref<JCameraSessionConnection> create(jni::alias_ref<JCameraDeviceOrPosition> input, jni::alias_ref<jni::JArrayClass<JCameraOutputConfiguration>> outputs, jni::alias_ref<jni::JArrayClass<JConstraint>> constraints, jni::alias_ref<JOptional<jni::JDouble>> initialZoom, jni::alias_ref<JOptional<jni::JDouble>> initialExposureBias, jni::alias_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void_std__shared_ptr_HybridCameraSessionConfigSpec_::JavaPart>>> onSessionConfigSelected) {
       static const auto clazz = javaClassStatic();
-      static const auto create = clazz->getStaticMethod<JCameraSessionConnection(jni::alias_ref<JCameraDeviceOrPosition>, jni::alias_ref<jni::JArrayClass<JCameraOutputConfiguration>>, jni::alias_ref<jni::JArrayClass<JConstraint>>, jni::alias_ref<JOptional<jni::JDouble>>, jni::alias_ref<JOptional<jni::JDouble>>, jni::alias_ref<JOptional<margelo::nitro::camera::JCallback_void_std__shared_ptr_HybridCameraSessionConfigSpec_::JavaPart>>)>("fromCpp");
+      static const auto create = clazz->getStaticMethod<JCameraSessionConnection(jni::alias_ref<JCameraDeviceOrPosition>, jni::alias_ref<jni::JArrayClass<JCameraOutputConfiguration>>, jni::alias_ref<jni::JArrayClass<JConstraint>>, jni::alias_ref<JOptional<jni::JDouble>>, jni::alias_ref<JOptional<jni::JDouble>>, jni::alias_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void_std__shared_ptr_HybridCameraSessionConfigSpec_::JavaPart>>>)>("fromCpp");
       return create(clazz, input, outputs, constraints, initialZoom, initialExposureBias, onSessionConfigSelected);
     }
 
@@ -73,9 +73,9 @@ namespace margelo::nitro::camera {
       return getFieldValue(field);
     }
 
-    jni::local_ref<JOptional<margelo::nitro::camera::JCallback_void_std__shared_ptr_HybridCameraSessionConfigSpec_::JavaPart>> getOnSessionConfigSelected() const {
-      static const auto method = javaClassStatic()->getMethod<JOptional<margelo::nitro::camera::JCallback_void_std__shared_ptr_HybridCameraSessionConfigSpec_::JavaPart>()>("getOnSessionConfigSelected_cxx");
-      return method(this->self());
+    jni::local_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void_std__shared_ptr_HybridCameraSessionConfigSpec_::JavaPart>>> getOnSessionConfigSelected() const {
+      static const auto field = javaClassStatic()->getField<JOptional<JCallback<margelo::nitro::camera::JCallback_void_std__shared_ptr_HybridCameraSessionConfigSpec_::JavaPart>>>("onSessionConfigSelected");
+      return getFieldValue(field);
     }
   };
 

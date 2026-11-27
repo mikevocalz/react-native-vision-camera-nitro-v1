@@ -89,13 +89,13 @@ void JHybridPreviewViewStateUpdater::updateViewProps(jni::alias_ref<jni::JClass>
     if (oldProps == nullptr
           ? newProps->onPreviewStarted.isProvided()
           : !newProps->onPreviewStarted.hasSameValue(oldProps->onPreviewStarted)) {
-      static const auto __setter = JHybridPreviewViewSpec::CxxPart::getClass()->getNonvirtualMethod<void(jni::alias_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>>)>("setOnPreviewStarted_cxx");
+      static const auto __setter = JHybridPreviewViewSpec::CxxPart::getClass()->getNonvirtualMethod<void(jni::alias_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>>)>("setOnPreviewStarted");
       __setter(javaView, JHybridPreviewViewSpec::CxxPart::getClass(), newProps->onPreviewStarted.get().get());
     }
     if (oldProps == nullptr
           ? newProps->onPreviewStopped.isProvided()
           : !newProps->onPreviewStopped.hasSameValue(oldProps->onPreviewStopped)) {
-      static const auto __setter = JHybridPreviewViewSpec::CxxPart::getClass()->getNonvirtualMethod<void(jni::alias_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>>)>("setOnPreviewStopped_cxx");
+      static const auto __setter = JHybridPreviewViewSpec::CxxPart::getClass()->getNonvirtualMethod<void(jni::alias_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>>)>("setOnPreviewStopped");
       __setter(javaView, JHybridPreviewViewSpec::CxxPart::getClass(), newProps->onPreviewStopped.get().get());
     }
 

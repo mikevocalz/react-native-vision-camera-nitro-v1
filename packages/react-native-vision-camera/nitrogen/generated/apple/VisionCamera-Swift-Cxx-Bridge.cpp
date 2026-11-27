@@ -34,13 +34,14 @@
 #include <VisionCamera/private/HybridFrameSpecSwift.hpp>
 #include <VisionCamera/private/HybridNativeThreadSpecSwift.hpp>
 #include <VisionCamera/private/HybridNativeThreadFactorySpecSwift.hpp>
+#include <VisionCamera/private/HybridMeteringPointSpec_cxx-Swift.hpp>
+#include <NitroModules/SwiftResult.hpp>
 #include <VisionCamera/private/HybridCameraExtensionSpecSwift.hpp>
 #include <VisionCamera/private/HybridCameraExtensionSpec_cxx-Swift.hpp>
 #include <NitroModules/JSIConverter+SwiftArray.hpp>
 #include <VisionCamera/private/SwiftContainer_swift__Array___VisionCamera__HybridCameraExtensionSpec_cxx_-Swift.hpp>
 #include <VisionCamera/private/HybridCameraDeviceSpec_cxx-Swift.hpp>
 #include <VisionCamera/private/SwiftContainer_swift__Array___VisionCamera__HybridCameraDeviceSpec_cxx_-Swift.hpp>
-#include <NitroModules/SwiftResult.hpp>
 #include <VisionCamera/private/HybridCameraCalibrationDataSpecSwift.hpp>
 #include <VisionCamera/private/HybridDepthSpecSwift.hpp>
 #include <VisionCamera/private/HybridDepthSpec_cxx-Swift.hpp>
@@ -63,6 +64,7 @@
 #include <VisionCamera/private/SwiftContainer_swift__Array___VisionCamera__Variant__any_HybridFrameSpec___any_HybridDepthSpec__cxx_-Swift.hpp>
 #include <VisionCamera/private/MediaType-Swift.hpp>
 #include <VisionCamera/private/HybridPhotoSpec_cxx-Swift.hpp>
+#include <VisionCamera/private/PhotoContainerFormat-Swift.hpp>
 #include <VisionCamera/private/PhotoFile-Swift.hpp>
 #include <VisionCamera/private/HybridRecorderSpecSwift.hpp>
 #include <VisionCamera/private/HybridRecorderSpec_cxx-Swift.hpp>
@@ -408,6 +410,52 @@ namespace margelo::nitro::camera::swift_bridge {
     auto wrapper = std::dynamic_pointer_cast<margelo::nitro::camera::HybridNativeThreadFactorySpecSwift>(value);
     if (!wrapper) throw std::runtime_error("HybridNativeThreadFactorySpec is not implemented in Swift");
     return wrapper->getSwiftPart().toUnsafe();
+  }
+
+  Result<void, margelo::nitro::camera::swift_bridge::ResultTag> callSync_Callback_void___VisionCamera__HybridMeteringPointSpec_cxx(const Callback_void___VisionCamera__HybridMeteringPointSpec_cxx& callback, const void* NON_NULL param0) noexcept {
+    try {
+      callback.callSync(NitroModules::copySwiftValue<::VisionCamera::HybridMeteringPointSpec_cxx>(param0));
+      return Result<void, margelo::nitro::camera::swift_bridge::ResultTag>::withValue();
+    } catch (...) {
+      return Result<void, margelo::nitro::camera::swift_bridge::ResultTag>::withError(std::current_exception());
+    }
+  }
+
+  Promise<void> callAsync_Callback_void___VisionCamera__HybridMeteringPointSpec_cxx(const Callback_void___VisionCamera__HybridMeteringPointSpec_cxx& callback, const void* NON_NULL param0) {
+    return callback.callAsync(NitroModules::copySwiftValue<::VisionCamera::HybridMeteringPointSpec_cxx>(param0));
+  }
+
+  void callAndForget_Callback_void___VisionCamera__HybridMeteringPointSpec_cxx(const Callback_void___VisionCamera__HybridMeteringPointSpec_cxx& callback, const void* NON_NULL param0) {
+    callback.callAndForget(NitroModules::copySwiftValue<::VisionCamera::HybridMeteringPointSpec_cxx>(param0));
+  }
+
+  Callback_void___VisionCamera__HybridMeteringPointSpec_cxx create_Callback_void___VisionCamera__HybridMeteringPointSpec_cxx(std::function<Result<void, margelo::nitro::camera::swift_bridge::ResultTag>(const void* NON_NULL param0)> closure) {
+    return Callback_void___VisionCamera__HybridMeteringPointSpec_cxx::make([closure = std::move(closure)](const ::VisionCamera::HybridMeteringPointSpec_cxx& param0) -> void {
+      auto __result = borrowSwiftValue(param0, [&](const void* param0) {
+        return closure(param0);
+      });
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+    });
+  }
+
+  Result<void, margelo::nitro::camera::swift_bridge::ResultTag> callSync_Callback_void_double(const Callback_void_double& callback, double param0) noexcept {
+    try {
+      callback.callSync(param0);
+      return Result<void, margelo::nitro::camera::swift_bridge::ResultTag>::withValue();
+    } catch (...) {
+      return Result<void, margelo::nitro::camera::swift_bridge::ResultTag>::withError(std::current_exception());
+    }
+  }
+
+  Callback_void_double create_Callback_void_double(std::function<Result<void, margelo::nitro::camera::swift_bridge::ResultTag>(double param0)> closure) {
+    return Callback_void_double::make([closure = std::move(closure)](double param0) -> void {
+      auto __result = closure(param0);
+      if (__result.hasError()) [[unlikely]] {
+        std::rethrow_exception(__result.error());
+      }
+    });
   }
 
   std__shared_ptr_margelo__nitro__camera__HybridCameraExtensionSpec_ create_std__shared_ptr_margelo__nitro__camera__HybridCameraExtensionSpec_(void* NON_NULL pointer) {

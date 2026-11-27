@@ -57,6 +57,8 @@ namespace margelo::nitro::camera {
 
     // Properties
     // Methods
+    ::VisionCamera::ListenerSubscription addOnTapListener(const Callback<void(const ::VisionCamera::HybridMeteringPointSpec_cxx&)>& onTap);
+    ::VisionCamera::ListenerSubscription addOnFocusCompletedListener(const Callback<void(const ::VisionCamera::HybridMeteringPointSpec_cxx&)>& onFocusCompleted);
 
   protected:
     const std::shared_ptr<const HybridClass>& getHybridClass() override {

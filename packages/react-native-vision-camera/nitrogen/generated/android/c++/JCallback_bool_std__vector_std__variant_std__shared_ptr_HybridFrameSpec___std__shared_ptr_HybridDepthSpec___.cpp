@@ -20,6 +20,10 @@
 
 namespace margelo::nitro::camera {
 
+  jni::local_ref<JCallback_bool_std__vector_std__variant_std__shared_ptr_HybridFrameSpec___std__shared_ptr_HybridDepthSpec___::JFunction_cxx> JCallback_bool_std__vector_std__variant_std__shared_ptr_HybridFrameSpec___std__shared_ptr_HybridDepthSpec___::JFunction_cxx::create(jni::alias_ref<JCallback<JavaPart>> callback) {
+    return newInstance(callback);
+  }
+
   JNIRetainedValue<jboolean>::Type JCallback_bool_std__vector_std__variant_std__shared_ptr_HybridFrameSpec___std__shared_ptr_HybridDepthSpec___::JFunction_cxx::invoke(JNIRetainedValue<jni::local_ref<jni::JArrayClass<margelo::nitro::camera::JVariant_HybridFrameSpec_HybridDepthSpec>>>::Type frames) const {
     static const auto __method = javaClassStatic()->getMethod<jboolean(jni::alias_ref<jni::JArrayClass<JVariant_HybridFrameSpec_HybridDepthSpec>>)>("call");
     auto result = __method(self(), JNIRetainedValue<jni::local_ref<jni::JArrayClass<margelo::nitro::camera::JVariant_HybridFrameSpec_HybridDepthSpec>>>::borrow(frames));
@@ -42,12 +46,9 @@ namespace margelo::nitro::camera {
     callAndForget(frames);
   }
 
-  jni::local_ref<JCallback_bool_std__vector_std__variant_std__shared_ptr_HybridFrameSpec___std__shared_ptr_HybridDepthSpec___::JavaPart> JCallback_bool_std__vector_std__variant_std__shared_ptr_HybridFrameSpec___std__shared_ptr_HybridDepthSpec___::fromCxx_cxx(jni::alias_ref<jni::JClass>, jni::alias_ref<JCxxCallback::javaobject> callback) {
-    return create(getCallback(callback));
-  }
-
-  jni::local_ref<JCallback_bool_std__vector_std__variant_std__shared_ptr_HybridFrameSpec___std__shared_ptr_HybridDepthSpec___::JavaPart> JCallback_bool_std__vector_std__variant_std__shared_ptr_HybridFrameSpec___std__shared_ptr_HybridDepthSpec___::fromFunction_cxx(jni::alias_ref<jni::JClass>, jni::alias_ref<JFunction_cxx> function) {
-    return create(CallbackType::make(JNICallable<JFunction_cxx, NativeSignature>(jni::make_global(function))));
+  JCallback_bool_std__vector_std__variant_std__shared_ptr_HybridFrameSpec___std__shared_ptr_HybridDepthSpec___::CallbackType JCallback_bool_std__vector_std__variant_std__shared_ptr_HybridFrameSpec___std__shared_ptr_HybridDepthSpec___::fromKotlin(jni::alias_ref<JCallback<JavaPart>> callback) {
+    auto function = JFunction_cxx::create(callback);
+    return CallbackType::make(JNICallable<JFunction_cxx, NativeSignature>(jni::make_global(function)));
   }
 
   void JCallback_bool_std__vector_std__variant_std__shared_ptr_HybridFrameSpec___std__shared_ptr_HybridDepthSpec___::registerNatives() {
@@ -55,8 +56,6 @@ namespace margelo::nitro::camera {
       makeNativeMethod("callSync_cxx", JCallback_bool_std__vector_std__variant_std__shared_ptr_HybridFrameSpec___std__shared_ptr_HybridDepthSpec___::callSync_cxx),
       makeNativeMethod("callAsync_cxx", JCallback_bool_std__vector_std__variant_std__shared_ptr_HybridFrameSpec___std__shared_ptr_HybridDepthSpec___::callAsync_cxx),
       makeNativeMethod("callAndForget_cxx", JCallback_bool_std__vector_std__variant_std__shared_ptr_HybridFrameSpec___std__shared_ptr_HybridDepthSpec___::callAndForget_cxx),
-      makeNativeMethod("fromCxx_cxx", JCallback_bool_std__vector_std__variant_std__shared_ptr_HybridFrameSpec___std__shared_ptr_HybridDepthSpec___::fromCxx_cxx),
-      makeNativeMethod("fromFunction_cxx", JCallback_bool_std__vector_std__variant_std__shared_ptr_HybridFrameSpec___std__shared_ptr_HybridDepthSpec___::fromFunction_cxx),
     });
   }
 

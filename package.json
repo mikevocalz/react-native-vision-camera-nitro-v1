@@ -7,18 +7,14 @@
   "author": "Marc Rousavy <me@mrousavy.com> (https://github.com/mrousavy)",
   "workspaces": [
     "packages/react-native-vision-camera",
-    "packages/react-native-vision-camera-barcode-scanner",
-    "packages/react-native-vision-camera-location",
     "packages/react-native-vision-camera-resizer",
-    "packages/react-native-vision-camera-skia",
     "packages/react-native-vision-camera-worklets",
-    "apps/simple-camera",
-    "docs"
+    "apps/simple-camera"
   ],
   "scripts": {
-    "bootstrap": "bun i && bun run build && bun example bundle-install && bun example pods",
-    "specs": "bun camera specs && bun location specs && bun scanner specs && bun resizer specs && bun worklets specs",
-    "build": "bun camera build && bun location build && bun scanner build && bun resizer build && bun worklets build && bun skia build",
+    "bootstrap": "bun i && bun specs && bun run build && bun example spm",
+    "specs": "bun camera specs && bun resizer specs && bun worklets specs",
+    "build": "bun camera build && bun resizer build && bun worklets build",
     "example": "bun --cwd apps/simple-camera",
     "docs": "bun --cwd docs",
     "camera": "bun --cwd packages/react-native-vision-camera",
@@ -125,8 +121,5 @@
       }
     }
   },
-  "patchedDependencies": {
-    "react-native@0.85.3": "patches/react-native@0.85.3.patch"
-  },
-  "version": "5.2.3"
+  "version": "5.2.5-nitro-v1.1"
 }

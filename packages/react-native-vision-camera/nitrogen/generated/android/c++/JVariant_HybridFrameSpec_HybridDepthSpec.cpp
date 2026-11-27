@@ -19,7 +19,7 @@ namespace margelo::nitro::camera {
   }
 
   jni::local_ref<JVariant_HybridFrameSpec_HybridDepthSpec> JVariant_HybridFrameSpec_HybridDepthSpec_impl::First::create(jni::alias_ref<JHybridFrameSpecJavaPart> value) {
-    static const auto method = JVariant_HybridFrameSpec_HybridDepthSpec::javaClassStatic()->getStaticMethod<jni::local_ref<JVariant_HybridFrameSpec_HybridDepthSpec>(jni::alias_ref<JHybridFrameSpecJavaPart>)>("fromCpp_0");
+    static const auto method = JVariant_HybridFrameSpec_HybridDepthSpec::javaClassStatic()->getStaticMethod<jni::local_ref<JVariant_HybridFrameSpec_HybridDepthSpec>(jni::alias_ref<JHybridFrameSpecJavaPart>)>("createFirst");
     return method(JVariant_HybridFrameSpec_HybridDepthSpec::javaClassStatic(), value);
   }
 
@@ -29,7 +29,7 @@ namespace margelo::nitro::camera {
   }
 
   jni::local_ref<JVariant_HybridFrameSpec_HybridDepthSpec> JVariant_HybridFrameSpec_HybridDepthSpec_impl::Second::create(jni::alias_ref<JHybridDepthSpecJavaPart> value) {
-    static const auto method = JVariant_HybridFrameSpec_HybridDepthSpec::javaClassStatic()->getStaticMethod<jni::local_ref<JVariant_HybridFrameSpec_HybridDepthSpec>(jni::alias_ref<JHybridDepthSpecJavaPart>)>("fromCpp_1");
+    static const auto method = JVariant_HybridFrameSpec_HybridDepthSpec::javaClassStatic()->getStaticMethod<jni::local_ref<JVariant_HybridFrameSpec_HybridDepthSpec>(jni::alias_ref<JHybridDepthSpecJavaPart>)>("createSecond");
     return method(JVariant_HybridFrameSpec_HybridDepthSpec::javaClassStatic(), value);
   }
 

@@ -9,7 +9,6 @@ package com.margelo.nitro.camera
 
 import androidx.annotation.Keep
 import com.facebook.proguard.annotations.DoNotStrip
-import java.util.Objects
 
 
 /**
@@ -20,20 +19,52 @@ import java.util.Objects
 data class PhotoFile(
   @DoNotStrip
   @Keep
-  val filePath: String
+  val filePath: String,
+  @DoNotStrip
+  @Keep
+  val width: Double,
+  @DoNotStrip
+  @Keep
+  val height: Double,
+  @DoNotStrip
+  @Keep
+  val orientation: CameraOrientation,
+  @DoNotStrip
+  @Keep
+  val isMirrored: Boolean,
+  @DoNotStrip
+  @Keep
+  val timestamp: Double,
+  @DoNotStrip
+  @Keep
+  val isRawPhoto: Boolean,
+  @DoNotStrip
+  @Keep
+  val containerFormat: PhotoContainerFormat
 ) {
-
-
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is PhotoFile) return false
-    return Objects.deepEquals(this.filePath, other.filePath)
+    return this.filePath == other.filePath
+      && this.width.toBits() == other.width.toBits()
+      && this.height.toBits() == other.height.toBits()
+      && this.orientation == other.orientation
+      && this.isMirrored == other.isMirrored
+      && this.timestamp.toBits() == other.timestamp.toBits()
+      && this.isRawPhoto == other.isRawPhoto
+      && this.containerFormat == other.containerFormat
   }
 
   override fun hashCode(): Int {
-    return arrayOf<Any?>(
-      filePath
-    ).contentDeepHashCode()
+    var result = this.filePath.hashCode()
+    result = 31 * result + this.width.hashCode()
+    result = 31 * result + this.height.hashCode()
+    result = 31 * result + this.orientation.hashCode()
+    result = 31 * result + this.isMirrored.hashCode()
+    result = 31 * result + this.timestamp.hashCode()
+    result = 31 * result + this.isRawPhoto.hashCode()
+    result = 31 * result + this.containerFormat.hashCode()
+    return result
   }
 
   companion object {
@@ -44,8 +75,8 @@ data class PhotoFile(
     @Keep
     @Suppress("unused")
     @JvmStatic
-    private fun fromCpp(filePath: String): PhotoFile {
-      return PhotoFile(filePath)
+    private fun fromCpp(filePath: String, width: Double, height: Double, orientation: CameraOrientation, isMirrored: Boolean, timestamp: Double, isRawPhoto: Boolean, containerFormat: PhotoContainerFormat): PhotoFile {
+      return PhotoFile(filePath, width, height, orientation, isMirrored, timestamp, isRawPhoto, containerFormat)
     }
   }
 }

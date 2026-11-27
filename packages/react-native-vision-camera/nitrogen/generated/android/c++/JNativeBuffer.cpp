@@ -17,13 +17,13 @@ namespace margelo::nitro {
 
   jni::local_ref<margelo::nitro::camera::JNativeBuffer> JSIConverter<jni::local_ref<margelo::nitro::camera::JNativeBuffer>>::fromJSI(jsi::Runtime& runtime, const jsi::Value& value) {
     auto object = value.asObject(runtime);
-    return margelo::nitro::camera::JNativeBuffer::create(JSIConverter<uint64_t>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "pointer"))), JSIConverter<jni::local_ref<margelo::nitro::camera::JCallback_void::JavaPart>>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "release"))));
+    return margelo::nitro::camera::JNativeBuffer::create(JSIConverter<uint64_t>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "pointer"))), JSIConverter<jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "release"))));
   }
 
   jsi::Value JSIConverter<jni::local_ref<margelo::nitro::camera::JNativeBuffer>>::toJSI(jsi::Runtime& runtime, jni::alias_ref<margelo::nitro::camera::JNativeBuffer> value) {
     jsi::Object object(runtime);
     object.setProperty(runtime, PropNameIDCache::get(runtime, "pointer"), JSIConverter<uint64_t>::toJSI(runtime, value->getPointer()));
-    object.setProperty(runtime, PropNameIDCache::get(runtime, "release"), JSIConverter<jni::local_ref<margelo::nitro::camera::JCallback_void::JavaPart>>::toJSI(runtime, value->getRelease()));
+    object.setProperty(runtime, PropNameIDCache::get(runtime, "release"), JSIConverter<jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>>::toJSI(runtime, value->getRelease()));
     return object;
   }
 
@@ -31,7 +31,7 @@ namespace margelo::nitro {
     if (!value.isObject()) return false;
     auto object = value.getObject(runtime);
     if (!isPlainObject(runtime, object)) return false;
-    return JSIConverter<uint64_t>::canConvert(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "pointer"))) && JSIConverter<jni::local_ref<margelo::nitro::camera::JCallback_void::JavaPart>>::canConvert(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "release")));
+    return JSIConverter<uint64_t>::canConvert(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "pointer"))) && JSIConverter<jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>>::canConvert(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "release")));
   }
 
 } // namespace margelo::nitro

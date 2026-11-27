@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.homepage     = package["homepage"]
   s.license      = package["license"]
   s.authors      = package["author"]
-  s.source       = { :git => "https://github.com/mrousavy/react-native-vision-camera.git", :tag => "v#{s.version}" }
+  s.source       = { :git => "https://github.com/margelo/react-native-vision-camera.git", :tag => "v#{s.version}" }
   s.ios.deployment_target = "16.0"
   s.visionos.deployment_target = "1.0"
 end

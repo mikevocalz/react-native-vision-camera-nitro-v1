@@ -20,8 +20,8 @@ public struct NativeBuffer: Sendable {
   }
 
   @_spi(NitroCxx)
-  public static func init_cxx(_ pointer: UInt64, _ release: margelo.nitro.camera.swift_bridge.Callback_void) -> Self {
-    return Self(pointer: pointer, release: release)
+  public static func init_cxx(_ pointer: UInt64, _ release: UnsafeRawPointer) -> Self {
+    return Self(pointer: pointer, release: release.load(as: margelo.nitro.camera.swift_bridge.Callback_void.self))
   }
 
   @_spi(NitroCxx)
@@ -30,7 +30,7 @@ public struct NativeBuffer: Sendable {
   }
 
   @_spi(NitroCxx)
-  public borrowing func getRelease_cxx() -> margelo.nitro.camera.swift_bridge.Callback_void {
-    return self.release.toCpp()
+  public borrowing func getRelease_cxx(_ __outResult: UnsafeMutableRawPointer) -> Void {
+    __outResult.initializeMemory(as: margelo.nitro.camera.swift_bridge.Callback_void.self, repeating: self.release.toCpp(), count: 1)
   }
 }

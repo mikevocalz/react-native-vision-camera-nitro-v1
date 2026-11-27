@@ -9,7 +9,6 @@ package com.margelo.nitro.camera
 
 import androidx.annotation.Keep
 import com.facebook.proguard.annotations.DoNotStrip
-import java.util.Objects
 
 
 /**
@@ -34,26 +33,23 @@ data class PhotoOutputOptions(
   @Keep
   val previewImageTargetSize: Size?
 ) {
-
-
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is PhotoOutputOptions) return false
-    return Objects.deepEquals(this.targetResolution, other.targetResolution)
-      && Objects.deepEquals(this.containerFormat, other.containerFormat)
-      && Objects.deepEquals(this.quality, other.quality)
-      && Objects.deepEquals(this.qualityPrioritization, other.qualityPrioritization)
-      && Objects.deepEquals(this.previewImageTargetSize, other.previewImageTargetSize)
+    return this.targetResolution == other.targetResolution
+      && this.containerFormat == other.containerFormat
+      && this.quality.toBits() == other.quality.toBits()
+      && this.qualityPrioritization == other.qualityPrioritization
+      && (this.previewImageTargetSize == null && other.previewImageTargetSize == null || this.previewImageTargetSize != null && other.previewImageTargetSize != null && this.previewImageTargetSize == other.previewImageTargetSize)
   }
 
   override fun hashCode(): Int {
-    return arrayOf<Any?>(
-      targetResolution,
-      containerFormat,
-      quality,
-      qualityPrioritization,
-      previewImageTargetSize
-    ).contentDeepHashCode()
+    var result = this.targetResolution.hashCode()
+    result = 31 * result + this.containerFormat.hashCode()
+    result = 31 * result + this.quality.hashCode()
+    result = 31 * result + this.qualityPrioritization.hashCode()
+    result = 31 * result + (if (this.previewImageTargetSize != null) this.previewImageTargetSize.hashCode() else 0)
+    return result
   }
 
   companion object {

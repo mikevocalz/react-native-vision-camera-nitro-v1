@@ -20,7 +20,7 @@ namespace margelo::nitro::camera {
   }
 
   jni::local_ref<JVariant_NullType_Double> JVariant_NullType_Double_impl::First::create(jni::alias_ref<JNull> value) {
-    static const auto method = JVariant_NullType_Double::javaClassStatic()->getStaticMethod<jni::local_ref<JVariant_NullType_Double>(jni::alias_ref<JNull>)>("fromCpp_0");
+    static const auto method = JVariant_NullType_Double::javaClassStatic()->getStaticMethod<jni::local_ref<JVariant_NullType_Double>(jni::alias_ref<JNull>)>("createFirst");
     return method(JVariant_NullType_Double::javaClassStatic(), value);
   }
 
@@ -30,7 +30,7 @@ namespace margelo::nitro::camera {
   }
 
   jni::local_ref<JVariant_NullType_Double> JVariant_NullType_Double_impl::Second::create(jdouble value) {
-    static const auto method = JVariant_NullType_Double::javaClassStatic()->getStaticMethod<jni::local_ref<JVariant_NullType_Double>(jdouble)>("fromCpp_1");
+    static const auto method = JVariant_NullType_Double::javaClassStatic()->getStaticMethod<jni::local_ref<JVariant_NullType_Double>(jdouble)>("createSecond");
     return method(JVariant_NullType_Double::javaClassStatic(), value);
   }
 

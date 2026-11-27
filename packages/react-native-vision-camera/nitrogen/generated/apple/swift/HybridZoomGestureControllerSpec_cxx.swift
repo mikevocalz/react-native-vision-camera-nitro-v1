@@ -7,6 +7,7 @@
 internal import NitroModules
 internal import CxxStdlib
 internal import VisionCameraAppleCxx
+internal import NitroModulesAppleCxx
 
 /**
  * A class implementation that bridges HybridZoomGestureControllerSpec over to C++.
@@ -131,4 +132,16 @@ public final class HybridZoomGestureControllerSpec_cxx: HybridGestureControllerS
   // Properties
 
   // Methods
+
+  public final func addOnZoomChangedListener(onZoomChanged: UnsafeRawPointer, __onResult: UnsafeRawPointer) -> bridge.Result_void {
+    do {
+      let value = try __implementation.addOnZoomChangedListener(onZoomChanged: onZoomChanged.load(as: margelo.nitro.camera.swift_bridge.Callback_void_double.self))
+      withUnsafePointer(to: value) { pointer in
+        margelo.nitro.SwiftResultConsumer.consume(__onResult, UnsafeRawPointer(pointer))
+      }
+      return bridge.Result_void.withValue()
+    } catch {
+      return bridge.Result_void.withError(error.toCpp())
+    }
+  }
 }

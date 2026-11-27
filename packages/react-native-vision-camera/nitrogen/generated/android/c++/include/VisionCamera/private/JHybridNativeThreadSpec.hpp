@@ -61,7 +61,7 @@ namespace margelo::nitro::camera {
 
   public:
     // Methods
-    void runOnThread(const jni::local_ref<margelo::nitro::camera::JCallback_void::JavaPart>& task);
+    void runOnThread(const jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>& task);
 
   public:
     // Constructor and static members

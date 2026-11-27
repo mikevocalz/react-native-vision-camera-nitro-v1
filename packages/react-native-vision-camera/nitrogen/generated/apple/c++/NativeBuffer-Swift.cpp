@@ -8,18 +8,23 @@
 #include <VisionCamera/private/NativeBuffer-Swift.hpp>
 #include <VisionCamera/private/VisionCamera-Swift-Cxx-Umbrella.hpp>
 #include <NitroModules/PropNameIDCache.hpp>
+#include <NitroModules/SwiftResult.hpp>
+#include <memory>
 
 namespace margelo::nitro {
 
   ::VisionCamera::NativeBuffer JSIConverter<::VisionCamera::NativeBuffer>::fromJSI(jsi::Runtime& runtime, const jsi::Value& value) {
     auto object = value.asObject(runtime);
-    return ::VisionCamera::NativeBuffer::init_cxx(JSIConverter<uint64_t>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "pointer"))), JSIConverter<Callback<void()>>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "release"))));
+    auto __release = JSIConverter<Callback<void()>>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "release")));
+    return ::VisionCamera::NativeBuffer::init_cxx(JSIConverter<uint64_t>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "pointer"))), std::addressof(__release));
   }
 
   jsi::Value JSIConverter<::VisionCamera::NativeBuffer>::toJSI(jsi::Runtime& runtime, const ::VisionCamera::NativeBuffer& value) {
     jsi::Object object(runtime);
     object.setProperty(runtime, PropNameIDCache::get(runtime, "pointer"), JSIConverter<uint64_t>::toJSI(runtime, value.getPointer_cxx()));
-    object.setProperty(runtime, PropNameIDCache::get(runtime, "release"), JSIConverter<Callback<void()>>::toJSI(runtime, value.getRelease_cxx()));
+    object.setProperty(runtime, PropNameIDCache::get(runtime, "release"), JSIConverter<Callback<void()>>::toJSI(runtime, makeCxxValue<Callback<void()>>([&](void* __outResult) {
+      value.getRelease_cxx(__outResult);
+    })));
     return object;
   }
 

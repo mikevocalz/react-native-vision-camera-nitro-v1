@@ -64,7 +64,7 @@ namespace margelo::nitro::camera {
 
   public:
     // Methods
-    void startOrientationUpdates(const jni::local_ref<margelo::nitro::camera::JCallback_void_CameraOrientation::JavaPart>& onChanged);
+    void startOrientationUpdates(const jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void_CameraOrientation::JavaPart>>& onChanged);
     void stopOrientationUpdates();
 
   public:

@@ -11,6 +11,7 @@ import androidx.annotation.Keep
 import com.facebook.jni.HybridData
 import com.facebook.proguard.annotations.DoNotStrip
 import dalvik.annotation.optimization.FastNative
+import com.margelo.nitro.core.Callback
 import com.margelo.nitro.core.HybridObject
 
 /**
@@ -29,7 +30,13 @@ abstract class HybridTapToFocusGestureControllerSpec: HybridGestureControllerSpe
 
 
   // Methods
+  @DoNotStrip
+  @Keep
+  abstract fun addOnTapListener(onTap: Callback<(point: HybridMeteringPointSpec) -> Unit>): ListenerSubscription
 
+  @DoNotStrip
+  @Keep
+  abstract fun addOnFocusCompletedListener(onFocusCompleted: Callback<(point: HybridMeteringPointSpec) -> Unit>): ListenerSubscription
 
   // Default implementation of `HybridObject.toString()`
   override fun toString(): String {

@@ -21,8 +21,8 @@ namespace margelo::nitro::camera {
   // Methods
 
   swift::Array<::VisionCamera::VideoCodec> HybridCameraVideoOutputSpecSwift::getSupportedVideoCodecs() {
-    auto __result = withSwiftResult<swift::Array<::VisionCamera::VideoCodec>>([&](void* __outResult) {
-      return _swiftPart.getSupportedVideoCodecs(__outResult);
+    auto __result = receiveSwiftResult<swift::Array<::VisionCamera::VideoCodec>>([&](const void* __onResult) {
+      return _swiftPart.getSupportedVideoCodecs(__onResult);
     });
     if (__result.hasError()) [[unlikely]] {
       std::rethrow_exception(__result.error());

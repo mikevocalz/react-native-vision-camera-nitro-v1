@@ -85,10 +85,10 @@ namespace margelo::nitro::camera {
     void setImplementationMode(const jni::local_ref<JOptional<JPreviewImplementationMode>>& implementationMode);
     jni::local_ref<JOptional<jni::JArrayClass<JHybridGestureControllerSpecJavaPart>>> getGestureControllers();
     void setGestureControllers(const jni::local_ref<JOptional<jni::JArrayClass<JHybridGestureControllerSpecJavaPart>>>& gestureControllers);
-    jni::local_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>> getOnPreviewStarted();
-    void setOnPreviewStarted(const jni::local_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>>& onPreviewStarted);
-    jni::local_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>> getOnPreviewStopped();
-    void setOnPreviewStopped(const jni::local_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>>& onPreviewStopped);
+    jni::local_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>> getOnPreviewStarted();
+    void setOnPreviewStarted(const jni::local_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>>& onPreviewStarted);
+    jni::local_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>> getOnPreviewStopped();
+    void setOnPreviewStopped(const jni::local_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>>& onPreviewStopped);
 
   public:
     // Methods

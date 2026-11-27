@@ -13,12 +13,19 @@ namespace margelo::nitro {
 
   ::VisionCamera::PhotoFile JSIConverter<::VisionCamera::PhotoFile>::fromJSI(jsi::Runtime& runtime, const jsi::Value& value) {
     auto object = value.asObject(runtime);
-    return ::VisionCamera::PhotoFile::init_cxx(JSIConverter<swift::String>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "filePath"))));
+    return ::VisionCamera::PhotoFile::init_cxx(JSIConverter<swift::String>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "filePath"))), JSIConverter<double>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "width"))), JSIConverter<double>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "height"))), JSIConverter<::VisionCamera::CameraOrientation>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "orientation"))), JSIConverter<bool>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "isMirrored"))), JSIConverter<double>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "timestamp"))), JSIConverter<bool>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "isRawPhoto"))), JSIConverter<::VisionCamera::PhotoContainerFormat>::fromJSI(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "containerFormat"))));
   }
 
   jsi::Value JSIConverter<::VisionCamera::PhotoFile>::toJSI(jsi::Runtime& runtime, const ::VisionCamera::PhotoFile& value) {
     jsi::Object object(runtime);
     object.setProperty(runtime, PropNameIDCache::get(runtime, "filePath"), JSIConverter<swift::String>::toJSI(runtime, value.getFilePath_cxx()));
+    object.setProperty(runtime, PropNameIDCache::get(runtime, "width"), JSIConverter<double>::toJSI(runtime, value.getWidth_cxx()));
+    object.setProperty(runtime, PropNameIDCache::get(runtime, "height"), JSIConverter<double>::toJSI(runtime, value.getHeight_cxx()));
+    object.setProperty(runtime, PropNameIDCache::get(runtime, "orientation"), JSIConverter<::VisionCamera::CameraOrientation>::toJSI(runtime, value.getOrientation_cxx()));
+    object.setProperty(runtime, PropNameIDCache::get(runtime, "isMirrored"), JSIConverter<bool>::toJSI(runtime, value.getIsMirrored_cxx()));
+    object.setProperty(runtime, PropNameIDCache::get(runtime, "timestamp"), JSIConverter<double>::toJSI(runtime, value.getTimestamp_cxx()));
+    object.setProperty(runtime, PropNameIDCache::get(runtime, "isRawPhoto"), JSIConverter<bool>::toJSI(runtime, value.getIsRawPhoto_cxx()));
+    object.setProperty(runtime, PropNameIDCache::get(runtime, "containerFormat"), JSIConverter<::VisionCamera::PhotoContainerFormat>::toJSI(runtime, value.getContainerFormat_cxx()));
     return object;
   }
 
@@ -26,7 +33,7 @@ namespace margelo::nitro {
     if (!value.isObject()) return false;
     auto object = value.getObject(runtime);
     if (!isPlainObject(runtime, object)) return false;
-    return JSIConverter<swift::String>::canConvert(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "filePath")));
+    return JSIConverter<swift::String>::canConvert(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "filePath"))) && JSIConverter<double>::canConvert(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "width"))) && JSIConverter<double>::canConvert(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "height"))) && JSIConverter<::VisionCamera::CameraOrientation>::canConvert(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "orientation"))) && JSIConverter<bool>::canConvert(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "isMirrored"))) && JSIConverter<double>::canConvert(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "timestamp"))) && JSIConverter<bool>::canConvert(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "isRawPhoto"))) && JSIConverter<::VisionCamera::PhotoContainerFormat>::canConvert(runtime, object.getProperty(runtime, PropNameIDCache::get(runtime, "containerFormat")));
   }
 
 } // namespace margelo::nitro

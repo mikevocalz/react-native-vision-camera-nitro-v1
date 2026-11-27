@@ -16,6 +16,10 @@
 
 namespace margelo::nitro::camera {
 
+  jni::local_ref<JCallback_bool_std__shared_ptr_HybridFrameSpec_::JFunction_cxx> JCallback_bool_std__shared_ptr_HybridFrameSpec_::JFunction_cxx::create(jni::alias_ref<JCallback<JavaPart>> callback) {
+    return newInstance(callback);
+  }
+
   JNIRetainedValue<jboolean>::Type JCallback_bool_std__shared_ptr_HybridFrameSpec_::JFunction_cxx::invoke(JNIRetainedValue<jni::local_ref<margelo::nitro::camera::JHybridFrameSpecJavaPart>>::Type frame) const {
     static const auto __method = javaClassStatic()->getMethod<jboolean(jni::alias_ref<JHybridFrameSpecJavaPart>)>("call");
     auto result = __method(self(), JNIRetainedValue<jni::local_ref<margelo::nitro::camera::JHybridFrameSpecJavaPart>>::borrow(frame));
@@ -38,12 +42,9 @@ namespace margelo::nitro::camera {
     callAndForget(frame);
   }
 
-  jni::local_ref<JCallback_bool_std__shared_ptr_HybridFrameSpec_::JavaPart> JCallback_bool_std__shared_ptr_HybridFrameSpec_::fromCxx_cxx(jni::alias_ref<jni::JClass>, jni::alias_ref<JCxxCallback::javaobject> callback) {
-    return create(getCallback(callback));
-  }
-
-  jni::local_ref<JCallback_bool_std__shared_ptr_HybridFrameSpec_::JavaPart> JCallback_bool_std__shared_ptr_HybridFrameSpec_::fromFunction_cxx(jni::alias_ref<jni::JClass>, jni::alias_ref<JFunction_cxx> function) {
-    return create(CallbackType::make(JNICallable<JFunction_cxx, NativeSignature>(jni::make_global(function))));
+  JCallback_bool_std__shared_ptr_HybridFrameSpec_::CallbackType JCallback_bool_std__shared_ptr_HybridFrameSpec_::fromKotlin(jni::alias_ref<JCallback<JavaPart>> callback) {
+    auto function = JFunction_cxx::create(callback);
+    return CallbackType::make(JNICallable<JFunction_cxx, NativeSignature>(jni::make_global(function)));
   }
 
   void JCallback_bool_std__shared_ptr_HybridFrameSpec_::registerNatives() {
@@ -51,8 +52,6 @@ namespace margelo::nitro::camera {
       makeNativeMethod("callSync_cxx", JCallback_bool_std__shared_ptr_HybridFrameSpec_::callSync_cxx),
       makeNativeMethod("callAsync_cxx", JCallback_bool_std__shared_ptr_HybridFrameSpec_::callAsync_cxx),
       makeNativeMethod("callAndForget_cxx", JCallback_bool_std__shared_ptr_HybridFrameSpec_::callAndForget_cxx),
-      makeNativeMethod("fromCxx_cxx", JCallback_bool_std__shared_ptr_HybridFrameSpec_::fromCxx_cxx),
-      makeNativeMethod("fromFunction_cxx", JCallback_bool_std__shared_ptr_HybridFrameSpec_::fromFunction_cxx),
     });
   }
 

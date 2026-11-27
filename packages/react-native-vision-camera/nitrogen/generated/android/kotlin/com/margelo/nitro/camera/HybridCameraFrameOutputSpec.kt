@@ -32,21 +32,13 @@ abstract class HybridCameraFrameOutputSpec: HybridCameraOutputSpec() {
   abstract val thread: HybridNativeThreadSpec
 
   // Methods
+  @DoNotStrip
+  @Keep
   abstract fun setOnFrameCallback(onFrame: Callback<(frame: HybridFrameSpec) -> Boolean>?): Unit
 
   @DoNotStrip
   @Keep
-  private fun setOnFrameCallback_cxx(onFrame: Callback_bool_std__shared_ptr_HybridFrameSpec_?): Unit {
-    setOnFrameCallback(onFrame?.let { it })
-  }
-
   abstract fun setOnFrameDroppedCallback(onFrameDropped: Callback<(reason: FrameDroppedReason) -> Unit>?): Unit
-
-  @DoNotStrip
-  @Keep
-  private fun setOnFrameDroppedCallback_cxx(onFrameDropped: Callback_void_FrameDroppedReason?): Unit {
-    setOnFrameDroppedCallback(onFrameDropped?.let { it })
-  }
 
   // Default implementation of `HybridObject.toString()`
   override fun toString(): String {

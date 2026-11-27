@@ -8,6 +8,7 @@ internal import NitroModules
 internal import CxxStdlib
 internal import VisionCameraAppleCxx
 internal import NitroImage
+internal import NitroModulesAppleCxx
 
 /**
  * A class implementation that bridges HybridPreviewViewSpec over to C++.
@@ -203,20 +204,24 @@ public final class HybridPreviewViewSpec_cxx {
     }
   }
 
-  public final func convertCameraPointToViewPoint(cameraPoint: Point, __outResult: UnsafeMutableRawPointer) -> bridge.Result_void {
+  public final func convertCameraPointToViewPoint(cameraPoint: Point, __onResult: UnsafeRawPointer) -> bridge.Result_void {
     do {
       let value = try __implementation.convertCameraPointToViewPoint(cameraPoint: cameraPoint)
-      __outResult.assumingMemoryBound(to: Point.self).initialize(to: value)
+      withUnsafePointer(to: value) { pointer in
+        margelo.nitro.SwiftResultConsumer.consume(__onResult, UnsafeRawPointer(pointer))
+      }
       return bridge.Result_void.withValue()
     } catch {
       return bridge.Result_void.withError(error.toCpp())
     }
   }
 
-  public final func convertViewPointToCameraPoint(viewPoint: Point, __outResult: UnsafeMutableRawPointer) -> bridge.Result_void {
+  public final func convertViewPointToCameraPoint(viewPoint: Point, __onResult: UnsafeRawPointer) -> bridge.Result_void {
     do {
       let value = try __implementation.convertViewPointToCameraPoint(viewPoint: viewPoint)
-      __outResult.assumingMemoryBound(to: Point.self).initialize(to: value)
+      withUnsafePointer(to: value) { pointer in
+        margelo.nitro.SwiftResultConsumer.consume(__onResult, UnsafeRawPointer(pointer))
+      }
       return bridge.Result_void.withValue()
     } catch {
       return bridge.Result_void.withError(error.toCpp())

@@ -22,9 +22,9 @@ namespace margelo::nitro::camera {
   struct JNativeBuffer final : public jni::JavaClass<JNativeBuffer> {
     static constexpr auto kJavaDescriptor = "Lcom/margelo/nitro/camera/NativeBuffer;";
 
-    static jni::local_ref<JNativeBuffer> create(uint64_t pointer, jni::alias_ref<margelo::nitro::camera::JCallback_void::JavaPart> release) {
+    static jni::local_ref<JNativeBuffer> create(uint64_t pointer, jni::alias_ref<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>> release) {
       static const auto clazz = javaClassStatic();
-      static const auto create = clazz->getStaticMethod<JNativeBuffer(jlong, jni::alias_ref<margelo::nitro::camera::JCallback_void::JavaPart>)>("fromCpp");
+      static const auto create = clazz->getStaticMethod<JNativeBuffer(jlong, jni::alias_ref<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>)>("fromCpp");
       return create(clazz, JNIConverter<uint64_t, jlong>::toJNI(pointer), release);
     }
 
@@ -33,9 +33,9 @@ namespace margelo::nitro::camera {
       return JNIConverter<uint64_t, jlong>::fromJNI(getFieldValue(field));
     }
 
-    jni::local_ref<margelo::nitro::camera::JCallback_void::JavaPart> getRelease() const {
-      static const auto method = javaClassStatic()->getMethod<margelo::nitro::camera::JCallback_void::JavaPart()>("getRelease_cxx");
-      return method(this->self());
+    jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>> getRelease() const {
+      static const auto field = javaClassStatic()->getField<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>("release");
+      return getFieldValue(field);
     }
   };
 

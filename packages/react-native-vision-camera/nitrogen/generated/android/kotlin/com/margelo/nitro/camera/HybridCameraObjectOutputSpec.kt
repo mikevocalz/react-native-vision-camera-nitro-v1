@@ -30,13 +30,9 @@ abstract class HybridCameraObjectOutputSpec: HybridCameraOutputSpec() {
 
 
   // Methods
-  abstract fun setOnObjectsScannedCallback(onObjectsScanned: Callback<(objects: Array<HybridScannedObjectSpec>) -> Unit>?): Unit
-
   @DoNotStrip
   @Keep
-  private fun setOnObjectsScannedCallback_cxx(onObjectsScanned: Callback_void_std__vector_std__shared_ptr_HybridScannedObjectSpec__?): Unit {
-    setOnObjectsScannedCallback(onObjectsScanned?.let { it })
-  }
+  abstract fun setOnObjectsScannedCallback(onObjectsScanned: Callback<(objects: Array<HybridScannedObjectSpec>) -> Unit>?): Unit
 
   // Default implementation of `HybridObject.toString()`
   override fun toString(): String {

@@ -13,6 +13,10 @@
 
 namespace margelo::nitro::camera {
 
+  jni::local_ref<JCallback_void_MediaType_FrameDroppedReason::JFunction_cxx> JCallback_void_MediaType_FrameDroppedReason::JFunction_cxx::create(jni::alias_ref<JCallback<JavaPart>> callback) {
+    return newInstance(callback);
+  }
+
   JNIRetainedValue<void>::Type JCallback_void_MediaType_FrameDroppedReason::JFunction_cxx::invoke(JNIRetainedValue<jni::local_ref<margelo::nitro::camera::JMediaType>>::Type frameType, JNIRetainedValue<jni::local_ref<margelo::nitro::camera::JFrameDroppedReason>>::Type reason) const {
     static const auto __method = javaClassStatic()->getMethod<void(jni::alias_ref<JMediaType>, jni::alias_ref<JFrameDroppedReason>)>("call");
     __method(self(), JNIRetainedValue<jni::local_ref<margelo::nitro::camera::JMediaType>>::borrow(frameType), JNIRetainedValue<jni::local_ref<margelo::nitro::camera::JFrameDroppedReason>>::borrow(reason));
@@ -34,12 +38,9 @@ namespace margelo::nitro::camera {
     callAndForget(frameType, reason);
   }
 
-  jni::local_ref<JCallback_void_MediaType_FrameDroppedReason::JavaPart> JCallback_void_MediaType_FrameDroppedReason::fromCxx_cxx(jni::alias_ref<jni::JClass>, jni::alias_ref<JCxxCallback::javaobject> callback) {
-    return create(getCallback(callback));
-  }
-
-  jni::local_ref<JCallback_void_MediaType_FrameDroppedReason::JavaPart> JCallback_void_MediaType_FrameDroppedReason::fromFunction_cxx(jni::alias_ref<jni::JClass>, jni::alias_ref<JFunction_cxx> function) {
-    return create(CallbackType::make(JNICallable<JFunction_cxx, NativeSignature>(jni::make_global(function))));
+  JCallback_void_MediaType_FrameDroppedReason::CallbackType JCallback_void_MediaType_FrameDroppedReason::fromKotlin(jni::alias_ref<JCallback<JavaPart>> callback) {
+    auto function = JFunction_cxx::create(callback);
+    return CallbackType::make(JNICallable<JFunction_cxx, NativeSignature>(jni::make_global(function)));
   }
 
   void JCallback_void_MediaType_FrameDroppedReason::registerNatives() {
@@ -47,8 +48,6 @@ namespace margelo::nitro::camera {
       makeNativeMethod("callSync_cxx", JCallback_void_MediaType_FrameDroppedReason::callSync_cxx),
       makeNativeMethod("callAsync_cxx", JCallback_void_MediaType_FrameDroppedReason::callAsync_cxx),
       makeNativeMethod("callAndForget_cxx", JCallback_void_MediaType_FrameDroppedReason::callAndForget_cxx),
-      makeNativeMethod("fromCxx_cxx", JCallback_void_MediaType_FrameDroppedReason::fromCxx_cxx),
-      makeNativeMethod("fromFunction_cxx", JCallback_void_MediaType_FrameDroppedReason::fromFunction_cxx),
     });
   }
 

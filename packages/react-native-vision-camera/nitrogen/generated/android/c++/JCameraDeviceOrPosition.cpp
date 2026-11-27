@@ -19,7 +19,7 @@ namespace margelo::nitro::camera {
   }
 
   jni::local_ref<JCameraDeviceOrPosition> JCameraDeviceOrPosition_impl::First::create(jni::alias_ref<JHybridCameraDeviceSpecJavaPart> value) {
-    static const auto method = JCameraDeviceOrPosition::javaClassStatic()->getStaticMethod<jni::local_ref<JCameraDeviceOrPosition>(jni::alias_ref<JHybridCameraDeviceSpecJavaPart>)>("fromCpp_0");
+    static const auto method = JCameraDeviceOrPosition::javaClassStatic()->getStaticMethod<jni::local_ref<JCameraDeviceOrPosition>(jni::alias_ref<JHybridCameraDeviceSpecJavaPart>)>("createFirst");
     return method(JCameraDeviceOrPosition::javaClassStatic(), value);
   }
 
@@ -29,7 +29,7 @@ namespace margelo::nitro::camera {
   }
 
   jni::local_ref<JCameraDeviceOrPosition> JCameraDeviceOrPosition_impl::Second::create(jni::alias_ref<JTargetCameraPosition> value) {
-    static const auto method = JCameraDeviceOrPosition::javaClassStatic()->getStaticMethod<jni::local_ref<JCameraDeviceOrPosition>(jni::alias_ref<JTargetCameraPosition>)>("fromCpp_1");
+    static const auto method = JCameraDeviceOrPosition::javaClassStatic()->getStaticMethod<jni::local_ref<JCameraDeviceOrPosition>(jni::alias_ref<JTargetCameraPosition>)>("createSecond");
     return method(JCameraDeviceOrPosition::javaClassStatic(), value);
   }
 

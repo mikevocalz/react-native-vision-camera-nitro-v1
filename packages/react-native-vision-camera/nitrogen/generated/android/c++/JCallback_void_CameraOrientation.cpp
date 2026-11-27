@@ -12,6 +12,10 @@
 
 namespace margelo::nitro::camera {
 
+  jni::local_ref<JCallback_void_CameraOrientation::JFunction_cxx> JCallback_void_CameraOrientation::JFunction_cxx::create(jni::alias_ref<JCallback<JavaPart>> callback) {
+    return newInstance(callback);
+  }
+
   JNIRetainedValue<void>::Type JCallback_void_CameraOrientation::JFunction_cxx::invoke(JNIRetainedValue<jni::local_ref<margelo::nitro::camera::JCameraOrientation>>::Type orientation) const {
     static const auto __method = javaClassStatic()->getMethod<void(jni::alias_ref<JCameraOrientation>)>("call");
     __method(self(), JNIRetainedValue<jni::local_ref<margelo::nitro::camera::JCameraOrientation>>::borrow(orientation));
@@ -33,12 +37,9 @@ namespace margelo::nitro::camera {
     callAndForget(orientation);
   }
 
-  jni::local_ref<JCallback_void_CameraOrientation::JavaPart> JCallback_void_CameraOrientation::fromCxx_cxx(jni::alias_ref<jni::JClass>, jni::alias_ref<JCxxCallback::javaobject> callback) {
-    return create(getCallback(callback));
-  }
-
-  jni::local_ref<JCallback_void_CameraOrientation::JavaPart> JCallback_void_CameraOrientation::fromFunction_cxx(jni::alias_ref<jni::JClass>, jni::alias_ref<JFunction_cxx> function) {
-    return create(CallbackType::make(JNICallable<JFunction_cxx, NativeSignature>(jni::make_global(function))));
+  JCallback_void_CameraOrientation::CallbackType JCallback_void_CameraOrientation::fromKotlin(jni::alias_ref<JCallback<JavaPart>> callback) {
+    auto function = JFunction_cxx::create(callback);
+    return CallbackType::make(JNICallable<JFunction_cxx, NativeSignature>(jni::make_global(function)));
   }
 
   void JCallback_void_CameraOrientation::registerNatives() {
@@ -46,8 +47,6 @@ namespace margelo::nitro::camera {
       makeNativeMethod("callSync_cxx", JCallback_void_CameraOrientation::callSync_cxx),
       makeNativeMethod("callAsync_cxx", JCallback_void_CameraOrientation::callAsync_cxx),
       makeNativeMethod("callAndForget_cxx", JCallback_void_CameraOrientation::callAndForget_cxx),
-      makeNativeMethod("fromCxx_cxx", JCallback_void_CameraOrientation::fromCxx_cxx),
-      makeNativeMethod("fromFunction_cxx", JCallback_void_CameraOrientation::fromFunction_cxx),
     });
   }
 

@@ -6,6 +6,11 @@
 ///
 
 #include <VisionCamera/private/JHybridZoomGestureControllerSpec.hpp>
+#include <VisionCamera/private/JListenerSubscription.hpp>
+#include <VisionCamera/private/JCallback_void_double.hpp>
+#include <NitroModules/JNIConverter+Callback.hpp>
+#include <NitroModules/JNIConverter+Primitives.hpp>
+#include <NitroModules/JSIConverter+JNIPrimitives.hpp>
 
 namespace margelo::nitro::camera {
 
@@ -15,7 +20,7 @@ namespace margelo::nitro::camera {
 
   const std::shared_ptr<const HybridClass>& JHybridZoomGestureControllerSpec::Class::get() {
     static const auto hybridClass = HybridClass::create<Class>([](HybridClass& clazz) {
-
+      clazz.registerHybridMethod("addOnZoomChangedListener", &JHybridZoomGestureControllerSpec::addOnZoomChangedListener);
     });
     return hybridClass;
   }
@@ -55,6 +60,10 @@ namespace margelo::nitro::camera {
 
 
   // Methods
-
+  jni::local_ref<JListenerSubscription> JHybridZoomGestureControllerSpec::addOnZoomChangedListener(const jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void_double::JavaPart>>& onZoomChanged) {
+    static const auto __method = CxxPart::getClass()->getMethod<jni::local_ref<JListenerSubscription>(jni::alias_ref<JCallback<margelo::nitro::camera::JCallback_void_double::JavaPart>> /* onZoomChanged */)>("addOnZoomChangedListener");
+    auto __result = __method(_javaPart, onZoomChanged);
+    return __result;
+  }
 
 } // namespace margelo::nitro::camera

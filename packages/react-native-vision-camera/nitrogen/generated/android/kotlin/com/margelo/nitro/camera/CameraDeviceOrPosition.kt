@@ -56,17 +56,9 @@ sealed class CameraDeviceOrPosition private constructor(@DoNotStrip private val 
     @JvmName("createFirst")
     @DoNotStrip
     fun create(value: HybridCameraDeviceSpec): CameraDeviceOrPosition = First(value)
-
-    @JvmStatic
-    @DoNotStrip
-    private fun fromCpp_0(value: HybridCameraDeviceSpec): CameraDeviceOrPosition = First(value)
     @JvmStatic
     @JvmName("createSecond")
     @DoNotStrip
     fun create(value: TargetCameraPosition): CameraDeviceOrPosition = Second(value)
-
-    @JvmStatic
-    @DoNotStrip
-    private fun fromCpp_1(value: TargetCameraPosition): CameraDeviceOrPosition = Second(value)
   }
 }

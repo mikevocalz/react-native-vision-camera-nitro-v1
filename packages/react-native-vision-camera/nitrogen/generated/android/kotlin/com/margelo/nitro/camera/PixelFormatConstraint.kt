@@ -9,7 +9,6 @@ package com.margelo.nitro.camera
 
 import androidx.annotation.Keep
 import com.facebook.proguard.annotations.DoNotStrip
-import java.util.Objects
 
 
 /**
@@ -22,18 +21,14 @@ data class PixelFormatConstraint(
   @Keep
   val pixelFormat: PixelFormat
 ) {
-
-
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is PixelFormatConstraint) return false
-    return Objects.deepEquals(this.pixelFormat, other.pixelFormat)
+    return this.pixelFormat == other.pixelFormat
   }
 
   override fun hashCode(): Int {
-    return arrayOf<Any?>(
-      pixelFormat
-    ).contentDeepHashCode()
+    return this.pixelFormat.hashCode()
   }
 
   companion object {

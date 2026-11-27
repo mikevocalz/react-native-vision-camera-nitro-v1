@@ -9,7 +9,6 @@ package com.margelo.nitro.camera
 
 import androidx.annotation.Keep
 import com.facebook.proguard.annotations.DoNotStrip
-import java.util.Objects
 
 
 /**
@@ -25,20 +24,17 @@ data class Range(
   @Keep
   val max: Double
 ) {
-
-
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is Range) return false
-    return Objects.deepEquals(this.min, other.min)
-      && Objects.deepEquals(this.max, other.max)
+    return this.min.toBits() == other.min.toBits()
+      && this.max.toBits() == other.max.toBits()
   }
 
   override fun hashCode(): Int {
-    return arrayOf<Any?>(
-      min,
-      max
-    ).contentDeepHashCode()
+    var result = this.min.hashCode()
+    result = 31 * result + this.max.hashCode()
+    return result
   }
 
   companion object {

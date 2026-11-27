@@ -7,9 +7,10 @@
 
 #pragma once
 
+#include <NitroModules/JCallback.hpp>
 #include <NitroModules/JNICallable.hpp>
 #include <NitroModules/JNICallback.hpp>
-#include <NitroModules/JSIConverter+JNICallback.hpp>
+#include <NitroModules/JSIConverter+JCallback.hpp>
 #include <NitroModules/JNIConverter+Primitives.hpp>
 #include <NitroModules/JSIConverter+JNIPrimitives.hpp>
 #include <NitroModules/JNIConverter+Promise.hpp>
@@ -34,19 +35,20 @@ namespace margelo::nitro::camera {
      */
     struct JFunction_cxx : jni::JavaClass<JFunction_cxx> {
       static constexpr auto kJavaDescriptor = "Lcom/margelo/nitro/camera/Callback_bool_std__shared_ptr_HybridFrameSpec_$Function_cxx;";
+      static jni::local_ref<JFunction_cxx> create(jni::alias_ref<JCallback<JavaPart>> callback);
       JNIRetainedValue<jboolean>::Type invoke(JNIRetainedValue<jni::local_ref<margelo::nitro::camera::JHybridFrameSpecJavaPart>>::Type frame) const;
     };
 
   public:
     static jni::local_ref<JavaPart> create(CallbackType callback);
+    /** Wraps a callback implemented in Kotlin in a C++ `Callback<...>`. */
+    static CallbackType fromKotlin(jni::alias_ref<JCallback<JavaPart>> callback);
     static void registerNatives();
 
   private:
     jboolean callSync_cxx(jni::alias_ref<JHybridFrameSpecJavaPart> frame);
     jni::local_ref<JTypedPromise<jni::local_ref<jni::JBoolean>>> callAsync_cxx(jni::alias_ref<JHybridFrameSpecJavaPart> frame);
     void callAndForget_cxx(jni::alias_ref<JHybridFrameSpecJavaPart> frame);
-    static jni::local_ref<JavaPart> fromCxx_cxx(jni::alias_ref<jni::JClass>, jni::alias_ref<JCxxCallback::javaobject> callback);
-    static jni::local_ref<JavaPart> fromFunction_cxx(jni::alias_ref<jni::JClass>, jni::alias_ref<JFunction_cxx> function);
 
   private:
     friend HybridBase;

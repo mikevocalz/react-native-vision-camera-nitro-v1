@@ -73,13 +73,13 @@ namespace margelo::nitro::camera {
   }
 
   // Methods
-  void JHybridCameraFrameOutputSpec::setOnFrameCallback(const jni::local_ref<JOptional<margelo::nitro::camera::JCallback_bool_std__shared_ptr_HybridFrameSpec_::JavaPart>>& onFrame) {
-    static const auto __method = CxxPart::getClass()->getNonvirtualMethod<void(jni::alias_ref<JOptional<margelo::nitro::camera::JCallback_bool_std__shared_ptr_HybridFrameSpec_::JavaPart>> /* onFrame */)>("setOnFrameCallback_cxx");
-    __method(_javaPart, CxxPart::getClass(), onFrame);
+  void JHybridCameraFrameOutputSpec::setOnFrameCallback(const jni::local_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_bool_std__shared_ptr_HybridFrameSpec_::JavaPart>>>& onFrame) {
+    static const auto __method = CxxPart::getClass()->getMethod<void(jni::alias_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_bool_std__shared_ptr_HybridFrameSpec_::JavaPart>>> /* onFrame */)>("setOnFrameCallback");
+    __method(_javaPart, onFrame);
   }
-  void JHybridCameraFrameOutputSpec::setOnFrameDroppedCallback(const jni::local_ref<JOptional<margelo::nitro::camera::JCallback_void_FrameDroppedReason::JavaPart>>& onFrameDropped) {
-    static const auto __method = CxxPart::getClass()->getNonvirtualMethod<void(jni::alias_ref<JOptional<margelo::nitro::camera::JCallback_void_FrameDroppedReason::JavaPart>> /* onFrameDropped */)>("setOnFrameDroppedCallback_cxx");
-    __method(_javaPart, CxxPart::getClass(), onFrameDropped);
+  void JHybridCameraFrameOutputSpec::setOnFrameDroppedCallback(const jni::local_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void_FrameDroppedReason::JavaPart>>>& onFrameDropped) {
+    static const auto __method = CxxPart::getClass()->getMethod<void(jni::alias_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void_FrameDroppedReason::JavaPart>>> /* onFrameDropped */)>("setOnFrameDroppedCallback");
+    __method(_javaPart, onFrameDropped);
   }
 
 } // namespace margelo::nitro::camera

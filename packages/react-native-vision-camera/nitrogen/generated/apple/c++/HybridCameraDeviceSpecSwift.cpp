@@ -181,8 +181,8 @@ namespace margelo::nitro::camera {
   // Methods
 
   swift::Array<::VisionCamera::Size> HybridCameraDeviceSpecSwift::getSupportedResolutions(::VisionCamera::OutputStreamType outputStreamType) {
-    auto __result = withSwiftResult<swift::Array<::VisionCamera::Size>>([&](void* __outResult) {
-      return _swiftPart.getSupportedResolutions(outputStreamType, __outResult);
+    auto __result = receiveSwiftResult<swift::Array<::VisionCamera::Size>>([&](const void* __onResult) {
+      return _swiftPart.getSupportedResolutions(outputStreamType, __onResult);
     });
     if (__result.hasError()) [[unlikely]] {
       std::rethrow_exception(__result.error());

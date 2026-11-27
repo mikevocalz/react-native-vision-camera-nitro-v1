@@ -20,7 +20,7 @@ import com.margelo.nitro.camera.views.HybridPreviewView
 /**
  * Represents the React Native `ViewManager` for the "PreviewView" Nitro HybridView.
  */
-public class HybridPreviewViewManager: SimpleViewManager<View>() {
+public open class HybridPreviewViewManager: SimpleViewManager<View>() {
   /**
    * Represents the View and its last state snapshot (mutable)
    */
@@ -77,10 +77,10 @@ public class HybridPreviewViewManager: SimpleViewManager<View>() {
     val hybridView = holder.hybridView
     holder.lastState = null
 
-    @Suppress("USELESS_IS_CHECK")
-    if (hybridView is RecyclableView) {
+    val recyclableView = (hybridView as Any) as? RecyclableView
+    if (recyclableView != null) {
       // Reset the implementation while retaining the associated view and holder.
-      hybridView.prepareForRecycle()
+      recyclableView.prepareForRecycle()
       return preparedView
     } else {
       return null

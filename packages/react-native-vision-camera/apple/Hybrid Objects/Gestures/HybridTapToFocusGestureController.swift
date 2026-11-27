@@ -17,6 +17,10 @@ final class HybridTapToFocusGestureController: HybridTapToFocusGestureController
   weak var controller: (any HybridCameraControllerSpec)? = nil
 
   private weak var previewView: (any HybridPreviewViewSpec)? = nil
+  private let onTapListeners = ListenerRegistry<any Callback<any HybridMeteringPointSpec, Void>>()
+  private let onFocusCompletedListeners = ListenerRegistry<
+    any Callback<any HybridMeteringPointSpec, Void>
+  >()
 
   override init() throws {
     try super.init()
@@ -41,10 +45,33 @@ final class HybridTapToFocusGestureController: HybridTapToFocusGestureController
         viewX: viewPoint.x,
         viewY: viewPoint.y,
         size: nil)
-      _ = try controller.focusTo(point: meteringPoint, options: FocusOptions(responsiveness: nil, adaptiveness: nil, modes: nil, autoResetAfter: nil))
+      onTapListeners.snapshot().forEach { $0(meteringPoint) }
+
+      let focusPromise = try controller.focusTo(
+        point: meteringPoint,
+        options: FocusOptions(responsiveness: nil, adaptiveness: nil, modes: nil, autoResetAfter: nil))
+      let onFocusCompletedListeners = self.onFocusCompletedListeners
+      focusPromise.addOnResolvedListener { _ in
+        onFocusCompletedListeners.snapshot().forEach { $0(meteringPoint) }
+      }
+      focusPromise.addOnRejectedListener { error in
+        logger.error("Failed to focus! \(error)")
+      }
     } catch {
       logger.error("Failed to focus! \(error)")
     }
+  }
+
+  func addOnTapListener(onTap: any Callback<any HybridMeteringPointSpec, Void>) throws
+    -> ListenerSubscription
+  {
+    return onTapListeners.add(onTap)
+  }
+
+  func addOnFocusCompletedListener(
+    onFocusCompleted: any Callback<any HybridMeteringPointSpec, Void>
+  ) throws -> ListenerSubscription {
+    return onFocusCompletedListeners.add(onFocusCompleted)
   }
 
   func onAttached(to preview: any HybridPreviewViewSpec) {

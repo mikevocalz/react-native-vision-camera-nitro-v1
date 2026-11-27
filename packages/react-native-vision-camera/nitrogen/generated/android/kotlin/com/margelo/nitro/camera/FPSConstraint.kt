@@ -9,7 +9,6 @@ package com.margelo.nitro.camera
 
 import androidx.annotation.Keep
 import com.facebook.proguard.annotations.DoNotStrip
-import java.util.Objects
 
 
 /**
@@ -22,18 +21,14 @@ data class FPSConstraint(
   @Keep
   val fps: Double
 ) {
-
-
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is FPSConstraint) return false
-    return Objects.deepEquals(this.fps, other.fps)
+    return this.fps.toBits() == other.fps.toBits()
   }
 
   override fun hashCode(): Int {
-    return arrayOf<Any?>(
-      fps
-    ).contentDeepHashCode()
+    return this.fps.hashCode()
   }
 
   companion object {

@@ -152,8 +152,8 @@ namespace margelo::nitro::camera {
 
   ::VisionCamera::ListenerSubscription HybridCameraControllerSpecSwift::addSubjectAreaChangedListener(const Callback<void()>& onSubjectAreaChanged) {
     auto __result = ([&](const void* onSubjectAreaChanged) {
-      return withSwiftResult<::VisionCamera::ListenerSubscription>([&](void* __outResult) {
-        return _swiftPart.addSubjectAreaChangedListener(onSubjectAreaChanged, __outResult);
+      return receiveSwiftResult<::VisionCamera::ListenerSubscription>([&](const void* __onResult) {
+        return _swiftPart.addSubjectAreaChangedListener(onSubjectAreaChanged, __onResult);
       });
     })(std::addressof(onSubjectAreaChanged));
     if (__result.hasError()) [[unlikely]] {
@@ -263,8 +263,8 @@ namespace margelo::nitro::camera {
   }
 
   ::VisionCamera::WhiteBalanceGains HybridCameraControllerSpecSwift::convertWhiteBalanceTemperatureAndTintValues(const ::VisionCamera::WhiteBalanceTemperatureAndTint& whiteBalanceTemperatureAndTint) {
-    auto __result = withSwiftResult<::VisionCamera::WhiteBalanceGains>([&](void* __outResult) {
-      return _swiftPart.convertWhiteBalanceTemperatureAndTintValues(whiteBalanceTemperatureAndTint, __outResult);
+    auto __result = receiveSwiftResult<::VisionCamera::WhiteBalanceGains>([&](const void* __onResult) {
+      return _swiftPart.convertWhiteBalanceTemperatureAndTintValues(whiteBalanceTemperatureAndTint, __onResult);
     });
     if (__result.hasError()) [[unlikely]] {
       std::rethrow_exception(__result.error());

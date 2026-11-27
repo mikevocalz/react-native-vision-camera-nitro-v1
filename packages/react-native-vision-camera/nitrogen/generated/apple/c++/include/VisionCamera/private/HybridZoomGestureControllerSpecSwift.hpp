@@ -57,6 +57,7 @@ namespace margelo::nitro::camera {
 
     // Properties
     // Methods
+    ::VisionCamera::ListenerSubscription addOnZoomChangedListener(const Callback<void(double)>& onZoomChanged);
 
   protected:
     const std::shared_ptr<const HybridClass>& getHybridClass() override {

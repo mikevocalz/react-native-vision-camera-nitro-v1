@@ -153,8 +153,7 @@ abstract class HybridCameraFactorySpec: HybridObject() {
     @DoNotStrip
     @Keep
     private fun constructor_cxx(): HybridCameraFactorySpec {
-      val __result = VisionCamera.constructor()
-      return __result
+      return VisionCamera.constructor()
     }
   }
 }

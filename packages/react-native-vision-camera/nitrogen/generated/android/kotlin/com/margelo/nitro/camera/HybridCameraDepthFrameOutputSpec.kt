@@ -32,21 +32,13 @@ abstract class HybridCameraDepthFrameOutputSpec: HybridCameraOutputSpec() {
   abstract val thread: HybridNativeThreadSpec
 
   // Methods
+  @DoNotStrip
+  @Keep
   abstract fun setOnDepthFrameCallback(onDepthFrame: Callback<(depth: HybridDepthSpec) -> Boolean>?): Unit
 
   @DoNotStrip
   @Keep
-  private fun setOnDepthFrameCallback_cxx(onDepthFrame: Callback_bool_std__shared_ptr_HybridDepthSpec_?): Unit {
-    setOnDepthFrameCallback(onDepthFrame?.let { it })
-  }
-
   abstract fun setOnDepthFrameDroppedCallback(onDepthFrameDropped: Callback<(reason: FrameDroppedReason) -> Unit>?): Unit
-
-  @DoNotStrip
-  @Keep
-  private fun setOnDepthFrameDroppedCallback_cxx(onDepthFrameDropped: Callback_void_FrameDroppedReason?): Unit {
-    setOnDepthFrameDroppedCallback(onDepthFrameDropped?.let { it })
-  }
 
   // Default implementation of `HybridObject.toString()`
   override fun toString(): String {

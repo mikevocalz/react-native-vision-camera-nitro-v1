@@ -9,7 +9,6 @@ package com.margelo.nitro.camera
 
 import androidx.annotation.Keep
 import com.facebook.proguard.annotations.DoNotStrip
-import java.util.Objects
 
 
 /**
@@ -43,32 +42,29 @@ data class CapturePhotoSettings(
   @Keep
   val location: HybridLocationSpec?
 ) {
-
-
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is CapturePhotoSettings) return false
-    return Objects.deepEquals(this.flashMode, other.flashMode)
-      && Objects.deepEquals(this.enableShutterSound, other.enableShutterSound)
-      && Objects.deepEquals(this.enableDepthData, other.enableDepthData)
-      && Objects.deepEquals(this.enableRedEyeReduction, other.enableRedEyeReduction)
-      && Objects.deepEquals(this.enableCameraCalibrationDataDelivery, other.enableCameraCalibrationDataDelivery)
-      && Objects.deepEquals(this.enableDistortionCorrection, other.enableDistortionCorrection)
-      && Objects.deepEquals(this.enableVirtualDeviceFusion, other.enableVirtualDeviceFusion)
-      && Objects.deepEquals(this.location, other.location)
+    return (this.flashMode == null && other.flashMode == null || this.flashMode != null && other.flashMode != null && this.flashMode == other.flashMode)
+      && (this.enableShutterSound == null && other.enableShutterSound == null || this.enableShutterSound != null && other.enableShutterSound != null && this.enableShutterSound == other.enableShutterSound)
+      && (this.enableDepthData == null && other.enableDepthData == null || this.enableDepthData != null && other.enableDepthData != null && this.enableDepthData == other.enableDepthData)
+      && (this.enableRedEyeReduction == null && other.enableRedEyeReduction == null || this.enableRedEyeReduction != null && other.enableRedEyeReduction != null && this.enableRedEyeReduction == other.enableRedEyeReduction)
+      && (this.enableCameraCalibrationDataDelivery == null && other.enableCameraCalibrationDataDelivery == null || this.enableCameraCalibrationDataDelivery != null && other.enableCameraCalibrationDataDelivery != null && this.enableCameraCalibrationDataDelivery == other.enableCameraCalibrationDataDelivery)
+      && (this.enableDistortionCorrection == null && other.enableDistortionCorrection == null || this.enableDistortionCorrection != null && other.enableDistortionCorrection != null && this.enableDistortionCorrection == other.enableDistortionCorrection)
+      && (this.enableVirtualDeviceFusion == null && other.enableVirtualDeviceFusion == null || this.enableVirtualDeviceFusion != null && other.enableVirtualDeviceFusion != null && this.enableVirtualDeviceFusion == other.enableVirtualDeviceFusion)
+      && (this.location == null && other.location == null || this.location != null && other.location != null && this.location == other.location)
   }
 
   override fun hashCode(): Int {
-    return arrayOf<Any?>(
-      flashMode,
-      enableShutterSound,
-      enableDepthData,
-      enableRedEyeReduction,
-      enableCameraCalibrationDataDelivery,
-      enableDistortionCorrection,
-      enableVirtualDeviceFusion,
-      location
-    ).contentDeepHashCode()
+    var result = (if (this.flashMode != null) this.flashMode.hashCode() else 0)
+    result = 31 * result + (if (this.enableShutterSound != null) this.enableShutterSound.hashCode() else 0)
+    result = 31 * result + (if (this.enableDepthData != null) this.enableDepthData.hashCode() else 0)
+    result = 31 * result + (if (this.enableRedEyeReduction != null) this.enableRedEyeReduction.hashCode() else 0)
+    result = 31 * result + (if (this.enableCameraCalibrationDataDelivery != null) this.enableCameraCalibrationDataDelivery.hashCode() else 0)
+    result = 31 * result + (if (this.enableDistortionCorrection != null) this.enableDistortionCorrection.hashCode() else 0)
+    result = 31 * result + (if (this.enableVirtualDeviceFusion != null) this.enableVirtualDeviceFusion.hashCode() else 0)
+    result = 31 * result + (if (this.location != null) this.location.hashCode() else 0)
+    return result
   }
 
   companion object {

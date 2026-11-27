@@ -539,6 +539,14 @@ namespace margelo::nitro::camera::swift_bridge {
   }
   std__shared_ptr_margelo__nitro__camera__HybridNativeThreadFactorySpec_ create_std__shared_ptr_margelo__nitro__camera__HybridNativeThreadFactorySpec_(void* NON_NULL pointer);
   void* NON_NULL get_std__shared_ptr_margelo__nitro__camera__HybridNativeThreadFactorySpec_(const std::shared_ptr<HybridObject>& value);
+  using Callback_void___VisionCamera__HybridMeteringPointSpec_cxx = Callback<void(const ::VisionCamera::HybridMeteringPointSpec_cxx&)>;
+  Result<void, margelo::nitro::camera::swift_bridge::ResultTag> callSync_Callback_void___VisionCamera__HybridMeteringPointSpec_cxx(const Callback_void___VisionCamera__HybridMeteringPointSpec_cxx& callback, const void* NON_NULL param0) noexcept;
+  Promise<void> callAsync_Callback_void___VisionCamera__HybridMeteringPointSpec_cxx(const Callback_void___VisionCamera__HybridMeteringPointSpec_cxx& callback, const void* NON_NULL param0);
+  void callAndForget_Callback_void___VisionCamera__HybridMeteringPointSpec_cxx(const Callback_void___VisionCamera__HybridMeteringPointSpec_cxx& callback, const void* NON_NULL param0);
+  Callback_void___VisionCamera__HybridMeteringPointSpec_cxx create_Callback_void___VisionCamera__HybridMeteringPointSpec_cxx(std::function<Result<void, margelo::nitro::camera::swift_bridge::ResultTag>(const void* NON_NULL param0)> closure);
+  using Callback_void_double = Callback<void(double)>;
+  Result<void, margelo::nitro::camera::swift_bridge::ResultTag> callSync_Callback_void_double(const Callback_void_double& callback, double param0) noexcept;
+  Callback_void_double create_Callback_void_double(std::function<Result<void, margelo::nitro::camera::swift_bridge::ResultTag>(double param0)> closure);
   using Result_bool = Result<bool, margelo::nitro::camera::swift_bridge::ResultTag>;
   using std__shared_ptr_margelo__nitro__camera__HybridCameraExtensionSpec_ = std::shared_ptr<margelo::nitro::camera::HybridCameraExtensionSpecSwift>;
   using std__weak_ptr_margelo__nitro__camera__HybridCameraExtensionSpec_ = std::weak_ptr<margelo::nitro::camera::HybridCameraExtensionSpecSwift>;

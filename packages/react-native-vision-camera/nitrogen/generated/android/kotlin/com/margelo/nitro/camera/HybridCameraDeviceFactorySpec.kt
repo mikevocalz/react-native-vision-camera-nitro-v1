@@ -43,14 +43,9 @@ abstract class HybridCameraDeviceFactorySpec: HybridObject() {
   abstract val supportedMultiCamDeviceCombinations: Array<Array<HybridCameraDeviceSpec>>
 
   // Methods
-  abstract fun addOnCameraDevicesChangedListener(listener: Callback<(newDevices: Array<HybridCameraDeviceSpec>) -> Unit>): ListenerSubscription
-
   @DoNotStrip
   @Keep
-  private fun addOnCameraDevicesChangedListener_cxx(listener: Callback_void_std__vector_std__shared_ptr_HybridCameraDeviceSpec__): ListenerSubscription {
-    val __result = addOnCameraDevicesChangedListener(listener)
-    return __result
-  }
+  abstract fun addOnCameraDevicesChangedListener(listener: Callback<(newDevices: Array<HybridCameraDeviceSpec>) -> Unit>): ListenerSubscription
 
   @DoNotStrip
   @Keep

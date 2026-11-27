@@ -49,14 +49,9 @@ abstract class HybridRecorderSpec: HybridObject() {
   abstract val filePath: String
 
   // Methods
-  abstract fun startRecording(onRecordingFinished: Callback<(filePath: String, reason: RecordingFinishedReason) -> Unit>, onRecordingError: Callback<(error: Throwable) -> Unit>, onRecordingPaused: Callback<() -> Unit>?, onRecordingResumed: Callback<() -> Unit>?): Promise<Unit>
-
   @DoNotStrip
   @Keep
-  private fun startRecording_cxx(onRecordingFinished: Callback_void_std__string_RecordingFinishedReason, onRecordingError: Callback_void_std__exception_ptr, onRecordingPaused: Callback_void?, onRecordingResumed: Callback_void?): Promise<Unit> {
-    val __result = startRecording(onRecordingFinished, onRecordingError, onRecordingPaused?.let { it }, onRecordingResumed?.let { it })
-    return __result
-  }
+  abstract fun startRecording(onRecordingFinished: Callback<(filePath: String, reason: RecordingFinishedReason) -> Unit>, onRecordingError: Callback<(error: Throwable) -> Unit>, onRecordingPaused: Callback<() -> Unit>?, onRecordingResumed: Callback<() -> Unit>?): Promise<Unit>
 
   @DoNotStrip
   @Keep

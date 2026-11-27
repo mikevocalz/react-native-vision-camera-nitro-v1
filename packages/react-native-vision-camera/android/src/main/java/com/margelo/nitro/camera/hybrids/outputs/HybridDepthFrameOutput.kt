@@ -75,7 +75,6 @@ class HybridDepthFrameOutput(
         .setTargetRotation(outputOrientation.surfaceRotation)
         .setOutputImageRotationEnabled(options.enablePhysicalBufferRotation)
         .setAllowDroppingLateFrames(options.dropFramesWhileBusy)
-        .setBackgroundExecutor(executor)
         .setImageReaderProxyProvider { width, height, format, queueDepth, usage ->
           // TODO: Use CameraX' default ImageAnalysis once they support DEPTH data streaming.
           return@setImageReaderProxyProvider DepthImageReaderProxy(width, height, queueDepth, usage)

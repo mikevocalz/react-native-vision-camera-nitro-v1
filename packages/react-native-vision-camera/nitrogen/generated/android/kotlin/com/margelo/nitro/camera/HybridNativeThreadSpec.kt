@@ -32,13 +32,9 @@ abstract class HybridNativeThreadSpec: HybridObject() {
   abstract val id: String
 
   // Methods
-  abstract fun runOnThread(task: Callback<() -> Unit>): Unit
-
   @DoNotStrip
   @Keep
-  private fun runOnThread_cxx(task: Callback_void): Unit {
-    runOnThread(task)
-  }
+  abstract fun runOnThread(task: Callback<() -> Unit>): Unit
 
   // Default implementation of `HybridObject.toString()`
   override fun toString(): String {

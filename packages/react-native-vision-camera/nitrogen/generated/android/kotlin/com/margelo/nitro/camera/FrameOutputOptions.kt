@@ -9,7 +9,6 @@ package com.margelo.nitro.camera
 
 import androidx.annotation.Keep
 import com.facebook.proguard.annotations.DoNotStrip
-import java.util.Objects
 
 
 /**
@@ -40,30 +39,27 @@ data class FrameOutputOptions(
   @Keep
   val dropFramesWhileBusy: Boolean
 ) {
-
-
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is FrameOutputOptions) return false
-    return Objects.deepEquals(this.targetResolution, other.targetResolution)
-      && Objects.deepEquals(this.enablePreviewSizedOutputBuffers, other.enablePreviewSizedOutputBuffers)
-      && Objects.deepEquals(this.allowDeferredStart, other.allowDeferredStart)
-      && Objects.deepEquals(this.pixelFormat, other.pixelFormat)
-      && Objects.deepEquals(this.enablePhysicalBufferRotation, other.enablePhysicalBufferRotation)
-      && Objects.deepEquals(this.enableCameraMatrixDelivery, other.enableCameraMatrixDelivery)
-      && Objects.deepEquals(this.dropFramesWhileBusy, other.dropFramesWhileBusy)
+    return this.targetResolution == other.targetResolution
+      && this.enablePreviewSizedOutputBuffers == other.enablePreviewSizedOutputBuffers
+      && this.allowDeferredStart == other.allowDeferredStart
+      && this.pixelFormat == other.pixelFormat
+      && this.enablePhysicalBufferRotation == other.enablePhysicalBufferRotation
+      && this.enableCameraMatrixDelivery == other.enableCameraMatrixDelivery
+      && this.dropFramesWhileBusy == other.dropFramesWhileBusy
   }
 
   override fun hashCode(): Int {
-    return arrayOf<Any?>(
-      targetResolution,
-      enablePreviewSizedOutputBuffers,
-      allowDeferredStart,
-      pixelFormat,
-      enablePhysicalBufferRotation,
-      enableCameraMatrixDelivery,
-      dropFramesWhileBusy
-    ).contentDeepHashCode()
+    var result = this.targetResolution.hashCode()
+    result = 31 * result + this.enablePreviewSizedOutputBuffers.hashCode()
+    result = 31 * result + this.allowDeferredStart.hashCode()
+    result = 31 * result + this.pixelFormat.hashCode()
+    result = 31 * result + this.enablePhysicalBufferRotation.hashCode()
+    result = 31 * result + this.enableCameraMatrixDelivery.hashCode()
+    result = 31 * result + this.dropFramesWhileBusy.hashCode()
+    return result
   }
 
   companion object {

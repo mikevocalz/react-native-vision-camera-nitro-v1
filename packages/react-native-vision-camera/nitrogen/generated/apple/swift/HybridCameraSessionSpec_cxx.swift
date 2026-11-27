@@ -7,6 +7,7 @@
 internal import NitroModules
 internal import CxxStdlib
 internal import VisionCameraAppleCxx
+internal import NitroModulesAppleCxx
 
 /**
  * A class implementation that bridges HybridCameraSessionSpec over to C++.
@@ -161,50 +162,60 @@ public final class HybridCameraSessionSpec_cxx {
     }
   }
 
-  public final func addOnStartedListener(onStarted: UnsafeRawPointer, __outResult: UnsafeMutableRawPointer) -> bridge.Result_void {
+  public final func addOnStartedListener(onStarted: UnsafeRawPointer, __onResult: UnsafeRawPointer) -> bridge.Result_void {
     do {
       let value = try __implementation.addOnStartedListener(onStarted: onStarted.load(as: margelo.nitro.camera.swift_bridge.Callback_void.self))
-      __outResult.assumingMemoryBound(to: ListenerSubscription.self).initialize(to: value)
+      withUnsafePointer(to: value) { pointer in
+        margelo.nitro.SwiftResultConsumer.consume(__onResult, UnsafeRawPointer(pointer))
+      }
       return bridge.Result_void.withValue()
     } catch {
       return bridge.Result_void.withError(error.toCpp())
     }
   }
 
-  public final func addOnStoppedListener(onStopped: UnsafeRawPointer, __outResult: UnsafeMutableRawPointer) -> bridge.Result_void {
+  public final func addOnStoppedListener(onStopped: UnsafeRawPointer, __onResult: UnsafeRawPointer) -> bridge.Result_void {
     do {
       let value = try __implementation.addOnStoppedListener(onStopped: onStopped.load(as: margelo.nitro.camera.swift_bridge.Callback_void.self))
-      __outResult.assumingMemoryBound(to: ListenerSubscription.self).initialize(to: value)
+      withUnsafePointer(to: value) { pointer in
+        margelo.nitro.SwiftResultConsumer.consume(__onResult, UnsafeRawPointer(pointer))
+      }
       return bridge.Result_void.withValue()
     } catch {
       return bridge.Result_void.withError(error.toCpp())
     }
   }
 
-  public final func addOnErrorListener(onError: UnsafeRawPointer, __outResult: UnsafeMutableRawPointer) -> bridge.Result_void {
+  public final func addOnErrorListener(onError: UnsafeRawPointer, __onResult: UnsafeRawPointer) -> bridge.Result_void {
     do {
       let value = try __implementation.addOnErrorListener(onError: onError.load(as: margelo.nitro.camera.swift_bridge.Callback_void_std__exception_ptr.self))
-      __outResult.assumingMemoryBound(to: ListenerSubscription.self).initialize(to: value)
+      withUnsafePointer(to: value) { pointer in
+        margelo.nitro.SwiftResultConsumer.consume(__onResult, UnsafeRawPointer(pointer))
+      }
       return bridge.Result_void.withValue()
     } catch {
       return bridge.Result_void.withError(error.toCpp())
     }
   }
 
-  public final func addOnInterruptionStartedListener(onInterruptionStarted: UnsafeRawPointer, __outResult: UnsafeMutableRawPointer) -> bridge.Result_void {
+  public final func addOnInterruptionStartedListener(onInterruptionStarted: UnsafeRawPointer, __onResult: UnsafeRawPointer) -> bridge.Result_void {
     do {
       let value = try __implementation.addOnInterruptionStartedListener(onInterruptionStarted: onInterruptionStarted.load(as: margelo.nitro.camera.swift_bridge.Callback_void___VisionCamera__InterruptionReason.self))
-      __outResult.assumingMemoryBound(to: ListenerSubscription.self).initialize(to: value)
+      withUnsafePointer(to: value) { pointer in
+        margelo.nitro.SwiftResultConsumer.consume(__onResult, UnsafeRawPointer(pointer))
+      }
       return bridge.Result_void.withValue()
     } catch {
       return bridge.Result_void.withError(error.toCpp())
     }
   }
 
-  public final func addOnInterruptionEndedListener(onInterruptionEnded: UnsafeRawPointer, __outResult: UnsafeMutableRawPointer) -> bridge.Result_void {
+  public final func addOnInterruptionEndedListener(onInterruptionEnded: UnsafeRawPointer, __onResult: UnsafeRawPointer) -> bridge.Result_void {
     do {
       let value = try __implementation.addOnInterruptionEndedListener(onInterruptionEnded: onInterruptionEnded.load(as: margelo.nitro.camera.swift_bridge.Callback_void.self))
-      __outResult.assumingMemoryBound(to: ListenerSubscription.self).initialize(to: value)
+      withUnsafePointer(to: value) { pointer in
+        margelo.nitro.SwiftResultConsumer.consume(__onResult, UnsafeRawPointer(pointer))
+      }
       return bridge.Result_void.withValue()
     } catch {
       return bridge.Result_void.withError(error.toCpp())

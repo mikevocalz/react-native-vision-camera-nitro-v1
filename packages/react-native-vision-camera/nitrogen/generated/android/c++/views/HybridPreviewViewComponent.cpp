@@ -26,8 +26,8 @@ namespace margelo::nitro::camera::views {
     resizeMode(nitro::ReactProp<jni::alias_ref<JOptional<JPreviewResizeMode>>>::fromRawValue("PreviewView", "resizeMode", rawProps, sourceProps.resizeMode)),
     implementationMode(nitro::ReactProp<jni::alias_ref<JOptional<JPreviewImplementationMode>>>::fromRawValue("PreviewView", "implementationMode", rawProps, sourceProps.implementationMode)),
     gestureControllers(nitro::ReactProp<jni::global_ref<JOptional<jni::JArrayClass<JHybridGestureControllerSpecJavaPart>>>>::fromRawValue("PreviewView", "gestureControllers", rawProps, sourceProps.gestureControllers)),
-    onPreviewStarted(nitro::ReactProp<jni::global_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>>>::fromRawValue("PreviewView", "onPreviewStarted", rawProps, sourceProps.onPreviewStarted)),
-    onPreviewStopped(nitro::ReactProp<jni::global_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>>>::fromRawValue("PreviewView", "onPreviewStopped", rawProps, sourceProps.onPreviewStopped)),
+    onPreviewStarted(nitro::ReactProp<jni::global_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>>>::fromRawValue("PreviewView", "onPreviewStarted", rawProps, sourceProps.onPreviewStarted)),
+    onPreviewStopped(nitro::ReactProp<jni::global_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>>>::fromRawValue("PreviewView", "onPreviewStopped", rawProps, sourceProps.onPreviewStopped)),
     hybridRef(nitro::ReactProp<std::optional<Callback<void(const std::shared_ptr<HybridObject>& /* ref */)>>>::fromRawValue("PreviewView", "hybridRef", rawProps, sourceProps.hybridRef)) {
 #ifdef ANDROID
     nitro::RawPropsCompat::initializeDynamicProps(*this, sourceProps, rawProps, filterObjectKeys);

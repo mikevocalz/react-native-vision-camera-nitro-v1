@@ -11,6 +11,10 @@
 #include <NitroModules/JSIConverter.hpp>
 #include <NitroModules/JNIConverter+String.hpp>
 #include <NitroModules/JSIConverter+JString.hpp>
+#include <NitroModules/JNIConverter+Primitives.hpp>
+#include <NitroModules/JSIConverter+JNIPrimitives.hpp>
+#include <VisionCamera/private/JCameraOrientation.hpp>
+#include <VisionCamera/private/JPhotoContainerFormat.hpp>
 
 namespace margelo::nitro::camera {
 
@@ -20,14 +24,49 @@ namespace margelo::nitro::camera {
   struct JPhotoFile final : public jni::JavaClass<JPhotoFile> {
     static constexpr auto kJavaDescriptor = "Lcom/margelo/nitro/camera/PhotoFile;";
 
-    static jni::local_ref<JPhotoFile> create(jni::alias_ref<jni::JString> filePath) {
+    static jni::local_ref<JPhotoFile> create(jni::alias_ref<jni::JString> filePath, jdouble width, jdouble height, jni::alias_ref<JCameraOrientation> orientation, jboolean isMirrored, jdouble timestamp, jboolean isRawPhoto, jni::alias_ref<JPhotoContainerFormat> containerFormat) {
       static const auto clazz = javaClassStatic();
-      static const auto create = clazz->getStaticMethod<JPhotoFile(jni::alias_ref<jni::JString>)>("fromCpp");
-      return create(clazz, filePath);
+      static const auto create = clazz->getStaticMethod<JPhotoFile(jni::alias_ref<jni::JString>, jdouble, jdouble, jni::alias_ref<JCameraOrientation>, jboolean, jdouble, jboolean, jni::alias_ref<JPhotoContainerFormat>)>("fromCpp");
+      return create(clazz, filePath, width, height, orientation, isMirrored, timestamp, isRawPhoto, containerFormat);
     }
 
     jni::local_ref<jni::JString> getFilePath() const {
       static const auto field = javaClassStatic()->getField<jni::JString>("filePath");
+      return getFieldValue(field);
+    }
+
+    jdouble getWidth() const {
+      static const auto field = javaClassStatic()->getField<jdouble>("width");
+      return getFieldValue(field);
+    }
+
+    jdouble getHeight() const {
+      static const auto field = javaClassStatic()->getField<jdouble>("height");
+      return getFieldValue(field);
+    }
+
+    jni::local_ref<JCameraOrientation> getOrientation() const {
+      static const auto field = javaClassStatic()->getField<JCameraOrientation>("orientation");
+      return getFieldValue(field);
+    }
+
+    jboolean getIsMirrored() const {
+      static const auto field = javaClassStatic()->getField<jboolean>("isMirrored");
+      return getFieldValue(field);
+    }
+
+    jdouble getTimestamp() const {
+      static const auto field = javaClassStatic()->getField<jdouble>("timestamp");
+      return getFieldValue(field);
+    }
+
+    jboolean getIsRawPhoto() const {
+      static const auto field = javaClassStatic()->getField<jboolean>("isRawPhoto");
+      return getFieldValue(field);
+    }
+
+    jni::local_ref<JPhotoContainerFormat> getContainerFormat() const {
+      static const auto field = javaClassStatic()->getField<JPhotoContainerFormat>("containerFormat");
       return getFieldValue(field);
     }
   };

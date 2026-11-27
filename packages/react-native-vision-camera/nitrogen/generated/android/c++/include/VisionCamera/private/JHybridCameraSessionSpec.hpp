@@ -82,11 +82,11 @@ namespace margelo::nitro::camera {
     jni::local_ref<JTypedPromise<jni::local_ref<jni::JArrayClass<JHybridCameraControllerSpecJavaPart>>>> configure(const jni::local_ref<jni::JArrayClass<JCameraSessionConnection>>& connections, const jni::local_ref<JOptional<JCameraSessionConfiguration>>& config);
     jni::local_ref<JTypedPromise<void>> start();
     jni::local_ref<JTypedPromise<void>> stop();
-    jni::local_ref<JListenerSubscription> addOnStartedListener(const jni::local_ref<margelo::nitro::camera::JCallback_void::JavaPart>& onStarted);
-    jni::local_ref<JListenerSubscription> addOnStoppedListener(const jni::local_ref<margelo::nitro::camera::JCallback_void::JavaPart>& onStopped);
-    jni::local_ref<JListenerSubscription> addOnErrorListener(const jni::local_ref<margelo::nitro::camera::JCallback_void_std__exception_ptr::JavaPart>& onError);
-    jni::local_ref<JListenerSubscription> addOnInterruptionStartedListener(const jni::local_ref<margelo::nitro::camera::JCallback_void_InterruptionReason::JavaPart>& onInterruptionStarted);
-    jni::local_ref<JListenerSubscription> addOnInterruptionEndedListener(const jni::local_ref<margelo::nitro::camera::JCallback_void::JavaPart>& onInterruptionEnded);
+    jni::local_ref<JListenerSubscription> addOnStartedListener(const jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>& onStarted);
+    jni::local_ref<JListenerSubscription> addOnStoppedListener(const jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>& onStopped);
+    jni::local_ref<JListenerSubscription> addOnErrorListener(const jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void_std__exception_ptr::JavaPart>>& onError);
+    jni::local_ref<JListenerSubscription> addOnInterruptionStartedListener(const jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void_InterruptionReason::JavaPart>>& onInterruptionStarted);
+    jni::local_ref<JListenerSubscription> addOnInterruptionEndedListener(const jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>& onInterruptionEnded);
 
   public:
     // Constructor and static members

@@ -103,7 +103,7 @@ namespace margelo::nitro::camera {
     jni::local_ref<JTypedPromise<void>> configure(const jni::local_ref<JCameraControllerConfiguration>& config);
     jni::local_ref<JTypedPromise<void>> focusTo(const jni::local_ref<JHybridMeteringPointSpecJavaPart>& point, const jni::local_ref<JFocusOptions>& options);
     jni::local_ref<JTypedPromise<void>> resetFocus();
-    jni::local_ref<JListenerSubscription> addSubjectAreaChangedListener(const jni::local_ref<margelo::nitro::camera::JCallback_void::JavaPart>& onSubjectAreaChanged);
+    jni::local_ref<JListenerSubscription> addSubjectAreaChangedListener(const jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>& onSubjectAreaChanged);
     jni::local_ref<JTypedPromise<void>> setZoom(jdouble zoom);
     jni::local_ref<JTypedPromise<void>> startZoomAnimation(jdouble zoom, jdouble rate);
     jni::local_ref<JTypedPromise<void>> cancelZoomAnimation();

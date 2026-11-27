@@ -254,9 +254,9 @@ namespace margelo::nitro::camera {
     auto __result = __method(_javaPart);
     return __result;
   }
-  jni::local_ref<JListenerSubscription> JHybridCameraControllerSpec::addSubjectAreaChangedListener(const jni::local_ref<margelo::nitro::camera::JCallback_void::JavaPart>& onSubjectAreaChanged) {
-    static const auto __method = CxxPart::getClass()->getNonvirtualMethod<jni::local_ref<JListenerSubscription>(jni::alias_ref<margelo::nitro::camera::JCallback_void::JavaPart> /* onSubjectAreaChanged */)>("addSubjectAreaChangedListener_cxx");
-    auto __result = __method(_javaPart, CxxPart::getClass(), onSubjectAreaChanged);
+  jni::local_ref<JListenerSubscription> JHybridCameraControllerSpec::addSubjectAreaChangedListener(const jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>& onSubjectAreaChanged) {
+    static const auto __method = CxxPart::getClass()->getMethod<jni::local_ref<JListenerSubscription>(jni::alias_ref<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>> /* onSubjectAreaChanged */)>("addSubjectAreaChangedListener");
+    auto __result = __method(_javaPart, onSubjectAreaChanged);
     return __result;
   }
   jni::local_ref<JTypedPromise<void>> JHybridCameraControllerSpec::setZoom(jdouble zoom) {

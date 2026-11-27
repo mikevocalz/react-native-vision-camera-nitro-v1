@@ -120,22 +120,22 @@ namespace margelo::nitro::camera {
     static const auto __method = CxxPart::getClass()->getNonvirtualMethod<void(jni::alias_ref<JOptional<jni::JArrayClass<JHybridGestureControllerSpecJavaPart>>> /* gestureControllers */)>("setGestureControllers");
     __method(_javaPart, CxxPart::getClass(), gestureControllers);
   }
-  jni::local_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>> JHybridPreviewViewSpec::getOnPreviewStarted() {
-    static const auto __method = CxxPart::getClass()->getNonvirtualMethod<jni::local_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>>()>("getOnPreviewStarted_cxx");
+  jni::local_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>> JHybridPreviewViewSpec::getOnPreviewStarted() {
+    static const auto __method = CxxPart::getClass()->getNonvirtualMethod<jni::local_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>>()>("getOnPreviewStarted");
     auto __result = __method(_javaPart, CxxPart::getClass());
     return __result;
   }
-  void JHybridPreviewViewSpec::setOnPreviewStarted(const jni::local_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>>& onPreviewStarted) {
-    static const auto __method = CxxPart::getClass()->getNonvirtualMethod<void(jni::alias_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>> /* onPreviewStarted */)>("setOnPreviewStarted_cxx");
+  void JHybridPreviewViewSpec::setOnPreviewStarted(const jni::local_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>>& onPreviewStarted) {
+    static const auto __method = CxxPart::getClass()->getNonvirtualMethod<void(jni::alias_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>> /* onPreviewStarted */)>("setOnPreviewStarted");
     __method(_javaPart, CxxPart::getClass(), onPreviewStarted);
   }
-  jni::local_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>> JHybridPreviewViewSpec::getOnPreviewStopped() {
-    static const auto __method = CxxPart::getClass()->getNonvirtualMethod<jni::local_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>>()>("getOnPreviewStopped_cxx");
+  jni::local_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>> JHybridPreviewViewSpec::getOnPreviewStopped() {
+    static const auto __method = CxxPart::getClass()->getNonvirtualMethod<jni::local_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>>()>("getOnPreviewStopped");
     auto __result = __method(_javaPart, CxxPart::getClass());
     return __result;
   }
-  void JHybridPreviewViewSpec::setOnPreviewStopped(const jni::local_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>>& onPreviewStopped) {
-    static const auto __method = CxxPart::getClass()->getNonvirtualMethod<void(jni::alias_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>> /* onPreviewStopped */)>("setOnPreviewStopped_cxx");
+  void JHybridPreviewViewSpec::setOnPreviewStopped(const jni::local_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>>& onPreviewStopped) {
+    static const auto __method = CxxPart::getClass()->getNonvirtualMethod<void(jni::alias_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>> /* onPreviewStopped */)>("setOnPreviewStopped");
     __method(_javaPart, CxxPart::getClass(), onPreviewStopped);
   }
 

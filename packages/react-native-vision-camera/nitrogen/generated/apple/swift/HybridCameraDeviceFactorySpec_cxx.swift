@@ -7,6 +7,7 @@
 internal import NitroModules
 internal import CxxStdlib
 internal import VisionCameraAppleCxx
+internal import NitroModulesAppleCxx
 
 /**
  * A class implementation that bridges HybridCameraDeviceFactorySpec over to C++.
@@ -145,20 +146,24 @@ public final class HybridCameraDeviceFactorySpec_cxx {
 
   // Methods
 
-  public final func addOnCameraDevicesChangedListener(listener: UnsafeRawPointer, __outResult: UnsafeMutableRawPointer) -> bridge.Result_void {
+  public final func addOnCameraDevicesChangedListener(listener: UnsafeRawPointer, __onResult: UnsafeRawPointer) -> bridge.Result_void {
     do {
       let value = try __implementation.addOnCameraDevicesChangedListener(listener: listener.load(as: margelo.nitro.camera.swift_bridge.Callback_void___VisionCamera__SwiftContainer_swift__Array___VisionCamera__HybridCameraDeviceSpec_cxx_.self))
-      __outResult.assumingMemoryBound(to: ListenerSubscription.self).initialize(to: value)
+      withUnsafePointer(to: value) { pointer in
+        margelo.nitro.SwiftResultConsumer.consume(__onResult, UnsafeRawPointer(pointer))
+      }
       return bridge.Result_void.withValue()
     } catch {
       return bridge.Result_void.withError(error.toCpp())
     }
   }
 
-  public final func getCameraForId(id: String, __outResult: UnsafeMutableRawPointer) -> bridge.Result_void {
+  public final func getCameraForId(id: String, __onResult: UnsafeRawPointer) -> bridge.Result_void {
     do {
       let value = try __implementation.getCameraForId(id: id)
-      __outResult.assumingMemoryBound(to: HybridCameraDeviceSpec_cxx?.self).initialize(to: value.map { $0.getCxxWrapper() })
+      withUnsafePointer(to: value.map { $0.getCxxWrapper() }) { pointer in
+        margelo.nitro.SwiftResultConsumer.consume(__onResult, UnsafeRawPointer(pointer))
+      }
       return bridge.Result_void.withValue()
     } catch {
       return bridge.Result_void.withError(error.toCpp())
@@ -175,10 +180,12 @@ public final class HybridCameraDeviceFactorySpec_cxx {
     }
   }
 
-  public final func getDefaultCamera(position: TargetCameraPosition, __outResult: UnsafeMutableRawPointer) -> bridge.Result_void {
+  public final func getDefaultCamera(position: TargetCameraPosition, __onResult: UnsafeRawPointer) -> bridge.Result_void {
     do {
       let value = try __implementation.getDefaultCamera(position: position)
-      __outResult.assumingMemoryBound(to: HybridCameraDeviceSpec_cxx?.self).initialize(to: value.map { $0.getCxxWrapper() })
+      withUnsafePointer(to: value.map { $0.getCxxWrapper() }) { pointer in
+        margelo.nitro.SwiftResultConsumer.consume(__onResult, UnsafeRawPointer(pointer))
+      }
       return bridge.Result_void.withValue()
     } catch {
       return bridge.Result_void.withError(error.toCpp())

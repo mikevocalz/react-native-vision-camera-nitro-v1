@@ -9,7 +9,6 @@ package com.margelo.nitro.camera
 
 import androidx.annotation.Keep
 import com.facebook.proguard.annotations.DoNotStrip
-import java.util.Objects
 import com.margelo.nitro.core.Callback
 
 /**
@@ -37,33 +36,25 @@ data class CameraSessionConnection(
   @Keep
   val onSessionConfigSelected: Callback<(config: HybridCameraSessionConfigSpec) -> Unit>?
 ) {
-  @DoNotStrip
-  @Keep
-  @Suppress("unused", "FunctionName")
-  private fun getOnSessionConfigSelected_cxx(): Callback_void_std__shared_ptr_HybridCameraSessionConfigSpec_? {
-    return onSessionConfigSelected?.let { Callback_void_std__shared_ptr_HybridCameraSessionConfigSpec_.fromKotlin(it) }
-  }
-
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is CameraSessionConnection) return false
-    return Objects.deepEquals(this.input, other.input)
-      && Objects.deepEquals(this.outputs, other.outputs)
-      && Objects.deepEquals(this.constraints, other.constraints)
-      && Objects.deepEquals(this.initialZoom, other.initialZoom)
-      && Objects.deepEquals(this.initialExposureBias, other.initialExposureBias)
-      && Objects.deepEquals(this.onSessionConfigSelected, other.onSessionConfigSelected)
+    return this.input == other.input
+      && this.outputs.contentDeepEquals(other.outputs)
+      && this.constraints.contentDeepEquals(other.constraints)
+      && (this.initialZoom == null && other.initialZoom == null || this.initialZoom != null && other.initialZoom != null && this.initialZoom.toBits() == other.initialZoom.toBits())
+      && (this.initialExposureBias == null && other.initialExposureBias == null || this.initialExposureBias != null && other.initialExposureBias != null && this.initialExposureBias.toBits() == other.initialExposureBias.toBits())
+      && (this.onSessionConfigSelected == null && other.onSessionConfigSelected == null || this.onSessionConfigSelected != null && other.onSessionConfigSelected != null && this.onSessionConfigSelected == other.onSessionConfigSelected)
   }
 
   override fun hashCode(): Int {
-    return arrayOf<Any?>(
-      input,
-      outputs,
-      constraints,
-      initialZoom,
-      initialExposureBias,
-      onSessionConfigSelected
-    ).contentDeepHashCode()
+    var result = this.input.hashCode()
+    result = 31 * result + this.outputs.contentDeepHashCode()
+    result = 31 * result + this.constraints.contentDeepHashCode()
+    result = 31 * result + (if (this.initialZoom != null) this.initialZoom.hashCode() else 0)
+    result = 31 * result + (if (this.initialExposureBias != null) this.initialExposureBias.hashCode() else 0)
+    result = 31 * result + (if (this.onSessionConfigSelected != null) this.onSessionConfigSelected.hashCode() else 0)
+    return result
   }
 
   companion object {
@@ -74,8 +65,8 @@ data class CameraSessionConnection(
     @Keep
     @Suppress("unused")
     @JvmStatic
-    private fun fromCpp(input: CameraDeviceOrPosition, outputs: Array<CameraOutputConfiguration>, constraints: Array<Constraint>, initialZoom: Double?, initialExposureBias: Double?, onSessionConfigSelected: Callback_void_std__shared_ptr_HybridCameraSessionConfigSpec_?): CameraSessionConnection {
-      return CameraSessionConnection(input, outputs, constraints, initialZoom, initialExposureBias, onSessionConfigSelected?.let { it })
+    private fun fromCpp(input: CameraDeviceOrPosition, outputs: Array<CameraOutputConfiguration>, constraints: Array<Constraint>, initialZoom: Double?, initialExposureBias: Double?, onSessionConfigSelected: Callback<(config: HybridCameraSessionConfigSpec) -> Unit>?): CameraSessionConnection {
+      return CameraSessionConnection(input, outputs, constraints, initialZoom, initialExposureBias, onSessionConfigSelected)
     }
   }
 }

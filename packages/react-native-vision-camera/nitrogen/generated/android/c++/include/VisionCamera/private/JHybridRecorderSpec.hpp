@@ -77,7 +77,7 @@ namespace margelo::nitro::camera {
 
   public:
     // Methods
-    jni::local_ref<JTypedPromise<void>> startRecording(const jni::local_ref<margelo::nitro::camera::JCallback_void_std__string_RecordingFinishedReason::JavaPart>& onRecordingFinished, const jni::local_ref<margelo::nitro::camera::JCallback_void_std__exception_ptr::JavaPart>& onRecordingError, const jni::local_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>>& onRecordingPaused, const jni::local_ref<JOptional<margelo::nitro::camera::JCallback_void::JavaPart>>& onRecordingResumed);
+    jni::local_ref<JTypedPromise<void>> startRecording(const jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void_std__string_RecordingFinishedReason::JavaPart>>& onRecordingFinished, const jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void_std__exception_ptr::JavaPart>>& onRecordingError, const jni::local_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>>& onRecordingPaused, const jni::local_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>>& onRecordingResumed);
     jni::local_ref<JTypedPromise<void>> stopRecording();
     jni::local_ref<JTypedPromise<void>> pauseRecording();
     jni::local_ref<JTypedPromise<void>> resumeRecording();

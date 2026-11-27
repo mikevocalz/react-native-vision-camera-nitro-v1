@@ -38,8 +38,8 @@ namespace margelo::nitro::camera {
 
   ::VisionCamera::ListenerSubscription HybridCameraDeviceFactorySpecSwift::addOnCameraDevicesChangedListener(const Callback<void(const ::VisionCamera::SwiftContainer_swift__Array___VisionCamera__HybridCameraDeviceSpec_cxx_&)>& listener) {
     auto __result = ([&](const void* listener) {
-      return withSwiftResult<::VisionCamera::ListenerSubscription>([&](void* __outResult) {
-        return _swiftPart.addOnCameraDevicesChangedListener(listener, __outResult);
+      return receiveSwiftResult<::VisionCamera::ListenerSubscription>([&](const void* __onResult) {
+        return _swiftPart.addOnCameraDevicesChangedListener(listener, __onResult);
       });
     })(std::addressof(listener));
     if (__result.hasError()) [[unlikely]] {
@@ -49,8 +49,8 @@ namespace margelo::nitro::camera {
   }
 
   swift::Optional<::VisionCamera::HybridCameraDeviceSpec_cxx> HybridCameraDeviceFactorySpecSwift::getCameraForId(const swift::String& id) {
-    auto __result = withSwiftResult<swift::Optional<::VisionCamera::HybridCameraDeviceSpec_cxx>>([&](void* __outResult) {
-      return _swiftPart.getCameraForId(id, __outResult);
+    auto __result = receiveSwiftResult<swift::Optional<::VisionCamera::HybridCameraDeviceSpec_cxx>>([&](const void* __onResult) {
+      return _swiftPart.getCameraForId(id, __onResult);
     });
     if (__result.hasError()) [[unlikely]] {
       std::rethrow_exception(__result.error());
@@ -69,8 +69,8 @@ namespace margelo::nitro::camera {
   }
 
   swift::Optional<::VisionCamera::HybridCameraDeviceSpec_cxx> HybridCameraDeviceFactorySpecSwift::getDefaultCamera(::VisionCamera::TargetCameraPosition position) {
-    auto __result = withSwiftResult<swift::Optional<::VisionCamera::HybridCameraDeviceSpec_cxx>>([&](void* __outResult) {
-      return _swiftPart.getDefaultCamera(position, __outResult);
+    auto __result = receiveSwiftResult<swift::Optional<::VisionCamera::HybridCameraDeviceSpec_cxx>>([&](const void* __onResult) {
+      return _swiftPart.getDefaultCamera(position, __onResult);
     });
     if (__result.hasError()) [[unlikely]] {
       std::rethrow_exception(__result.error());

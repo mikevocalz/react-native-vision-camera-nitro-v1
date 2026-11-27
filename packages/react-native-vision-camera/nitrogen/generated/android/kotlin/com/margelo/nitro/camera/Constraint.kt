@@ -116,65 +116,33 @@ sealed class Constraint private constructor(@DoNotStrip private val index: Int) 
     @JvmName("createFirst")
     @DoNotStrip
     fun create(value: FPSConstraint): Constraint = First(value)
-
-    @JvmStatic
-    @DoNotStrip
-    private fun fromCpp_0(value: FPSConstraint): Constraint = First(value)
     @JvmStatic
     @JvmName("createSecond")
     @DoNotStrip
     fun create(value: VideoStabilizationModeConstraint): Constraint = Second(value)
-
-    @JvmStatic
-    @DoNotStrip
-    private fun fromCpp_1(value: VideoStabilizationModeConstraint): Constraint = Second(value)
     @JvmStatic
     @JvmName("createThird")
     @DoNotStrip
     fun create(value: PreviewStabilizationModeConstraint): Constraint = Third(value)
-
-    @JvmStatic
-    @DoNotStrip
-    private fun fromCpp_2(value: PreviewStabilizationModeConstraint): Constraint = Third(value)
     @JvmStatic
     @JvmName("createFourth")
     @DoNotStrip
     fun create(value: ResolutionBiasConstraint): Constraint = Fourth(value)
-
-    @JvmStatic
-    @DoNotStrip
-    private fun fromCpp_3(value: ResolutionBiasConstraint): Constraint = Fourth(value)
     @JvmStatic
     @JvmName("createFifth")
     @DoNotStrip
     fun create(value: VideoDynamicRangeConstraint): Constraint = Fifth(value)
-
-    @JvmStatic
-    @DoNotStrip
-    private fun fromCpp_4(value: VideoDynamicRangeConstraint): Constraint = Fifth(value)
     @JvmStatic
     @JvmName("createSixth")
     @DoNotStrip
     fun create(value: PhotoHDRConstraint): Constraint = Sixth(value)
-
-    @JvmStatic
-    @DoNotStrip
-    private fun fromCpp_5(value: PhotoHDRConstraint): Constraint = Sixth(value)
     @JvmStatic
     @JvmName("createSeventh")
     @DoNotStrip
     fun create(value: PixelFormatConstraint): Constraint = Seventh(value)
-
-    @JvmStatic
-    @DoNotStrip
-    private fun fromCpp_6(value: PixelFormatConstraint): Constraint = Seventh(value)
     @JvmStatic
     @JvmName("createEigth")
     @DoNotStrip
     fun create(value: BinnedConstraint): Constraint = Eigth(value)
-
-    @JvmStatic
-    @DoNotStrip
-    private fun fromCpp_7(value: BinnedConstraint): Constraint = Eigth(value)
   }
 }

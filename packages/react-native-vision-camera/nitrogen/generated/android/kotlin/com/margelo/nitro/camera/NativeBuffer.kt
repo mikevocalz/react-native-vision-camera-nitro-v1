@@ -9,7 +9,6 @@ package com.margelo.nitro.camera
 
 import androidx.annotation.Keep
 import com.facebook.proguard.annotations.DoNotStrip
-import java.util.Objects
 import com.margelo.nitro.core.Callback
 
 /**
@@ -25,25 +24,17 @@ data class NativeBuffer(
   @Keep
   val release: Callback<() -> Unit>
 ) {
-  @DoNotStrip
-  @Keep
-  @Suppress("unused", "FunctionName")
-  private fun getRelease_cxx(): Callback_void {
-    return Callback_void.fromKotlin(release)
-  }
-
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is NativeBuffer) return false
-    return Objects.deepEquals(this.pointer, other.pointer)
-      && Objects.deepEquals(this.release, other.release)
+    return this.pointer == other.pointer
+      && this.release == other.release
   }
 
   override fun hashCode(): Int {
-    return arrayOf<Any?>(
-      pointer,
-      release
-    ).contentDeepHashCode()
+    var result = this.pointer.hashCode()
+    result = 31 * result + this.release.hashCode()
+    return result
   }
 
   companion object {
@@ -54,8 +45,9 @@ data class NativeBuffer(
     @Keep
     @Suppress("unused")
     @JvmStatic
-    private fun fromCpp(pointer: Long, release: Callback_void): NativeBuffer {
-      return NativeBuffer(pointer.toULong(), release)
+    @JvmName("fromCpp")
+    private fun fromCpp(pointer: ULong, release: Callback<() -> Unit>): NativeBuffer {
+      return NativeBuffer(pointer, release)
     }
   }
 }

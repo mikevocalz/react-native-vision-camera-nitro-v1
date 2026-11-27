@@ -56,17 +56,9 @@ sealed class Variant_NullType_Double private constructor(@DoNotStrip private val
     @JvmName("createFirst")
     @DoNotStrip
     fun create(value: NullType): Variant_NullType_Double = First(value)
-
-    @JvmStatic
-    @DoNotStrip
-    private fun fromCpp_0(value: NullType): Variant_NullType_Double = First(value)
     @JvmStatic
     @JvmName("createSecond")
     @DoNotStrip
     fun create(value: Double): Variant_NullType_Double = Second(value)
-
-    @JvmStatic
-    @DoNotStrip
-    private fun fromCpp_1(value: Double): Variant_NullType_Double = Second(value)
   }
 }

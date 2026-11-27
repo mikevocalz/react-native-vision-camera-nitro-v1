@@ -9,7 +9,6 @@ package com.margelo.nitro.camera
 
 import androidx.annotation.Keep
 import com.facebook.proguard.annotations.DoNotStrip
-import java.util.Objects
 
 
 /**
@@ -34,26 +33,23 @@ data class DepthFrameOutputOptions(
   @Keep
   val allowDeferredStart: Boolean
 ) {
-
-
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is DepthFrameOutputOptions) return false
-    return Objects.deepEquals(this.enableFiltering, other.enableFiltering)
-      && Objects.deepEquals(this.targetResolution, other.targetResolution)
-      && Objects.deepEquals(this.enablePhysicalBufferRotation, other.enablePhysicalBufferRotation)
-      && Objects.deepEquals(this.dropFramesWhileBusy, other.dropFramesWhileBusy)
-      && Objects.deepEquals(this.allowDeferredStart, other.allowDeferredStart)
+    return this.enableFiltering == other.enableFiltering
+      && this.targetResolution == other.targetResolution
+      && this.enablePhysicalBufferRotation == other.enablePhysicalBufferRotation
+      && this.dropFramesWhileBusy == other.dropFramesWhileBusy
+      && this.allowDeferredStart == other.allowDeferredStart
   }
 
   override fun hashCode(): Int {
-    return arrayOf<Any?>(
-      enableFiltering,
-      targetResolution,
-      enablePhysicalBufferRotation,
-      dropFramesWhileBusy,
-      allowDeferredStart
-    ).contentDeepHashCode()
+    var result = this.enableFiltering.hashCode()
+    result = 31 * result + this.targetResolution.hashCode()
+    result = 31 * result + this.enablePhysicalBufferRotation.hashCode()
+    result = 31 * result + this.dropFramesWhileBusy.hashCode()
+    result = 31 * result + this.allowDeferredStart.hashCode()
+    return result
   }
 
   companion object {

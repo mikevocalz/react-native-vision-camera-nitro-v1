@@ -42,7 +42,8 @@ class Callback_bool_std__shared_ptr_HybridDepthSpec_ @DoNotStrip @Keep private c
   }
 
   /**
-   * Lets C++ call a Kotlin callback with JNI types, e.g. `Long` instead of `ULong`.
+   * Lets C++ call a callback implemented in Kotlin through a JNI entry point.
+   * C++ creates it when such a callback crosses JNI.
    */
   @DoNotStrip
   @Keep
@@ -65,30 +66,4 @@ class Callback_bool_std__shared_ptr_HybridDepthSpec_ @DoNotStrip @Keep private c
   @DoNotStrip
   @Keep
   private external fun callAndForget_cxx(depth: HybridDepthSpec): Unit
-
-  companion object {
-    /**
-     * Returns the given [callback] as its JNI representation.
-     * A callback from another module keeps its C++ `Callback<...>`, and
-     * a callback created in Kotlin is wrapped in a C++ `Callback<...>` that calls it.
-     */
-    @JvmStatic
-    fun fromKotlin(callback: Callback<(depth: HybridDepthSpec) -> Boolean>): Callback_bool_std__shared_ptr_HybridDepthSpec_ {
-      return when (callback) {
-        is Callback_bool_std__shared_ptr_HybridDepthSpec_ -> callback
-        is CxxCallback -> fromCxx_cxx(callback)
-        else -> fromFunction_cxx(Function_cxx(callback))
-      }
-    }
-
-    @JvmStatic
-    @DoNotStrip
-    @Keep
-    private external fun fromCxx_cxx(callback: CxxCallback): Callback_bool_std__shared_ptr_HybridDepthSpec_
-
-    @JvmStatic
-    @DoNotStrip
-    @Keep
-    private external fun fromFunction_cxx(function: Function_cxx): Callback_bool_std__shared_ptr_HybridDepthSpec_
-  }
 }

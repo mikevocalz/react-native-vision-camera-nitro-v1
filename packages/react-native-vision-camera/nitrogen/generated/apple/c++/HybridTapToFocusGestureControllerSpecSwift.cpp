@@ -20,9 +20,34 @@ namespace margelo::nitro::camera {
 
   // Methods
 
+  ::VisionCamera::ListenerSubscription HybridTapToFocusGestureControllerSpecSwift::addOnTapListener(const Callback<void(const ::VisionCamera::HybridMeteringPointSpec_cxx&)>& onTap) {
+    auto __result = ([&](const void* onTap) {
+      return receiveSwiftResult<::VisionCamera::ListenerSubscription>([&](const void* __onResult) {
+        return _swiftPart.addOnTapListener(onTap, __onResult);
+      });
+    })(std::addressof(onTap));
+    if (__result.hasError()) [[unlikely]] {
+      std::rethrow_exception(__result.error());
+    }
+    return std::move(__result.value());
+  }
+
+  ::VisionCamera::ListenerSubscription HybridTapToFocusGestureControllerSpecSwift::addOnFocusCompletedListener(const Callback<void(const ::VisionCamera::HybridMeteringPointSpec_cxx&)>& onFocusCompleted) {
+    auto __result = ([&](const void* onFocusCompleted) {
+      return receiveSwiftResult<::VisionCamera::ListenerSubscription>([&](const void* __onResult) {
+        return _swiftPart.addOnFocusCompletedListener(onFocusCompleted, __onResult);
+      });
+    })(std::addressof(onFocusCompleted));
+    if (__result.hasError()) [[unlikely]] {
+      std::rethrow_exception(__result.error());
+    }
+    return std::move(__result.value());
+  }
+
   const std::shared_ptr<const HybridClass>& HybridTapToFocusGestureControllerSpecSwift::Class::get() {
     static const auto hybridClass = HybridClass::create<Class>([](HybridClass& clazz) {
-
+      clazz.registerHybridMethod("addOnTapListener", &HybridTapToFocusGestureControllerSpecSwift::addOnTapListener);
+      clazz.registerHybridMethod("addOnFocusCompletedListener", &HybridTapToFocusGestureControllerSpecSwift::addOnFocusCompletedListener);
     });
     return hybridClass;
   }

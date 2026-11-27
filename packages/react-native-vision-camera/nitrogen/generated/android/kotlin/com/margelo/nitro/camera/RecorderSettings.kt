@@ -9,7 +9,6 @@ package com.margelo.nitro.camera
 
 import androidx.annotation.Keep
 import com.facebook.proguard.annotations.DoNotStrip
-import java.util.Objects
 
 
 /**
@@ -31,24 +30,21 @@ data class RecorderSettings(
   @Keep
   val maxFileSize: Double?
 ) {
-
-
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is RecorderSettings) return false
-    return Objects.deepEquals(this.location, other.location)
-      && Objects.deepEquals(this.filePath, other.filePath)
-      && Objects.deepEquals(this.maxDuration, other.maxDuration)
-      && Objects.deepEquals(this.maxFileSize, other.maxFileSize)
+    return (this.location == null && other.location == null || this.location != null && other.location != null && this.location == other.location)
+      && (this.filePath == null && other.filePath == null || this.filePath != null && other.filePath != null && this.filePath == other.filePath)
+      && (this.maxDuration == null && other.maxDuration == null || this.maxDuration != null && other.maxDuration != null && this.maxDuration.toBits() == other.maxDuration.toBits())
+      && (this.maxFileSize == null && other.maxFileSize == null || this.maxFileSize != null && other.maxFileSize != null && this.maxFileSize.toBits() == other.maxFileSize.toBits())
   }
 
   override fun hashCode(): Int {
-    return arrayOf<Any?>(
-      location,
-      filePath,
-      maxDuration,
-      maxFileSize
-    ).contentDeepHashCode()
+    var result = (if (this.location != null) this.location.hashCode() else 0)
+    result = 31 * result + (if (this.filePath != null) this.filePath.hashCode() else 0)
+    result = 31 * result + (if (this.maxDuration != null) this.maxDuration.hashCode() else 0)
+    result = 31 * result + (if (this.maxFileSize != null) this.maxFileSize.hashCode() else 0)
+    return result
   }
 
   companion object {

@@ -36,21 +36,13 @@ abstract class HybridCameraOutputSynchronizerSpec: HybridObject() {
   abstract val outputs: Array<HybridCameraOutputSpec>
 
   // Methods
+  @DoNotStrip
+  @Keep
   abstract fun setOnFramesCallback(onFrames: Callback<(frames: Array<Variant_HybridFrameSpec_HybridDepthSpec>) -> Boolean>?): Unit
 
   @DoNotStrip
   @Keep
-  private fun setOnFramesCallback_cxx(onFrames: Callback_bool_std__vector_std__variant_std__shared_ptr_HybridFrameSpec___std__shared_ptr_HybridDepthSpec___?): Unit {
-    setOnFramesCallback(onFrames?.let { it })
-  }
-
   abstract fun setOnFrameDroppedCallback(onFrameDropped: Callback<(frameType: MediaType, reason: FrameDroppedReason) -> Unit>?): Unit
-
-  @DoNotStrip
-  @Keep
-  private fun setOnFrameDroppedCallback_cxx(onFrameDropped: Callback_void_MediaType_FrameDroppedReason?): Unit {
-    setOnFrameDroppedCallback(onFrameDropped?.let { it })
-  }
 
   // Default implementation of `HybridObject.toString()`
   override fun toString(): String {

@@ -73,13 +73,13 @@ namespace margelo::nitro::camera {
   }
 
   // Methods
-  void JHybridCameraDepthFrameOutputSpec::setOnDepthFrameCallback(const jni::local_ref<JOptional<margelo::nitro::camera::JCallback_bool_std__shared_ptr_HybridDepthSpec_::JavaPart>>& onDepthFrame) {
-    static const auto __method = CxxPart::getClass()->getNonvirtualMethod<void(jni::alias_ref<JOptional<margelo::nitro::camera::JCallback_bool_std__shared_ptr_HybridDepthSpec_::JavaPart>> /* onDepthFrame */)>("setOnDepthFrameCallback_cxx");
-    __method(_javaPart, CxxPart::getClass(), onDepthFrame);
+  void JHybridCameraDepthFrameOutputSpec::setOnDepthFrameCallback(const jni::local_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_bool_std__shared_ptr_HybridDepthSpec_::JavaPart>>>& onDepthFrame) {
+    static const auto __method = CxxPart::getClass()->getMethod<void(jni::alias_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_bool_std__shared_ptr_HybridDepthSpec_::JavaPart>>> /* onDepthFrame */)>("setOnDepthFrameCallback");
+    __method(_javaPart, onDepthFrame);
   }
-  void JHybridCameraDepthFrameOutputSpec::setOnDepthFrameDroppedCallback(const jni::local_ref<JOptional<margelo::nitro::camera::JCallback_void_FrameDroppedReason::JavaPart>>& onDepthFrameDropped) {
-    static const auto __method = CxxPart::getClass()->getNonvirtualMethod<void(jni::alias_ref<JOptional<margelo::nitro::camera::JCallback_void_FrameDroppedReason::JavaPart>> /* onDepthFrameDropped */)>("setOnDepthFrameDroppedCallback_cxx");
-    __method(_javaPart, CxxPart::getClass(), onDepthFrameDropped);
+  void JHybridCameraDepthFrameOutputSpec::setOnDepthFrameDroppedCallback(const jni::local_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void_FrameDroppedReason::JavaPart>>>& onDepthFrameDropped) {
+    static const auto __method = CxxPart::getClass()->getMethod<void(jni::alias_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void_FrameDroppedReason::JavaPart>>> /* onDepthFrameDropped */)>("setOnDepthFrameDroppedCallback");
+    __method(_javaPart, onDepthFrameDropped);
   }
 
 } // namespace margelo::nitro::camera

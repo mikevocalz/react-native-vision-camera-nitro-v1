@@ -16,7 +16,7 @@ public protocol HybridZoomGestureControllerSpec_protocol: HybridZoomGestureContr
 
 
   // Methods
-
+  func addOnZoomChangedListener(onZoomChanged: any Callback<(/* zoom */ Double), Void>) throws -> ListenerSubscription
 
   // Static Properties
 

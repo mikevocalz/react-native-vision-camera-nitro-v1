@@ -190,9 +190,25 @@ final class HybridCameraPhotoOutput: HybridCameraPhotoOutputSpec, NativeCameraOu
     let photoPromise = try self.capturePhoto(settings: settings, callbacks: callbacks)
     photoPromise.addOnResolvedListener { photo in
       do {
+        let width = photo.width
+        let height = photo.height
+        let orientation = photo.orientation
+        let isMirrored = photo.isMirrored
+        let timestamp = photo.timestamp
+        let isRawPhoto = photo.isRawPhoto
+        let containerFormat = photo.containerFormat
         let filePromise = try photo.saveToTemporaryFileAsync()
         filePromise.addOnResolvedListener { filePath in
-          promise.resolve(result: PhotoFile(filePath: filePath))
+          promise.resolve(
+            result: PhotoFile(
+              filePath: filePath,
+              width: width,
+              height: height,
+              orientation: orientation,
+              isMirrored: isMirrored,
+              timestamp: timestamp,
+              isRawPhoto: isRawPhoto,
+              containerFormat: containerFormat))
         }
         filePromise.addOnRejectedListener { error in
           promise.reject(error: error)

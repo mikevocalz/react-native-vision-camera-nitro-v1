@@ -9,7 +9,6 @@ package com.margelo.nitro.camera
 
 import androidx.annotation.Keep
 import com.facebook.proguard.annotations.DoNotStrip
-import java.util.Objects
 import com.margelo.nitro.core.Callback
 import com.margelo.nitro.image.HybridImageSpec
 
@@ -32,50 +31,21 @@ data class CapturePhotoCallbacks(
   @Keep
   val onPreviewImageAvailable: Callback<(previewImage: com.margelo.nitro.image.HybridImageSpec) -> Unit>?
 ) {
-  @DoNotStrip
-  @Keep
-  @Suppress("unused", "FunctionName")
-  private fun getOnWillBeginCapture_cxx(): Callback_void? {
-    return onWillBeginCapture?.let { Callback_void.fromKotlin(it) }
-  }
-
-  @DoNotStrip
-  @Keep
-  @Suppress("unused", "FunctionName")
-  private fun getOnWillCapturePhoto_cxx(): Callback_void? {
-    return onWillCapturePhoto?.let { Callback_void.fromKotlin(it) }
-  }
-
-  @DoNotStrip
-  @Keep
-  @Suppress("unused", "FunctionName")
-  private fun getOnDidCapturePhoto_cxx(): Callback_void? {
-    return onDidCapturePhoto?.let { Callback_void.fromKotlin(it) }
-  }
-
-  @DoNotStrip
-  @Keep
-  @Suppress("unused", "FunctionName")
-  private fun getOnPreviewImageAvailable_cxx(): Callback_void_std__shared_ptr_margelo__nitro__image__HybridImageSpec_? {
-    return onPreviewImageAvailable?.let { Callback_void_std__shared_ptr_margelo__nitro__image__HybridImageSpec_.fromKotlin(it) }
-  }
-
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is CapturePhotoCallbacks) return false
-    return Objects.deepEquals(this.onWillBeginCapture, other.onWillBeginCapture)
-      && Objects.deepEquals(this.onWillCapturePhoto, other.onWillCapturePhoto)
-      && Objects.deepEquals(this.onDidCapturePhoto, other.onDidCapturePhoto)
-      && Objects.deepEquals(this.onPreviewImageAvailable, other.onPreviewImageAvailable)
+    return (this.onWillBeginCapture == null && other.onWillBeginCapture == null || this.onWillBeginCapture != null && other.onWillBeginCapture != null && this.onWillBeginCapture == other.onWillBeginCapture)
+      && (this.onWillCapturePhoto == null && other.onWillCapturePhoto == null || this.onWillCapturePhoto != null && other.onWillCapturePhoto != null && this.onWillCapturePhoto == other.onWillCapturePhoto)
+      && (this.onDidCapturePhoto == null && other.onDidCapturePhoto == null || this.onDidCapturePhoto != null && other.onDidCapturePhoto != null && this.onDidCapturePhoto == other.onDidCapturePhoto)
+      && (this.onPreviewImageAvailable == null && other.onPreviewImageAvailable == null || this.onPreviewImageAvailable != null && other.onPreviewImageAvailable != null && this.onPreviewImageAvailable == other.onPreviewImageAvailable)
   }
 
   override fun hashCode(): Int {
-    return arrayOf<Any?>(
-      onWillBeginCapture,
-      onWillCapturePhoto,
-      onDidCapturePhoto,
-      onPreviewImageAvailable
-    ).contentDeepHashCode()
+    var result = (if (this.onWillBeginCapture != null) this.onWillBeginCapture.hashCode() else 0)
+    result = 31 * result + (if (this.onWillCapturePhoto != null) this.onWillCapturePhoto.hashCode() else 0)
+    result = 31 * result + (if (this.onDidCapturePhoto != null) this.onDidCapturePhoto.hashCode() else 0)
+    result = 31 * result + (if (this.onPreviewImageAvailable != null) this.onPreviewImageAvailable.hashCode() else 0)
+    return result
   }
 
   companion object {
@@ -86,8 +56,8 @@ data class CapturePhotoCallbacks(
     @Keep
     @Suppress("unused")
     @JvmStatic
-    private fun fromCpp(onWillBeginCapture: Callback_void?, onWillCapturePhoto: Callback_void?, onDidCapturePhoto: Callback_void?, onPreviewImageAvailable: Callback_void_std__shared_ptr_margelo__nitro__image__HybridImageSpec_?): CapturePhotoCallbacks {
-      return CapturePhotoCallbacks(onWillBeginCapture?.let { it }, onWillCapturePhoto?.let { it }, onDidCapturePhoto?.let { it }, onPreviewImageAvailable?.let { it })
+    private fun fromCpp(onWillBeginCapture: Callback<() -> Unit>?, onWillCapturePhoto: Callback<() -> Unit>?, onDidCapturePhoto: Callback<() -> Unit>?, onPreviewImageAvailable: Callback<(previewImage: com.margelo.nitro.image.HybridImageSpec) -> Unit>?): CapturePhotoCallbacks {
+      return CapturePhotoCallbacks(onWillBeginCapture, onWillCapturePhoto, onDidCapturePhoto, onPreviewImageAvailable)
     }
   }
 }

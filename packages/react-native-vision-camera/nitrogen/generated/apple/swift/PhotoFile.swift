@@ -11,18 +11,67 @@ internal import CxxStdlib
 @_expose(Cxx)
 public struct PhotoFile: Equatable, Hashable, Sendable {
   public let filePath: String
+  public let width: Double
+  public let height: Double
+  public let orientation: CameraOrientation
+  public let isMirrored: Bool
+  public let timestamp: Double
+  public let isRawPhoto: Bool
+  public let containerFormat: PhotoContainerFormat
 
-  public init(filePath: String) {
+  public init(filePath: String, width: Double, height: Double, orientation: CameraOrientation, isMirrored: Bool, timestamp: Double, isRawPhoto: Bool, containerFormat: PhotoContainerFormat) {
     self.filePath = filePath
+    self.width = width
+    self.height = height
+    self.orientation = orientation
+    self.isMirrored = isMirrored
+    self.timestamp = timestamp
+    self.isRawPhoto = isRawPhoto
+    self.containerFormat = containerFormat
   }
 
   @_spi(NitroCxx)
-  public static func init_cxx(_ filePath: String) -> Self {
-    return Self(filePath: filePath)
+  public static func init_cxx(_ filePath: String, _ width: Double, _ height: Double, _ orientation: CameraOrientation, _ isMirrored: Bool, _ timestamp: Double, _ isRawPhoto: Bool, _ containerFormat: PhotoContainerFormat) -> Self {
+    return Self(filePath: filePath, width: width, height: height, orientation: orientation, isMirrored: isMirrored, timestamp: timestamp, isRawPhoto: isRawPhoto, containerFormat: containerFormat)
   }
 
   @_spi(NitroCxx)
   public borrowing func getFilePath_cxx() -> String {
     return self.filePath
+  }
+
+  @_spi(NitroCxx)
+  public borrowing func getWidth_cxx() -> Double {
+    return self.width
+  }
+
+  @_spi(NitroCxx)
+  public borrowing func getHeight_cxx() -> Double {
+    return self.height
+  }
+
+  @_spi(NitroCxx)
+  public borrowing func getOrientation_cxx() -> CameraOrientation {
+    return self.orientation
+  }
+
+  @_spi(NitroCxx)
+  public borrowing func getIsMirrored_cxx() -> Bool {
+    return self.isMirrored
+  }
+
+  @_spi(NitroCxx)
+  public borrowing func getTimestamp_cxx() -> Double {
+    return self.timestamp
+  }
+
+  @_spi(NitroCxx)
+  public borrowing func getIsRawPhoto_cxx() -> Bool {
+    return self.isRawPhoto
+  }
+
+  @_spi(NitroCxx)
+  public borrowing func getContainerFormat_cxx() -> PhotoContainerFormat {
+    return self.containerFormat
   }
 }

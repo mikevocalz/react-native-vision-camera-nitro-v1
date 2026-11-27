@@ -69,8 +69,8 @@ namespace margelo::nitro::camera {
   // Methods
 
   swift::Array<::VisionCamera::HybridFramePlaneSpec_cxx> HybridFrameSpecSwift::getPlanes() {
-    auto __result = withSwiftResult<swift::Array<::VisionCamera::HybridFramePlaneSpec_cxx>>([&](void* __outResult) {
-      return _swiftPart.getPlanes(__outResult);
+    auto __result = receiveSwiftResult<swift::Array<::VisionCamera::HybridFramePlaneSpec_cxx>>([&](const void* __onResult) {
+      return _swiftPart.getPlanes(__onResult);
     });
     if (__result.hasError()) [[unlikely]] {
       std::rethrow_exception(__result.error());
@@ -87,8 +87,8 @@ namespace margelo::nitro::camera {
   }
 
   ::VisionCamera::NativeBuffer HybridFrameSpecSwift::getNativeBuffer() {
-    auto __result = withSwiftResult<::VisionCamera::NativeBuffer>([&](void* __outResult) {
-      return _swiftPart.getNativeBuffer(__outResult);
+    auto __result = receiveSwiftResult<::VisionCamera::NativeBuffer>([&](const void* __onResult) {
+      return _swiftPart.getNativeBuffer(__onResult);
     });
     if (__result.hasError()) [[unlikely]] {
       std::rethrow_exception(__result.error());
@@ -97,8 +97,8 @@ namespace margelo::nitro::camera {
   }
 
   ::VisionCamera::Point HybridFrameSpecSwift::convertCameraPointToFramePoint(const ::VisionCamera::Point& cameraPoint) {
-    auto __result = withSwiftResult<::VisionCamera::Point>([&](void* __outResult) {
-      return _swiftPart.convertCameraPointToFramePoint(cameraPoint, __outResult);
+    auto __result = receiveSwiftResult<::VisionCamera::Point>([&](const void* __onResult) {
+      return _swiftPart.convertCameraPointToFramePoint(cameraPoint, __onResult);
     });
     if (__result.hasError()) [[unlikely]] {
       std::rethrow_exception(__result.error());
@@ -107,8 +107,8 @@ namespace margelo::nitro::camera {
   }
 
   ::VisionCamera::Point HybridFrameSpecSwift::convertFramePointToCameraPoint(const ::VisionCamera::Point& framePoint) {
-    auto __result = withSwiftResult<::VisionCamera::Point>([&](void* __outResult) {
-      return _swiftPart.convertFramePointToCameraPoint(framePoint, __outResult);
+    auto __result = receiveSwiftResult<::VisionCamera::Point>([&](const void* __onResult) {
+      return _swiftPart.convertFramePointToCameraPoint(framePoint, __onResult);
     });
     if (__result.hasError()) [[unlikely]] {
       std::rethrow_exception(__result.error());

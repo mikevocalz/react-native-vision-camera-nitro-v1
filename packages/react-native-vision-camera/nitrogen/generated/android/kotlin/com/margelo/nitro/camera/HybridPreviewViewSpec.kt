@@ -55,33 +55,17 @@ abstract class HybridPreviewViewSpec: HybridView() {
   @set:Keep
   abstract var gestureControllers: Array<HybridGestureControllerSpec>?
 
+  @get:DoNotStrip
+  @get:Keep
+  @set:DoNotStrip
+  @set:Keep
   abstract var onPreviewStarted: Callback<() -> Unit>?
 
-  @DoNotStrip
-  @Keep
-  private fun getOnPreviewStarted_cxx(): Callback_void? {
-    return this.onPreviewStarted?.let { Callback_void.fromKotlin(it) }
-  }
-
-  @DoNotStrip
-  @Keep
-  private fun setOnPreviewStarted_cxx(value: Callback_void?): Unit {
-    this.onPreviewStarted = value?.let { it }
-  }
-
+  @get:DoNotStrip
+  @get:Keep
+  @set:DoNotStrip
+  @set:Keep
   abstract var onPreviewStopped: Callback<() -> Unit>?
-
-  @DoNotStrip
-  @Keep
-  private fun getOnPreviewStopped_cxx(): Callback_void? {
-    return this.onPreviewStopped?.let { Callback_void.fromKotlin(it) }
-  }
-
-  @DoNotStrip
-  @Keep
-  private fun setOnPreviewStopped_cxx(value: Callback_void?): Unit {
-    this.onPreviewStopped = value?.let { it }
-  }
 
   // Methods
   @DoNotStrip

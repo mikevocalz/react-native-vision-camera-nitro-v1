@@ -56,17 +56,9 @@ sealed class Variant_HybridFrameSpec_HybridDepthSpec private constructor(@DoNotS
     @JvmName("createFirst")
     @DoNotStrip
     fun create(value: HybridFrameSpec): Variant_HybridFrameSpec_HybridDepthSpec = First(value)
-
-    @JvmStatic
-    @DoNotStrip
-    private fun fromCpp_0(value: HybridFrameSpec): Variant_HybridFrameSpec_HybridDepthSpec = First(value)
     @JvmStatic
     @JvmName("createSecond")
     @DoNotStrip
     fun create(value: HybridDepthSpec): Variant_HybridFrameSpec_HybridDepthSpec = Second(value)
-
-    @JvmStatic
-    @DoNotStrip
-    private fun fromCpp_1(value: HybridDepthSpec): Variant_HybridFrameSpec_HybridDepthSpec = Second(value)
   }
 }

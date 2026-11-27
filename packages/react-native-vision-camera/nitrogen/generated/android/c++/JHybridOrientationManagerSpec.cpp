@@ -73,9 +73,9 @@ namespace margelo::nitro::camera {
   }
 
   // Methods
-  void JHybridOrientationManagerSpec::startOrientationUpdates(const jni::local_ref<margelo::nitro::camera::JCallback_void_CameraOrientation::JavaPart>& onChanged) {
-    static const auto __method = CxxPart::getClass()->getNonvirtualMethod<void(jni::alias_ref<margelo::nitro::camera::JCallback_void_CameraOrientation::JavaPart> /* onChanged */)>("startOrientationUpdates_cxx");
-    __method(_javaPart, CxxPart::getClass(), onChanged);
+  void JHybridOrientationManagerSpec::startOrientationUpdates(const jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void_CameraOrientation::JavaPart>>& onChanged) {
+    static const auto __method = CxxPart::getClass()->getMethod<void(jni::alias_ref<JCallback<margelo::nitro::camera::JCallback_void_CameraOrientation::JavaPart>> /* onChanged */)>("startOrientationUpdates");
+    __method(_javaPart, onChanged);
   }
   void JHybridOrientationManagerSpec::stopOrientationUpdates() {
     static const auto __method = CxxPart::getClass()->getMethod<void()>("stopOrientationUpdates");

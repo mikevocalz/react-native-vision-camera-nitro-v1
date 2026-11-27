@@ -56,8 +56,8 @@ namespace margelo::nitro::camera {
 
   ::VisionCamera::ListenerSubscription HybridCameraSessionSpecSwift::addOnStartedListener(const Callback<void()>& onStarted) {
     auto __result = ([&](const void* onStarted) {
-      return withSwiftResult<::VisionCamera::ListenerSubscription>([&](void* __outResult) {
-        return _swiftPart.addOnStartedListener(onStarted, __outResult);
+      return receiveSwiftResult<::VisionCamera::ListenerSubscription>([&](const void* __onResult) {
+        return _swiftPart.addOnStartedListener(onStarted, __onResult);
       });
     })(std::addressof(onStarted));
     if (__result.hasError()) [[unlikely]] {
@@ -68,8 +68,8 @@ namespace margelo::nitro::camera {
 
   ::VisionCamera::ListenerSubscription HybridCameraSessionSpecSwift::addOnStoppedListener(const Callback<void()>& onStopped) {
     auto __result = ([&](const void* onStopped) {
-      return withSwiftResult<::VisionCamera::ListenerSubscription>([&](void* __outResult) {
-        return _swiftPart.addOnStoppedListener(onStopped, __outResult);
+      return receiveSwiftResult<::VisionCamera::ListenerSubscription>([&](const void* __onResult) {
+        return _swiftPart.addOnStoppedListener(onStopped, __onResult);
       });
     })(std::addressof(onStopped));
     if (__result.hasError()) [[unlikely]] {
@@ -80,8 +80,8 @@ namespace margelo::nitro::camera {
 
   ::VisionCamera::ListenerSubscription HybridCameraSessionSpecSwift::addOnErrorListener(const Callback<void(const std::exception_ptr&)>& onError) {
     auto __result = ([&](const void* onError) {
-      return withSwiftResult<::VisionCamera::ListenerSubscription>([&](void* __outResult) {
-        return _swiftPart.addOnErrorListener(onError, __outResult);
+      return receiveSwiftResult<::VisionCamera::ListenerSubscription>([&](const void* __onResult) {
+        return _swiftPart.addOnErrorListener(onError, __onResult);
       });
     })(std::addressof(onError));
     if (__result.hasError()) [[unlikely]] {
@@ -92,8 +92,8 @@ namespace margelo::nitro::camera {
 
   ::VisionCamera::ListenerSubscription HybridCameraSessionSpecSwift::addOnInterruptionStartedListener(const Callback<void(::VisionCamera::InterruptionReason)>& onInterruptionStarted) {
     auto __result = ([&](const void* onInterruptionStarted) {
-      return withSwiftResult<::VisionCamera::ListenerSubscription>([&](void* __outResult) {
-        return _swiftPart.addOnInterruptionStartedListener(onInterruptionStarted, __outResult);
+      return receiveSwiftResult<::VisionCamera::ListenerSubscription>([&](const void* __onResult) {
+        return _swiftPart.addOnInterruptionStartedListener(onInterruptionStarted, __onResult);
       });
     })(std::addressof(onInterruptionStarted));
     if (__result.hasError()) [[unlikely]] {
@@ -104,8 +104,8 @@ namespace margelo::nitro::camera {
 
   ::VisionCamera::ListenerSubscription HybridCameraSessionSpecSwift::addOnInterruptionEndedListener(const Callback<void()>& onInterruptionEnded) {
     auto __result = ([&](const void* onInterruptionEnded) {
-      return withSwiftResult<::VisionCamera::ListenerSubscription>([&](void* __outResult) {
-        return _swiftPart.addOnInterruptionEndedListener(onInterruptionEnded, __outResult);
+      return receiveSwiftResult<::VisionCamera::ListenerSubscription>([&](const void* __onResult) {
+        return _swiftPart.addOnInterruptionEndedListener(onInterruptionEnded, __onResult);
       });
     })(std::addressof(onInterruptionEnded));
     if (__result.hasError()) [[unlikely]] {

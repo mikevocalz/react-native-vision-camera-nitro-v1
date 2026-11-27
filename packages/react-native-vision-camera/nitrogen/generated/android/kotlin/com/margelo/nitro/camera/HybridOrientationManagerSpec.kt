@@ -36,13 +36,9 @@ abstract class HybridOrientationManagerSpec: HybridObject() {
   abstract val currentOrientation: CameraOrientation?
 
   // Methods
-  abstract fun startOrientationUpdates(onChanged: Callback<(orientation: CameraOrientation) -> Unit>): Unit
-
   @DoNotStrip
   @Keep
-  private fun startOrientationUpdates_cxx(onChanged: Callback_void_CameraOrientation): Unit {
-    startOrientationUpdates(onChanged)
-  }
+  abstract fun startOrientationUpdates(onChanged: Callback<(orientation: CameraOrientation) -> Unit>): Unit
 
   @DoNotStrip
   @Keep

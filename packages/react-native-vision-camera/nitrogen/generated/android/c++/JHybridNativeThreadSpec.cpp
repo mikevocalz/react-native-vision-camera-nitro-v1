@@ -64,9 +64,9 @@ namespace margelo::nitro::camera {
   }
 
   // Methods
-  void JHybridNativeThreadSpec::runOnThread(const jni::local_ref<margelo::nitro::camera::JCallback_void::JavaPart>& task) {
-    static const auto __method = CxxPart::getClass()->getNonvirtualMethod<void(jni::alias_ref<margelo::nitro::camera::JCallback_void::JavaPart> /* task */)>("runOnThread_cxx");
-    __method(_javaPart, CxxPart::getClass(), task);
+  void JHybridNativeThreadSpec::runOnThread(const jni::local_ref<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>>& task) {
+    static const auto __method = CxxPart::getClass()->getMethod<void(jni::alias_ref<JCallback<margelo::nitro::camera::JCallback_void::JavaPart>> /* task */)>("runOnThread");
+    __method(_javaPart, task);
   }
 
 } // namespace margelo::nitro::camera

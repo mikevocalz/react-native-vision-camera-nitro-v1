@@ -67,7 +67,7 @@ namespace margelo::nitro::camera {
 
   public:
     // Methods
-    void setOnObjectsScannedCallback(const jni::local_ref<JOptional<margelo::nitro::camera::JCallback_void_std__vector_std__shared_ptr_HybridScannedObjectSpec__::JavaPart>>& onObjectsScanned);
+    void setOnObjectsScannedCallback(const jni::local_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void_std__vector_std__shared_ptr_HybridScannedObjectSpec__::JavaPart>>>& onObjectsScanned);
 
   public:
     // Constructor and static members

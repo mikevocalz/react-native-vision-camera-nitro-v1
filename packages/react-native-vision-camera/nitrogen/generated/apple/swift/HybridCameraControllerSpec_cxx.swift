@@ -7,6 +7,7 @@
 internal import NitroModules
 internal import CxxStdlib
 internal import VisionCameraAppleCxx
+internal import NitroModulesAppleCxx
 
 /**
  * A class implementation that bridges HybridCameraControllerSpec over to C++.
@@ -281,10 +282,12 @@ public final class HybridCameraControllerSpec_cxx {
     }
   }
 
-  public final func addSubjectAreaChangedListener(onSubjectAreaChanged: UnsafeRawPointer, __outResult: UnsafeMutableRawPointer) -> bridge.Result_void {
+  public final func addSubjectAreaChangedListener(onSubjectAreaChanged: UnsafeRawPointer, __onResult: UnsafeRawPointer) -> bridge.Result_void {
     do {
       let value = try __implementation.addSubjectAreaChangedListener(onSubjectAreaChanged: onSubjectAreaChanged.load(as: margelo.nitro.camera.swift_bridge.Callback_void.self))
-      __outResult.assumingMemoryBound(to: ListenerSubscription.self).initialize(to: value)
+      withUnsafePointer(to: value) { pointer in
+        margelo.nitro.SwiftResultConsumer.consume(__onResult, UnsafeRawPointer(pointer))
+      }
       return bridge.Result_void.withValue()
     } catch {
       return bridge.Result_void.withError(error.toCpp())
@@ -391,10 +394,12 @@ public final class HybridCameraControllerSpec_cxx {
     }
   }
 
-  public final func convertWhiteBalanceTemperatureAndTintValues(whiteBalanceTemperatureAndTint: WhiteBalanceTemperatureAndTint, __outResult: UnsafeMutableRawPointer) -> bridge.Result_void {
+  public final func convertWhiteBalanceTemperatureAndTintValues(whiteBalanceTemperatureAndTint: WhiteBalanceTemperatureAndTint, __onResult: UnsafeRawPointer) -> bridge.Result_void {
     do {
       let value = try __implementation.convertWhiteBalanceTemperatureAndTintValues(whiteBalanceTemperatureAndTint: whiteBalanceTemperatureAndTint)
-      __outResult.assumingMemoryBound(to: WhiteBalanceGains.self).initialize(to: value)
+      withUnsafePointer(to: value) { pointer in
+        margelo.nitro.SwiftResultConsumer.consume(__onResult, UnsafeRawPointer(pointer))
+      }
       return bridge.Result_void.withValue()
     } catch {
       return bridge.Result_void.withError(error.toCpp())

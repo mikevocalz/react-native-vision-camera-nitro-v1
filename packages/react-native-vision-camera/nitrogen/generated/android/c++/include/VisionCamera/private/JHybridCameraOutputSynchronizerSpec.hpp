@@ -76,8 +76,8 @@ namespace margelo::nitro::camera {
 
   public:
     // Methods
-    void setOnFramesCallback(const jni::local_ref<JOptional<margelo::nitro::camera::JCallback_bool_std__vector_std__variant_std__shared_ptr_HybridFrameSpec___std__shared_ptr_HybridDepthSpec___::JavaPart>>& onFrames);
-    void setOnFrameDroppedCallback(const jni::local_ref<JOptional<margelo::nitro::camera::JCallback_void_MediaType_FrameDroppedReason::JavaPart>>& onFrameDropped);
+    void setOnFramesCallback(const jni::local_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_bool_std__vector_std__variant_std__shared_ptr_HybridFrameSpec___std__shared_ptr_HybridDepthSpec___::JavaPart>>>& onFrames);
+    void setOnFrameDroppedCallback(const jni::local_ref<JOptional<JCallback<margelo::nitro::camera::JCallback_void_MediaType_FrameDroppedReason::JavaPart>>>& onFrameDropped);
 
   public:
     // Constructor and static members

@@ -9,7 +9,6 @@ package com.margelo.nitro.camera
 
 import androidx.annotation.Keep
 import com.facebook.proguard.annotations.DoNotStrip
-import java.util.Objects
 
 
 /**
@@ -22,18 +21,14 @@ data class PreviewStabilizationModeConstraint(
   @Keep
   val previewStabilizationMode: TargetStabilizationMode
 ) {
-
-
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is PreviewStabilizationModeConstraint) return false
-    return Objects.deepEquals(this.previewStabilizationMode, other.previewStabilizationMode)
+    return this.previewStabilizationMode == other.previewStabilizationMode
   }
 
   override fun hashCode(): Int {
-    return arrayOf<Any?>(
-      previewStabilizationMode
-    ).contentDeepHashCode()
+    return this.previewStabilizationMode.hashCode()
   }
 
   companion object {

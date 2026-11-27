@@ -20,9 +20,21 @@ namespace margelo::nitro::camera {
 
   // Methods
 
+  ::VisionCamera::ListenerSubscription HybridZoomGestureControllerSpecSwift::addOnZoomChangedListener(const Callback<void(double)>& onZoomChanged) {
+    auto __result = ([&](const void* onZoomChanged) {
+      return receiveSwiftResult<::VisionCamera::ListenerSubscription>([&](const void* __onResult) {
+        return _swiftPart.addOnZoomChangedListener(onZoomChanged, __onResult);
+      });
+    })(std::addressof(onZoomChanged));
+    if (__result.hasError()) [[unlikely]] {
+      std::rethrow_exception(__result.error());
+    }
+    return std::move(__result.value());
+  }
+
   const std::shared_ptr<const HybridClass>& HybridZoomGestureControllerSpecSwift::Class::get() {
     static const auto hybridClass = HybridClass::create<Class>([](HybridClass& clazz) {
-
+      clazz.registerHybridMethod("addOnZoomChangedListener", &HybridZoomGestureControllerSpecSwift::addOnZoomChangedListener);
     });
     return hybridClass;
   }

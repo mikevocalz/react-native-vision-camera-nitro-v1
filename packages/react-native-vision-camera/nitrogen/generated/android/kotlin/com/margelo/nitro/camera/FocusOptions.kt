@@ -9,7 +9,6 @@ package com.margelo.nitro.camera
 
 import androidx.annotation.Keep
 import com.facebook.proguard.annotations.DoNotStrip
-import java.util.Objects
 import com.margelo.nitro.core.NullType
 
 /**
@@ -31,24 +30,21 @@ data class FocusOptions(
   @Keep
   val autoResetAfter: Variant_NullType_Double?
 ) {
-
-
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is FocusOptions) return false
-    return Objects.deepEquals(this.responsiveness, other.responsiveness)
-      && Objects.deepEquals(this.adaptiveness, other.adaptiveness)
-      && Objects.deepEquals(this.modes, other.modes)
-      && Objects.deepEquals(this.autoResetAfter, other.autoResetAfter)
+    return (this.responsiveness == null && other.responsiveness == null || this.responsiveness != null && other.responsiveness != null && this.responsiveness == other.responsiveness)
+      && (this.adaptiveness == null && other.adaptiveness == null || this.adaptiveness != null && other.adaptiveness != null && this.adaptiveness == other.adaptiveness)
+      && (this.modes == null && other.modes == null || this.modes != null && other.modes != null && this.modes.contentDeepEquals(other.modes))
+      && (this.autoResetAfter == null && other.autoResetAfter == null || this.autoResetAfter != null && other.autoResetAfter != null && this.autoResetAfter == other.autoResetAfter)
   }
 
   override fun hashCode(): Int {
-    return arrayOf<Any?>(
-      responsiveness,
-      adaptiveness,
-      modes,
-      autoResetAfter
-    ).contentDeepHashCode()
+    var result = (if (this.responsiveness != null) this.responsiveness.hashCode() else 0)
+    result = 31 * result + (if (this.adaptiveness != null) this.adaptiveness.hashCode() else 0)
+    result = 31 * result + (if (this.modes != null) this.modes.contentDeepHashCode() else 0)
+    result = 31 * result + (if (this.autoResetAfter != null) this.autoResetAfter.hashCode() else 0)
+    return result
   }
 
   companion object {

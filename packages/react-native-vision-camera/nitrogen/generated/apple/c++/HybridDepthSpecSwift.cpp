@@ -81,8 +81,8 @@ namespace margelo::nitro::camera {
   }
 
   ::VisionCamera::NativeBuffer HybridDepthSpecSwift::getNativeBuffer() {
-    auto __result = withSwiftResult<::VisionCamera::NativeBuffer>([&](void* __outResult) {
-      return _swiftPart.getNativeBuffer(__outResult);
+    auto __result = receiveSwiftResult<::VisionCamera::NativeBuffer>([&](const void* __onResult) {
+      return _swiftPart.getNativeBuffer(__onResult);
     });
     if (__result.hasError()) [[unlikely]] {
       std::rethrow_exception(__result.error());
@@ -127,8 +127,8 @@ namespace margelo::nitro::camera {
   }
 
   ::VisionCamera::Point HybridDepthSpecSwift::convertCameraPointToDepthPoint(const ::VisionCamera::Point& cameraPoint) {
-    auto __result = withSwiftResult<::VisionCamera::Point>([&](void* __outResult) {
-      return _swiftPart.convertCameraPointToDepthPoint(cameraPoint, __outResult);
+    auto __result = receiveSwiftResult<::VisionCamera::Point>([&](const void* __onResult) {
+      return _swiftPart.convertCameraPointToDepthPoint(cameraPoint, __onResult);
     });
     if (__result.hasError()) [[unlikely]] {
       std::rethrow_exception(__result.error());
@@ -137,8 +137,8 @@ namespace margelo::nitro::camera {
   }
 
   ::VisionCamera::Point HybridDepthSpecSwift::convertDepthPointToCameraPoint(const ::VisionCamera::Point& depthPoint) {
-    auto __result = withSwiftResult<::VisionCamera::Point>([&](void* __outResult) {
-      return _swiftPart.convertDepthPointToCameraPoint(depthPoint, __outResult);
+    auto __result = receiveSwiftResult<::VisionCamera::Point>([&](const void* __onResult) {
+      return _swiftPart.convertDepthPointToCameraPoint(depthPoint, __onResult);
     });
     if (__result.hasError()) [[unlikely]] {
       std::rethrow_exception(__result.error());

@@ -23,7 +23,7 @@ namespace margelo::nitro::camera {
   }
 
   jni::local_ref<JConstraint> JConstraint_impl::First::create(jni::alias_ref<JFPSConstraint> value) {
-    static const auto method = JConstraint::javaClassStatic()->getStaticMethod<jni::local_ref<JConstraint>(jni::alias_ref<JFPSConstraint>)>("fromCpp_0");
+    static const auto method = JConstraint::javaClassStatic()->getStaticMethod<jni::local_ref<JConstraint>(jni::alias_ref<JFPSConstraint>)>("createFirst");
     return method(JConstraint::javaClassStatic(), value);
   }
 
@@ -33,7 +33,7 @@ namespace margelo::nitro::camera {
   }
 
   jni::local_ref<JConstraint> JConstraint_impl::Second::create(jni::alias_ref<JVideoStabilizationModeConstraint> value) {
-    static const auto method = JConstraint::javaClassStatic()->getStaticMethod<jni::local_ref<JConstraint>(jni::alias_ref<JVideoStabilizationModeConstraint>)>("fromCpp_1");
+    static const auto method = JConstraint::javaClassStatic()->getStaticMethod<jni::local_ref<JConstraint>(jni::alias_ref<JVideoStabilizationModeConstraint>)>("createSecond");
     return method(JConstraint::javaClassStatic(), value);
   }
 
@@ -43,7 +43,7 @@ namespace margelo::nitro::camera {
   }
 
   jni::local_ref<JConstraint> JConstraint_impl::Third::create(jni::alias_ref<JPreviewStabilizationModeConstraint> value) {
-    static const auto method = JConstraint::javaClassStatic()->getStaticMethod<jni::local_ref<JConstraint>(jni::alias_ref<JPreviewStabilizationModeConstraint>)>("fromCpp_2");
+    static const auto method = JConstraint::javaClassStatic()->getStaticMethod<jni::local_ref<JConstraint>(jni::alias_ref<JPreviewStabilizationModeConstraint>)>("createThird");
     return method(JConstraint::javaClassStatic(), value);
   }
 
@@ -53,7 +53,7 @@ namespace margelo::nitro::camera {
   }
 
   jni::local_ref<JConstraint> JConstraint_impl::Fourth::create(jni::alias_ref<JResolutionBiasConstraint> value) {
-    static const auto method = JConstraint::javaClassStatic()->getStaticMethod<jni::local_ref<JConstraint>(jni::alias_ref<JResolutionBiasConstraint>)>("fromCpp_3");
+    static const auto method = JConstraint::javaClassStatic()->getStaticMethod<jni::local_ref<JConstraint>(jni::alias_ref<JResolutionBiasConstraint>)>("createFourth");
     return method(JConstraint::javaClassStatic(), value);
   }
 
@@ -63,7 +63,7 @@ namespace margelo::nitro::camera {
   }
 
   jni::local_ref<JConstraint> JConstraint_impl::Fifth::create(jni::alias_ref<JVideoDynamicRangeConstraint> value) {
-    static const auto method = JConstraint::javaClassStatic()->getStaticMethod<jni::local_ref<JConstraint>(jni::alias_ref<JVideoDynamicRangeConstraint>)>("fromCpp_4");
+    static const auto method = JConstraint::javaClassStatic()->getStaticMethod<jni::local_ref<JConstraint>(jni::alias_ref<JVideoDynamicRangeConstraint>)>("createFifth");
     return method(JConstraint::javaClassStatic(), value);
   }
 
@@ -73,7 +73,7 @@ namespace margelo::nitro::camera {
   }
 
   jni::local_ref<JConstraint> JConstraint_impl::Sixth::create(jni::alias_ref<JPhotoHDRConstraint> value) {
-    static const auto method = JConstraint::javaClassStatic()->getStaticMethod<jni::local_ref<JConstraint>(jni::alias_ref<JPhotoHDRConstraint>)>("fromCpp_5");
+    static const auto method = JConstraint::javaClassStatic()->getStaticMethod<jni::local_ref<JConstraint>(jni::alias_ref<JPhotoHDRConstraint>)>("createSixth");
     return method(JConstraint::javaClassStatic(), value);
   }
 
@@ -83,7 +83,7 @@ namespace margelo::nitro::camera {
   }
 
   jni::local_ref<JConstraint> JConstraint_impl::Seventh::create(jni::alias_ref<JPixelFormatConstraint> value) {
-    static const auto method = JConstraint::javaClassStatic()->getStaticMethod<jni::local_ref<JConstraint>(jni::alias_ref<JPixelFormatConstraint>)>("fromCpp_6");
+    static const auto method = JConstraint::javaClassStatic()->getStaticMethod<jni::local_ref<JConstraint>(jni::alias_ref<JPixelFormatConstraint>)>("createSeventh");
     return method(JConstraint::javaClassStatic(), value);
   }
 
@@ -93,7 +93,7 @@ namespace margelo::nitro::camera {
   }
 
   jni::local_ref<JConstraint> JConstraint_impl::Eigth::create(jni::alias_ref<JBinnedConstraint> value) {
-    static const auto method = JConstraint::javaClassStatic()->getStaticMethod<jni::local_ref<JConstraint>(jni::alias_ref<JBinnedConstraint>)>("fromCpp_7");
+    static const auto method = JConstraint::javaClassStatic()->getStaticMethod<jni::local_ref<JConstraint>(jni::alias_ref<JBinnedConstraint>)>("createEigth");
     return method(JConstraint::javaClassStatic(), value);
   }
 

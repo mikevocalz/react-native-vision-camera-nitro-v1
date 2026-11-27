@@ -9,7 +9,6 @@ package com.margelo.nitro.camera
 
 import androidx.annotation.Keep
 import com.facebook.proguard.annotations.DoNotStrip
-import java.util.Objects
 
 
 /**
@@ -22,18 +21,14 @@ data class ObjectOutputOptions(
   @Keep
   val enabledObjectTypes: Array<ScannedObjectType>
 ) {
-
-
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is ObjectOutputOptions) return false
-    return Objects.deepEquals(this.enabledObjectTypes, other.enabledObjectTypes)
+    return this.enabledObjectTypes.contentDeepEquals(other.enabledObjectTypes)
   }
 
   override fun hashCode(): Int {
-    return arrayOf<Any?>(
-      enabledObjectTypes
-    ).contentDeepHashCode()
+    return this.enabledObjectTypes.contentDeepHashCode()
   }
 
   companion object {
