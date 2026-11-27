@@ -20,6 +20,7 @@ import com.margelo.nitro.camera.hybrids.HybridCameraController
 import com.margelo.nitro.camera.hybrids.metering.HybridMeteringPoint
 import com.margelo.nitro.camera.public.NativeGestureController
 import com.margelo.nitro.core.Callback
+import com.margelo.nitro.core.invoke
 import java.util.concurrent.CopyOnWriteArraySet
 
 class HybridTapToFocusGestureController :

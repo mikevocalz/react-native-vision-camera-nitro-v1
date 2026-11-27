@@ -14,6 +14,7 @@ import com.margelo.nitro.camera.ListenerSubscription
 import com.margelo.nitro.camera.hybrids.HybridCameraController
 import com.margelo.nitro.camera.public.NativeGestureController
 import com.margelo.nitro.core.Callback
+import com.margelo.nitro.core.invoke
 import java.util.concurrent.CopyOnWriteArraySet
 import kotlin.math.max
 import kotlin.math.min
