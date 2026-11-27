@@ -1,0 +1,13 @@
+{
+  "$schema": "https://nitro.margelo.com/nitro.schema.json",
+  "environment": "react-native",
+  "cxxNamespace": ["camera", "resizer"],
+  "apple": {
+    "moduleName": "VisionCameraResizer"
+  },
+  "android": {
+    "namespace": ["camera", "resizer"],
+    "cxxLibName": "VisionCameraResizer"
+  },
+  "ignorePaths": ["**/node_modules"]
+}
