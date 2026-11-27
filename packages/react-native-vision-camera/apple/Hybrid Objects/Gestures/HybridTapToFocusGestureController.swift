@@ -51,8 +51,11 @@ final class HybridTapToFocusGestureController: HybridTapToFocusGestureController
         point: meteringPoint,
         options: FocusOptions(responsiveness: nil, adaptiveness: nil, modes: nil, autoResetAfter: nil))
       let onFocusCompletedListeners = self.onFocusCompletedListeners
+      // The MeteringPoint is immutable after creation, and its listeners are JS callbacks
+      // that dispatch to their own thread, so handing it to the Promise's thread is safe.
+      nonisolated(unsafe) let focusedPoint = meteringPoint
       focusPromise.addOnResolvedListener { _ in
-        onFocusCompletedListeners.snapshot().forEach { $0(meteringPoint) }
+        onFocusCompletedListeners.snapshot().forEach { $0(focusedPoint) }
       }
       focusPromise.addOnRejectedListener { error in
         logger.error("Failed to focus! \(error)")
