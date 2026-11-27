@@ -1,4 +1,4 @@
-#include "VisionCameraWorkletsOnLoad.hpp"
+#include <VisionCameraWorklets/private/VisionCameraWorkletsOnLoad.hpp>
 #include <fbjni/fbjni.h>
 #include <jni.h>
 

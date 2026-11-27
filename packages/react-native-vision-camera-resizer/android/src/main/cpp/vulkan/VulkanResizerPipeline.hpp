@@ -110,7 +110,7 @@ private:
 private:
   // Protects the reused Vulkan execution state: queue, command buffer, descriptors, compute resources, and output buffer.
   mutable std::mutex _stateMutex;
-  ResizerOptions _options{};
+  ResizerOptions _options;
 
   VkInstance _instance{VK_NULL_HANDLE};
   VkPhysicalDevice _physicalDevice{VK_NULL_HANDLE};
