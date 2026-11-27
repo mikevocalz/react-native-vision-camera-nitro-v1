@@ -107,7 +107,7 @@
         "react": "*",
         "react-native": ">=0.88.0",
         "react-native-nitro-modules": "*",
-        "react-native-vision-camera": "*",
+        "react-native-vision-camera": ">=5.2.5-nitro-v1.1",
       },
       "optionalPeers": [
         "nitro-core",
@@ -133,7 +133,7 @@
         "react": "*",
         "react-native": ">=0.88.0",
         "react-native-nitro-modules": "*",
-        "react-native-vision-camera": "*",
+        "react-native-vision-camera": ">=5.2.5-nitro-v1.1",
         "react-native-worklets": "*",
       },
       "optionalPeers": [
@@ -2453,6 +2453,8 @@
     "send/debug": ["debug@2.6.9", "", { "dependencies": { "ms": "2.0.0" } }, "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA=="],
 
     "send/mime": ["mime@1.6.0", "", { "bin": { "mime": "cli.js" } }, "sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg=="],
+
+    "simple-camera/react-native-nitro-image": ["react-native-nitro-image@git+ssh://git@github.com/mikevocalz/react-native-nitro-image-nitro-v1.git#33408011645f83660a9c9deddf4a85228f089d85", { "peerDependencies": { "nitro-core": "*", "react": "*", "react-native": ">=0.88.0", "react-native-nitro-modules": "*" }, "optionalPeers": ["nitro-core", "react-native-nitro-modules"] }, "33408011645f83660a9c9deddf4a85228f089d85"],
 
     "slice-ansi/ansi-styles": ["ansi-styles@3.2.1", "", { "dependencies": { "color-convert": "^1.9.0" } }, "sha512-VT0ZI6kZRdTh8YyJw3SMbYm/u+NqfsAxEpWO0Pf9sq8/e94WxxOpPKx9FR1FlyCtOVDNOQ+8ntlqFxiRc+r5qA=="],
 

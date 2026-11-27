@@ -74,7 +74,7 @@
     "react": "*",
     "react-native": ">=0.88.0",
     "react-native-nitro-modules": "*",
-    "react-native-vision-camera": "*",
+    "react-native-vision-camera": ">=5.2.5-nitro-v1.1",
     "react-native-worklets": "*",
     "nitro-core": "*"
   },
