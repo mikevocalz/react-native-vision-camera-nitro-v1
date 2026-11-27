@@ -1,0 +1,84 @@
+{
+  "name": "react-native-vision-camera-worklets",
+  "version": "5.2.5-nitro-v1.1",
+  "description": "react-native-worklets integration for react-native-vision-camera frame processing and threading APIs.",
+  "main": "lib/index",
+  "module": "lib/index",
+  "types": "lib/index.d.ts",
+  "react-native": "lib/index",
+  "source": "src/index",
+  "files": [
+    "src",
+    "react-native.config.js",
+    "lib",
+    "nitrogen",
+    "cpp/**",
+    "android/build.gradle",
+    "android/gradle.properties",
+    "android/fix-prefab.gradle",
+    "android/CMakeLists.txt",
+    "android/src",
+    "nitro.json",
+    "*.podspec",
+    "Package.swift",
+    "README.md"
+  ],
+  "keywords": [
+    "react-native",
+    "camera",
+    "react-native-camera",
+    "vision-camera",
+    "worklets",
+    "react-native-worklets",
+    "worklet",
+    "frame-processor",
+    "frame-processing",
+    "jsi",
+    "camera-thread",
+    "realtime",
+    "ios",
+    "android"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/margelo/react-native-vision-camera.git"
+  },
+  "author": "Marc Rousavy <me@mrousavy.com> (https://github.com/mrousavy)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/margelo/react-native-vision-camera/issues"
+  },
+  "homepage": "https://visioncamera.margelo.com/api/react-native-vision-camera-worklets",
+  "peerDependencies": {
+    "react": "*",
+    "react-native": ">=0.88.0",
+    "react-native-nitro-modules": "*",
+    "react-native-vision-camera": ">=5.2.5-nitro-v1.1",
+    "react-native-worklets": "*",
+    "nitro-core": "*"
+  },
+  "peerDependenciesMeta": {
+    "nitro-core": {
+      "optional": true
+    },
+    "react-native-nitro-modules": {
+      "optional": true
+    }
+  },
+  "imports": {
+    "#nitro/*": "./nitrogen/generated/shared/javascript/*.cjs"
+  },
+  "swiftpmConfig": {
+    "name": "VisionCameraWorklets",
+    "dependencies": [
+      "react-native-nitro-modules",
+      "react-native-vision-camera",
+      "react-native-worklets"
+    ]
+  },
+  "gitHead": "2856de2999bd7f08f5c179a70cc1840767173c65",
+  "nitroV1": {
+    "sourceCommit": "2856de2999bd7f08f5c179a70cc1840767173c65",
+    "nitroVersion": "1.0.0-alpha.nightly.138.g43e09c161101"
+  }
+}

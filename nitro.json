@@ -1,0 +1,13 @@
+{
+  "$schema": "https://nitro.margelo.com/nitro.schema.json",
+  "environment": "react-native",
+  "cxxNamespace": ["camera", "worklets"],
+  "apple": {
+    "moduleName": "VisionCameraWorklets"
+  },
+  "android": {
+    "namespace": ["camera", "worklets"],
+    "cxxLibName": "VisionCameraWorklets"
+  },
+  "ignorePaths": ["**/node_modules"]
+}

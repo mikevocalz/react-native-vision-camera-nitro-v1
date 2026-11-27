@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "classes": {
+    "WorkletQueueFactory": {
+      "android": {
+        "implementation": {
+          "className": "HybridWorkletQueueFactory",
+          "include": "\"HybridWorkletQueueFactory.hpp\""
+        },
+        "language": "c++"
+      },
+      "apple": {
+        "implementation": {
+          "className": "HybridWorkletQueueFactory",
+          "include": "\"HybridWorkletQueueFactory.hpp\""
+        },
+        "language": "c++"
+      }
+    }
+  }
+}
