@@ -121,5 +121,8 @@
       }
     }
   },
-  "version": "5.2.5-nitro-v1.1"
+  "version": "5.2.5-nitro-v1.1",
+  "overrides": {
+    "react-native-nitro-image": "git+ssh://git@github.com/mikevocalz/react-native-nitro-image-nitro-v1.git#release/react-native-nitro-image"
+  }
 }
