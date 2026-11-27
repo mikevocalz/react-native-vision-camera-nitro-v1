@@ -19,7 +19,7 @@
     "android/CMakeLists.txt",
     "android/src",
     "apple/**/*.swift",
-    "apple/**/*.metal",
+    "shaders/**/*.metal",
     "nitro.json",
     "*.podspec",
     "Package.swift",

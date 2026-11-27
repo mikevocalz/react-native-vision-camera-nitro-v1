@@ -11,9 +11,11 @@ let package = Package(
 // dependency on VisionCamera, because the specs reference `Frame`.
 addNitrogenTargets(to: package)
 
-// The Metal kernels compile into the Swift target's resource bundle (`Bundle.module`).
+// The Metal kernels live outside the Swift sources so SwiftPM sees them only as a
+// resource: it compiles them into the target's bundle, loaded through `Bundle.module`.
 for target in package.targets where target.name == "VisionCameraResizer" {
-  target.resources = (target.resources ?? []) + [.process("apple/Metal/ResizerKernels.metal")]
+  target.exclude.removeAll { $0 == "shaders" }
+  target.resources = (target.resources ?? []) + [.process("shaders/ResizerKernels.metal")]
   target.linkerSettings = (target.linkerSettings ?? []) + [
     .linkedFramework("Metal"),
     .linkedFramework("CoreVideo"),
