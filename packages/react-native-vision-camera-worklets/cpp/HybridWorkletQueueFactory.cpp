@@ -6,25 +6,22 @@
 
 #include "HybridWorkletQueueFactory.hpp"
 
-#include "JSIConverter+AsyncQueue.hpp"
 #include "NativeThreadAsyncQueue.hpp"
 #include "NativeThreadDispatcher.hpp"
+#include <NitroModules/Dispatcher.hpp>
 #include <atomic>
-#include <jsi/jsi.h>
+#include <stdexcept>
 
 namespace margelo::nitro::camera::worklets {
 
-HybridWorkletQueueFactory::HybridWorkletQueueFactory() : HybridObject(TAG) {}
-
-void HybridWorkletQueueFactory::loadHybridMethods() {
-  HybridWorkletQueueFactorySpec::loadHybridMethods();
-  registerHybrids(this, [](Prototype& prototype) {
-    //
-    prototype.registerRawHybridMethod("installDispatcher", 1, &HybridWorkletQueueFactory::installDispatcher);
+const std::shared_ptr<const HybridClass>& HybridWorkletQueueFactory::Class::get() {
+  static const auto hybridClass = HybridClass::create<Class>([](HybridClass& clazz) {
+    clazz.registerRawHybridMethod("installDispatcher", 1, &HybridWorkletQueueFactory::installDispatcher);
   });
+  return hybridClass;
 }
 
-std::shared_ptr<::worklets::AsyncQueue> HybridWorkletQueueFactory::wrapThreadInQueue(const std::shared_ptr<HybridNativeThreadSpec>& thread) {
+std::shared_ptr<::worklets::AsyncQueue> HybridWorkletQueueFactory::wrapThreadInQueue(const adapters::VisionCamera::HybridNativeThreadSpecCxx& thread) {
   return std::make_shared<NativeThreadAsyncQueue>(thread);
 }
 
@@ -40,9 +37,9 @@ double HybridWorkletQueueFactory::getCurrentThreadMarker() {
 jsi::Value HybridWorkletQueueFactory::installDispatcher(jsi::Runtime& runtime, const jsi::Value&, const jsi::Value* args, size_t count) {
   if (count != 1)
     throw std::runtime_error("installDispatcher(..) must be called with exactly 1 argument!");
-  auto thread = JSIConverter<std::shared_ptr<HybridNativeThreadSpec>>::fromJSI(runtime, args[0]);
+  auto thread = JSIConverter<adapters::VisionCamera::HybridNativeThreadSpecCxx>::fromJSI(runtime, args[0]);
 
-  auto dispatcher = std::make_shared<NativeThreadDispatcher>(thread);
+  auto dispatcher = std::make_shared<NativeThreadDispatcher>(std::move(thread));
   Dispatcher::installRuntimeGlobalDispatcher(runtime, dispatcher);
 
   return jsi::Value::undefined();

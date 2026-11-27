@@ -7,29 +7,16 @@
 
 package com.margelo.nitro.camera.worklets
 
-import android.util.Log
-
 internal class VisionCameraWorkletsOnLoad {
   companion object {
-    private const val TAG = "VisionCameraWorkletsOnLoad"
     private var didLoad = false
-    /**
-     * Initializes the native part of "VisionCameraWorklets".
-     * This method is idempotent and can be called more than once.
-     */
+
     @JvmStatic
+    @Synchronized
     fun initializeNative() {
       if (didLoad) return
-      try {
-        Log.i(TAG, "Loading VisionCameraWorklets C++ library...")
-        System.loadLibrary("VisionCameraWorklets")
-        Log.i(TAG, "Successfully loaded VisionCameraWorklets C++ library!")
-        didLoad = true
-      } catch (e: Error) {
-        Log.e(TAG, "Failed to load VisionCameraWorklets C++ library! Is it properly installed and linked? " +
-                    "Is the name correct? (see `CMakeLists.txt`, at `add_library(...)`)", e)
-        throw e
-      }
+      System.loadLibrary("VisionCameraWorklets")
+      didLoad = true
     }
   }
 }

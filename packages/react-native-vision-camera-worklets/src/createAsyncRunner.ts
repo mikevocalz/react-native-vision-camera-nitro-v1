@@ -1,10 +1,9 @@
-import { NitroModules } from 'react-native-nitro-modules'
-import type {
-  AsyncRunner,
-  NativeThread,
+import {
+  type AsyncRunner,
+  type NativeThread,
   NativeThreadFactory,
-  RuntimeThreadProvider,
-  useAsyncRunner,
+  type RuntimeThreadProvider,
+  type useAsyncRunner,
 } from 'react-native-vision-camera'
 import { createSynchronizable, scheduleOnRuntime } from 'react-native-worklets'
 import { createWorkletRuntimeForThread } from './createWorkletRuntimeForThread'
@@ -26,9 +25,7 @@ let counter = 1
  */
 export function createAsyncRunner(): AsyncRunner {
   const isBusy = createSynchronizable(false)
-  const threadFactory = NitroModules.createHybridObject<NativeThreadFactory>(
-    'NativeThreadFactory',
-  )
+  const threadFactory = new NativeThreadFactory()
   const name = `async-runner-${counter++}`
   const thread = threadFactory.createNativeThread(name)
   const workletRuntime = createWorkletRuntimeForThread(thread)

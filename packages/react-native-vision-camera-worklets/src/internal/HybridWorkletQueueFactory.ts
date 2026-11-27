@@ -1,5 +1,3 @@
-import { NitroModules } from 'react-native-nitro-modules'
-import type { WorkletQueueFactory } from '../specs/WorkletQueueFactory.nitro'
+import { WorkletQueueFactory } from '../specs/WorkletQueueFactory.nitro'
 
-export const HybridWorkletQueueFactory =
-  NitroModules.createHybridObject<WorkletQueueFactory>('WorkletQueueFactory')
+export const HybridWorkletQueueFactory = new WorkletQueueFactory()

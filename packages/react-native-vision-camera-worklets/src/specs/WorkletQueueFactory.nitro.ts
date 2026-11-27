@@ -1,4 +1,9 @@
-import type { CustomType, HybridObject } from 'react-native-nitro-modules'
+import {
+  Android,
+  Apple,
+  type CustomType,
+  type HybridObject,
+} from 'react-native-nitro-modules'
 import type {
   CameraFrameOutput,
   NativeThread,
@@ -19,8 +24,23 @@ export type WorkletQueue = CustomType<
  * The {@linkcode WorkletQueueFactory} allows creating {@linkcode WorkletQueue}s
  * from {@linkcode NativeThread}s.
  */
-export interface WorkletQueueFactory
-  extends HybridObject<{ ios: 'c++'; android: 'c++' }> {
+@Apple({
+  language: 'c++',
+  implementation: {
+    className: 'HybridWorkletQueueFactory',
+    include: '"HybridWorkletQueueFactory.hpp"',
+  },
+})
+@Android({
+  language: 'c++',
+  implementation: {
+    className: 'HybridWorkletQueueFactory',
+    include: '"HybridWorkletQueueFactory.hpp"',
+  },
+})
+export declare class WorkletQueueFactory extends HybridObject {
+  constructor()
+
   /**
    * Wraps the given {@linkcode NativeThread} in
    * a {@linkcode WorkletQueue}, which can later be
@@ -75,3 +95,5 @@ export interface WorkletQueueFactory
    */
   getCurrentThreadMarker(): number
 }
+
+export * from '#nitro/WorkletQueueFactory'

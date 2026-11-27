@@ -5,18 +5,10 @@
 /// Copyright © Marc Rousavy @ Margelo
 ///
 
-#include "HybridWorkletQueueFactorySpec.hpp"
+#include <VisionCameraWorklets/HybridWorkletQueueFactorySpec.hpp>
 
 namespace margelo::nitro::camera::worklets {
 
-  void HybridWorkletQueueFactorySpec::loadHybridMethods() {
-    // load base methods/properties
-    HybridObject::loadHybridMethods();
-    // load custom methods/properties
-    registerHybrids(this, [](Prototype& prototype) {
-      prototype.registerHybridMethod("wrapThreadInQueue", &HybridWorkletQueueFactorySpec::wrapThreadInQueue);
-      prototype.registerHybridMethod("getCurrentThreadMarker", &HybridWorkletQueueFactorySpec::getCurrentThreadMarker);
-    });
-  }
+  HybridWorkletQueueFactorySpec::~HybridWorkletQueueFactorySpec() = default;
 
 } // namespace margelo::nitro::camera::worklets

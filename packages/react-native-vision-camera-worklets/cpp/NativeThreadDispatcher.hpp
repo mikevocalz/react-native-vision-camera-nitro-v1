@@ -6,31 +6,56 @@
 
 #pragma once
 
-#include "JSIConverter+AsyncQueue.hpp"
-#include <VisionCamera/HybridNativeThreadSpec.hpp>
-#include <jsi/jsi.h>
+#include "NativeThreadAsyncQueue.hpp"
+#include <NitroModules/Callback.hpp>
+#include <NitroModules/Dispatcher.hpp>
+#include <functional>
+#include <memory>
+#include <stdexcept>
+#include <utility>
 
 namespace margelo::nitro::camera::worklets {
 
 /**
  * An implementation of `nitro::Dispatcher` that uses a `NativeThread` to run its jobs.
  *
- * The `NativeThread` (`HybridNativeThreadSpec`) is a platform-implemented object,
- * e.g. using `DispatchQueue` on iOS.
+ * A `NativeThread` may run on a pooled OS Thread (e.g. a serial `DispatchQueue`), so
+ * `isOnDispatcher()` tracks whether the caller is inside a job this Dispatcher started.
  */
-class NativeThreadDispatcher : public nitro::Dispatcher {
+class NativeThreadDispatcher : public nitro::Dispatcher, public std::enable_shared_from_this<NativeThreadDispatcher> {
 public:
-  NativeThreadDispatcher(std::shared_ptr<HybridNativeThreadSpec> thread) : _thread(std::move(thread)) {}
+  explicit NativeThreadDispatcher(NativeThread thread) : _thread(std::move(thread)) {}
 
   void runSync(std::function<void()>&&) override {
     throw std::runtime_error("runSync(...) is not implemented for NativeThreadDispatcher!");
   }
   void runAsync(std::function<void()>&& function) override {
-    _thread->runOnThread(function);
+    std::weak_ptr<NativeThreadDispatcher> weakSelf = weak_from_this();
+    _thread.runOnThread(Callback<void()>::make([weakSelf, function = std::move(function)]() {
+      auto self = weakSelf.lock();
+      const NativeThreadDispatcher* previous = currentDispatcher();
+      currentDispatcher() = self.get();
+      try {
+        function();
+      } catch (...) {
+        currentDispatcher() = previous;
+        throw;
+      }
+      currentDispatcher() = previous;
+    }));
+  }
+  bool isOnDispatcher() override {
+    return currentDispatcher() == this;
   }
 
 private:
-  std::shared_ptr<HybridNativeThreadSpec> _thread;
+  static const NativeThreadDispatcher*& currentDispatcher() {
+    static thread_local const NativeThreadDispatcher* dispatcher = nullptr;
+    return dispatcher;
+  }
+
+private:
+  NativeThread _thread;
 };
 
 } // namespace margelo::nitro::camera::worklets

@@ -1,20 +1,13 @@
 {
   "$schema": "https://nitro.margelo.com/nitro.schema.json",
+  "environment": "react-native",
   "cxxNamespace": ["camera", "worklets"],
-  "ios": {
-    "iosModuleName": "VisionCameraWorklets"
+  "apple": {
+    "moduleName": "VisionCameraWorklets"
   },
   "android": {
-    "androidNamespace": ["camera", "worklets"],
-    "androidCxxLibName": "VisionCameraWorklets"
-  },
-  "autolinking": {
-    "WorkletQueueFactory": {
-      "all": {
-        "language": "c++",
-        "implementationClassName": "HybridWorkletQueueFactory"
-      }
-    }
+    "namespace": ["camera", "worklets"],
+    "cxxLibName": "VisionCameraWorklets"
   },
   "ignorePaths": ["**/node_modules"]
 }
