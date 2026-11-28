@@ -117,9 +117,14 @@ enum MetalResizerShaderLibrary {
   }
 
   private static func loadPrecompiledLibrary(device: MTLDevice) throws -> MTLLibrary {
-    // SwiftPM compiles `ResizerKernels.metal` into this target's resource bundle.
+    guard let bundle = Bundle.resizerShaders else {
+      throw RuntimeError(
+        "Failed to find the `\(Self.shaderBundleName)` that holds the precompiled Metal library. "
+          + "Ensure `ResizerKernels.metal` is a resource of the VisionCameraResizer target and rebuild."
+      )
+    }
     do {
-      return try device.makeDefaultLibrary(bundle: Bundle.module)
+      return try device.makeDefaultLibrary(bundle: bundle)
     } catch {
       throw RuntimeError(
         "Failed to load the precompiled Metal library from `\(Self.shaderBundleName)`: "
